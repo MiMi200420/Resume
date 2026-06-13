@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Valuation Nexus</title>
+    <link rel="icon" type="image/png" href="Dog.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --bg-color: #0b1120;
+            --panel-bg: #111827;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #0ea5e9;
+            --accent-soft: rgba(14, 165, 233, 0.15);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --border: #334155;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            padding: 12px;
+            overflow-x: hidden;
+        }
+        
+        .container { max-width: 1300px; margin: 0 auto; }
+        
+        /* --- LOGIN PAGE STYLES --- */
+        .login-wrapper {
+            display: flex; min-height: 100vh; width: 100vw; position: absolute;
+            top: 0; left: 0; z-index: 1000; background: var(--bg-color);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .login-left { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px; }
+        .login-box { width: 100%; max-width: 400px; }
+        .login-box h1 { font-size: 36px; font-weight: 700; margin-bottom: 8px; }
+        .login-box > p { color: var(--text-muted); margin-bottom: 30px; font-size: 15px; }
+        .space-y-5 > div { margin-bottom: 20px; }
+        .login-box label { display: block; font-size: 13px; font-weight: 500; color: var(--text-muted); margin-bottom: 8px; }
+        .glass-input {
+            border-radius: 12px; border: 1px solid var(--border);
+            background: rgba(255,255,255,0.02); transition: all 0.3s;
+        }
+        .glass-input:focus-within { border-color: var(--accent); background: var(--accent-soft); }
+        .glass-input input { width: 100%; background: transparent; border: none; color: #fff; padding: 14px 16px; font-size: 14px; outline: none; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+        .checkbox-container { display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-main) !important; margin-bottom: 0 !important; }
+        .forgot-link { color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.2s; }
+        .forgot-link:hover { text-decoration: underline; }
+        .sign-in-btn {
+            width: 100%; background: var(--accent); color: #fff; border: none; padding: 14px;
+            border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.3s; margin-top: 10px;
+        }
+        .sign-in-btn:hover { background: #0284c7; }
+        .divider { position: relative; text-align: center; margin: 30px 0; }
+        .divider::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: var(--border); z-index: 1; }
+        .divider span { position: relative; z-index: 2; background: var(--bg-color); padding: 0 15px; color: var(--text-muted); font-size: 13px; }
+        .google-btn {
+            width: 100%; background: transparent; color: var(--text-main); border: 1px solid var(--border);
+            padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 500; cursor: pointer;
+            transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .google-btn:hover { background: var(--card-bg); }
+        .mt-4 { margin-top: 20px; font-size: 14px; }
+        .text-center { text-align: center; color: var(--text-muted); }
+        
+        .login-right { flex: 1; position: relative; padding: 20px; display: none; }
+        @media (min-width: 900px) { .login-right { display: block; } }
+        .hero-bg {
+            position: absolute; top: 20px; bottom: 20px; left: 20px; right: 20px;
+            background: radial-gradient(circle at 15% 50%, rgba(14, 165, 233, 0.3), transparent 40%),
+                        radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.2), transparent 40%),
+                        var(--panel-bg);
+            border-radius: 24px; display: flex; align-items: center; justify-content: center;
+            overflow: hidden; box-shadow: inset 0 0 40px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .glass-dog-container {
+            position: relative; z-index: 2; width: 200px; height: 200px;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2); backdrop-filter: blur(12px);
+            animation: floatDog 6s ease-in-out infinite;
+        }
+        
+        .glass-dog-container img { 
+            width: 55%; height: auto; 
+            filter: brightness(0) invert(1) drop-shadow(0 0 10px rgba(14, 165, 233, 0.5)); 
+            transition: filter 0.3s ease; 
+        }
+        
+        @keyframes floatDog {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        @keyframes slideRightIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .animate-element { opacity: 0; animation: slideRightIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        body.on-login { overflow: hidden; padding: 0; }
+
+        /* --- DASHBOARD STYLES --- */
+        .header { margin-bottom: 24px; position: relative; }
+        .header h1 { margin-bottom: 8px; font-size: 28px; font-weight: 700; }
+        .header p { color: var(--text-muted); font-size: 14px; }
+        
+        .quote-box {
+            margin-top: 12px; padding: 10px 16px; background: rgba(14, 165, 233, 0.06);
+            border-left: 3px solid var(--accent); border-radius: 4px; font-size: 13px;
+            color: #bae6fd; font-style: italic; transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .back-login-btn {
+            width: 40px; height: 40px; border-radius: 50%; background: var(--panel-bg);
+            border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s ease; overflow: hidden; padding: 0; position: relative;
+        }
+        .back-login-btn:hover {
+            transform: scale(1.15) rotate(-10deg); border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.4);
+        }
+        .back-login-btn img { 
+            width: 24px; height: 24px; object-fit: contain; display: block; 
+            filter: brightness(0) invert(1);
+            transition: filter 0.3s ease; 
+        }
+
+        .summary-panel {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;
+            background: var(--panel-bg); border: 1px solid var(--border); padding: 20px; border-radius: 16px; margin-bottom: 24px;
+        }
+        .stat-box { display: flex; flex-direction: column; gap: 4px; }
+        .stat-box.highlight { border-left: 3px solid var(--accent); padding-left: 12px; }
+        .stat-box.success { border-left: 3px solid var(--success); padding-left: 12px; }
+        .stat-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .stat-value { font-size: 22px; font-weight: 700; color: #fff; }
+
+        .controls {
+            display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center;
+            background: var(--panel-bg); padding: 16px 20px; border-radius: 16px; border: 1px solid var(--border); margin-bottom: 24px;
+        }
+        .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+        .filter-btn {
+            background: var(--card-bg); color: var(--text-muted); border: 1px solid var(--border);
+            padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s;
+        }
+        .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+        
+        /* ปุ่ม Watchlist พิเศษ */
+        .btn-watchlist {
+            color: var(--warning); border-color: rgba(245, 158, 11, 0.4);
+        }
+        .btn-watchlist:hover { background: rgba(245, 158, 11, 0.1); }
+        .btn-watchlist.active { background: var(--warning); color: #fff; border-color: var(--warning); }
+        
+        .search-sort { display: flex; gap: 10px; flex-wrap: wrap; }
+        input[type="text"], select {
+            background: var(--card-bg); color: #fff; border: 1px solid var(--border);
+            padding: 10px 16px; border-radius: 12px; font-size: 13px; outline: none;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 12px;
+            min-height: 500px;
+            align-items: start;
+        }
+        
+        @keyframes customFadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card {
+            background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 20px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); opacity: 0; 
+            animation: customFadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; position: relative; z-index: 1;
+        }
+        .card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 10; }
+        
+        /* ปุ่มดาว Watchlist บนการ์ด */
+        .star-btn {
+            position: absolute; top: 16px; right: 16px;
+            background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-muted); width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.2s ease; z-index: 5;
+        }
+        .star-btn:hover { background: rgba(255,255,255,0.1); transform: scale(1.1); color: var(--warning); border-color: rgba(245, 158, 11, 0.3); }
+        .star-btn.active { color: var(--warning); background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.4); }
+
+        .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 12px; padding-right: 30px;}
+        .logo { width: 36px; height: 36px; border-radius: 8px; background: #fff; padding: 2px; object-fit: contain;}
+        .fallback-logo {
+            width: 36px; height: 36px; border-radius: 8px; background-color: #334155;
+            display: flex; align-items: center; justify-content: center; color: #fff; font-size: 11px; font-weight: 700; flex-shrink: 0;
+        }
+
+        .title-area { display: flex; flex-direction: column; flex-grow: 1; overflow: hidden; }
+        .coin-name { font-size: 14px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .coin-ticker { font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
+        .category-badge {
+            background: var(--accent-soft); font-size: 10px; padding: 4px 8px; 
+            border-radius: 6px; color: var(--accent); font-weight: 600; text-align: right; line-height: 1.2;
+        }
+        
+        .metrics { display: flex; flex-direction: column; gap: 8px; }
+        .metric-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; }
+        .metric-label { font-size: 12px; color: var(--text-muted); }
+        .metric-val { font-size: 13px; font-weight: 600; }
+        
+        .highlight-box {
+            background: rgba(16, 185, 129, 0.1); padding: 10px 12px; border-radius: 8px; 
+            border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .pagination-container {
+            display: flex; justify-content: space-between; align-items: center; margin-top: 30px;
+            padding: 15px 20px; background: var(--panel-bg); border-radius: 12px; border: 1px solid var(--border);
+        }
+        .showing-text { color: var(--text-muted); font-size: 13px; display: flex; align-items: center; gap: 8px; }
+        .showing-text select { background: rgba(0,0,0,0.3); border: 1px solid var(--border); color: #fff; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+        .page-controls { display: flex; gap: 4px; align-items: center; }
+        .page-btn {
+            background: transparent; color: var(--text-muted); border: none; width: 32px; height: 32px;
+            border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer;
+            font-size: 13px; font-weight: 500; transition: all 0.2s;
+        }
+        .page-btn:hover:not(:disabled) { background: rgba(255,255,255,0.08); color: #fff; }
+        .page-btn.active { background: var(--accent); color: #fff; }
+        .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .page-dots { color: var(--text-muted); padding: 0 4px; font-size: 13px; }
+
+        .footer {
+            margin-top: 40px; border-top: 1px solid var(--border); padding-top: 30px;
+            display: flex; justify-content: space-between; align-items: center;
+            color: var(--text-muted); font-size: 13px; flex-wrap: wrap; gap: 20px;
+        }
+        .footer-links { display: flex; gap: 20px; }
+        .footer-social { display: flex; gap: 15px; font-size: 18px; }
+        .footer-social i { cursor: pointer; transition: color 0.2s; }
+        .footer-social i:hover { color: #fff; }
+
+        /* --- LIGHT MODE SETTINGS --- */
+        body.light-mode {
+            --bg-color: #f8fafc; --panel-bg: #ffffff; --card-bg: #ffffff;
+            --text-main: #0f172a; --text-muted: #64748b; --border: #e2e8f0;
+            --accent-soft: rgba(14, 165, 233, 0.15);
+        }
+        body.light-mode .fallback-logo { background-color: #cbd5e1; color: #475569; }
+        body.light-mode input[type="text"], body.light-mode select { background: #f1f5f9; color: #0f172a; border-color: #cbd5e1; }
+        body.light-mode .stat-value, body.light-mode .coin-name, body.light-mode .quote-box { color: var(--text-main); }
+        body.light-mode .quote-box { background: rgba(14, 165, 233, 0.08); border-left-color: var(--accent); color: #0369a1; }
+        body.light-mode .card { box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); }
+        body.light-mode .pagination-container { box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); }
+        body.light-mode .showing-text select { background: #f1f5f9; color: #0f172a; border-color: #cbd5e1; }
+        body.light-mode .page-btn { color: var(--text-muted); }
+        body.light-mode .page-btn:hover:not(:disabled) { background: #e2e8f0; color: #0f172a; }
+        body.light-mode .page-btn.active { background: var(--accent); color: #fff; }
+        body.light-mode .footer-social i:hover { color: #0f172a; }
+        
+        body.light-mode .star-btn { background: #f1f5f9; border-color: var(--border); }
+        body.light-mode .star-btn:hover { background: #e2e8f0; }
+        body.light-mode .star-btn.active { background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.4); }
+
+        body.light-mode .glass-dog-container img {
+            filter: brightness(0) drop-shadow(0 0 5px rgba(14, 165, 233, 0.2));
+        }
+        body.light-mode .back-login-btn img {
+            filter: brightness(0);
+        }
+
+        .theme-action-group { display: flex; align-items: center; gap: 10px; }
+        .theme-btn {
+            background: var(--panel-bg); border: 1px solid var(--border); color: var(--text-main);
+            width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 16px;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;
+        }
+        .theme-btn:hover { background: var(--card-bg); border-color: var(--accent); }
+    </style>
+</head>
+<body class="on-login">
+
+<div id="login-view" class="login-wrapper">
+    <div class="login-left">
+        <div class="login-box">
+            <h1 class="animate-element" style="animation-delay: 0.1s;">Stock Valuation Nexus</h1>
+            <p class="animate-element" style="animation-delay: 0.2s;">Access your account and explore the US Stock valuation terminal.</p>
+            
+            <form id="sign-in-form" class="space-y-5" onsubmit="handleLogin(event)">
+                <div class="animate-element" style="animation-delay: 0.3s;">
+                    <label>Email Address</label>
+                    <div class="glass-input">
+                        <input type="email" required placeholder="Enter your email" value="analyst@nexus.com">
+                    </div>
+                </div>
+                
+                <div class="animate-element" style="animation-delay: 0.4s;">
+                    <label>Password</label>
+                    <div class="glass-input" style="display:flex; align-items:center;">
+                        <input type="password" required placeholder="Enter your password" id="password-input" value="trading2026">
+                        <i class="fa-solid fa-eye" id="toggle-password" onclick="togglePassword()" style="padding-right:15px; color: var(--text-muted); cursor: pointer;"></i>
+                    </div>
+                </div>
+                
+                <div class="animate-element flex-between" style="animation-delay: 0.5s;">
+                    <label class="checkbox-container">
+                        <input type="checkbox" checked> <span>Keep me signed in</span>
+                    </label>
+                    <a href="#" class="forgot-link">Reset password</a>
+                </div>
+                
+                <button type="submit" class="animate-element sign-in-btn" style="animation-delay: 0.6s;">Sign In to Terminal</button>
+            </form>
+            
+            <div class="animate-element divider" style="animation-delay: 0.7s;"><span>Or continue with</span></div>
+            
+            <button class="animate-element google-btn" type="button" onclick="handleLogin(event)" style="animation-delay: 0.8s;">
+                <i class="fa-brands fa-google" style="color: #ea4335;"></i> Continue with Google
+            </button>
+            
+            <p class="animate-element text-center mt-4" style="animation-delay: 0.9s;">
+                New to our platform? <a href="#" class="forgot-link">Create Account</a>
+            </p>
+        </div>
+    </div>
+    <div class="login-right">
+        <div class="hero-bg">
+            <div class="glass-dog-container">
+                <img src="Dog.png" alt="Logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3636/3636173.png'">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="dashboard-view" style="display: none; opacity: 0; transition: opacity 0.5s ease;">
+<div class="container">
+    <div class="header" style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <div>
+            <h1 style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                Stock Valuation Nexus
+                <span style="font-size: 14px; font-weight: 600; color: var(--accent); background: var(--accent-soft); padding: 4px 14px; border-radius: 20px; border: 1px solid var(--accent); letter-spacing: 0.5px;">
+                    <i class="fa-solid fa-code" style="margin-right: 6px;"></i>by Nattakul Khamyan
+                </span>
+            </h1>
+            <p style="margin-top: 6px;">Advanced PEG & Growth Comparative Analytics (Top 60 US Equities)</p>
+            <div class="quote-box" id="quote-display">"Price is what you pay. Value is what you get." — Warren Buffett</div>
+        </div>
+        
+        <div class="theme-action-group">
+            <button id="theme-toggle" class="theme-btn" aria-label="Toggle Dark/Light Mode">
+                <i class="fa-solid fa-sun" id="theme-icon"></i>
+            </button>
+            <div class="back-login-btn" onclick="handleLogout()" title="Return to Login">
+                <img src="Dog.png" alt="Back" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3636/3636173.png'">
+            </div>
+        </div>
+    </div>
+
+    <div class="summary-panel" id="summary-panel">
+        <div class="stat-box">
+            <span class="stat-title">Tracked Equities</span>
+            <span class="stat-value" id="sum-tokens">0</span>
+        </div>
+        <div class="stat-box highlight">
+            <span class="stat-title">Market Avg PEG</span>
+            <span class="stat-value" id="avg-peg">0.00</span>
+        </div>
+        <div class="stat-box success">
+            <span class="stat-title">Top Value Pick</span>
+            <span class="stat-value" id="cheapest-token">-</span>
+        </div>
+    </div>
+
+    <div class="controls">
+        <div class="filters" id="category-filters">
+            <button class="filter-btn active" data-cat="All">All Sectors</button>
+            <button class="filter-btn" data-cat="Technology services">Tech Services</button>
+            <button class="filter-btn" data-cat="Electronic technology">Electronic Tech</button>
+            <button class="filter-btn" data-cat="Health technology">Health Tech</button>
+            <button class="filter-btn btn-watchlist" data-cat="Watchlist">
+                <i class="fa-solid fa-star" style="margin-right: 4px;"></i> Watchlist
+            </button>
+        </div>
+
+        <div class="search-sort">
+            <input type="text" id="search-input" placeholder="Search stock...">
+            <select id="sort-select">
+                <option value="peg">Sort by: PEG Ratio (Value)</option>
+                <option value="growth">Sort by: EPS Growth (Momentum)</option>
+                <option value="mcap">Sort by: Market Cap (Size)</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="grid" id="grid"></div>
+
+    <div class="pagination-container">
+        <div class="showing-text">
+            Showing 
+            <select id="items-per-page">
+                <option value="8">8</option>
+                <option value="12" selected>12</option>
+                <option value="24">24</option>
+                <option value="48">48</option>
+                <option value="60">All</option>
+            </select>
+            out of <span id="total-items">0</span>
+        </div>
+        <div class="page-controls" id="pagination-controls"></div>
+    </div>
+
+    <div class="footer">
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <p>Copyright © 2026 <b>NattakulKhamyan</b></p>
+            <div class="footer-links">
+                <span>Privacy Policy</span>
+                <span>Terms and conditions</span>
+                <span>Contact</span>
+            </div>
+        </div>
+        <div class="footer-social">
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-x-twitter"></i>
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-youtube"></i>
+            <i class="fa-brands fa-linkedin"></i>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- ระบบความจำ Watchlist (LocalStorage) ---
+    // โหลดรายชื่อหุ้นโปรดที่เคยบันทึกไว้ในเครื่องขึ้นมา (ถ้าไม่มีให้เป็นอาร์เรย์ว่าง)
+    let watchlist = JSON.parse(localStorage.getItem('nexus_watchlist')) || [];
+
+    // ฟังก์ชันเวลากดรูปดาวเพื่อบันทึก/ยกเลิก หุ้นที่ชอบ
+    function toggleWatchlist(symbol, event) {
+        event.stopPropagation(); // ป้องกันการกดทะลุไปโดนพื้นหลัง
+        const index = watchlist.indexOf(symbol);
+        
+        if (index > -1) {
+            watchlist.splice(index, 1); // เอาออกถ้ามีอยู่แล้ว
+        } else {
+            watchlist.push(symbol); // เพิ่มเข้าถ้ายังไม่มี
+        }
+        
+        // บันทึกความจำลง LocalStorage ของเบราว์เซอร์
+        localStorage.setItem('nexus_watchlist', JSON.stringify(watchlist));
+        renderDashboard(); // รีโหลดหน้าจอเพื่อแสดงผลดาวใหม่
+    }
+
+    const investmentQuotes = [
+        '"The stock market is filled with individuals who know the price of everything, but the value of nothing." — Philip Fisher',
+        '"In the short run, the market is a voting machine but in the long run, it is a weighing machine." — Benjamin Graham',
+        '"Price is what you pay. Value is what you get." — Warren Buffett',
+        '"The best way to measure your investing success is not whether you’re beating the market, but whether you’ve put together a financial plan and a behavioral discipline that are likely to get you where you want to go." — Benjamin Graham',
+        '"An investment in knowledge pays the best interest." — Benjamin Franklin',
+        '"Beware the investment activity that produces applause; the great moves are usually greeted by yawns." — Warren Buffett'
+    ];
+
+    function updateRandomQuote() {
+        const quoteBox = document.getElementById('quote-display');
+        if (!quoteBox) return;
+        quoteBox.style.opacity = '0';
+        quoteBox.style.transform = 'translateY(-5px)';
+        setTimeout(() => {
+            const randomIndex = Math.floor(Math.random() * investmentQuotes.length);
+            quoteBox.innerText = investmentQuotes[randomIndex];
+            quoteBox.style.opacity = '1';
+            quoteBox.style.transform = 'translateY(0)';
+        }, 300);
+    }
+
+    // --- LOGIN LOGIC ---
+    function togglePassword() {
+        const input = document.getElementById('password-input');
+        const icon = document.getElementById('toggle-password');
+        if (input.type === 'password') {
+            input.type = 'text'; icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = 'password'; icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    }
+    
+    function handleLogin(event) {
+        event.preventDefault();
+        const loginView = document.getElementById('login-view');
+        loginView.style.opacity = '0';
+        loginView.style.transform = 'scale(0.95)';
+        
+        setTimeout(() => {
+            loginView.style.display = 'none';
+            document.body.classList.remove('on-login');
+            const dashView = document.getElementById('dashboard-view');
+            dashView.style.display = 'block';
+            void dashView.offsetWidth; 
+            dashView.style.opacity = '1';
+            
+            currentPage = 1;
+            renderDashboard();
+        }, 400);
+    }
+
+    function handleLogout() {
+        const dashView = document.getElementById('dashboard-view');
+        dashView.style.opacity = '0';
+        
+        setTimeout(() => {
+            dashView.style.display = 'none';
+            document.body.classList.add('on-login');
+            const loginView = document.getElementById('login-view');
+            loginView.style.display = 'flex';
+            void loginView.offsetWidth;
+            loginView.style.opacity = '1';
+            loginView.style.transform = 'scale(1)';
+        }, 400);
+    }
+
+    // --- DASHBOARD LOGIC & DATA ---
+    const rawData = [
+        // --- Sector 1: Technology Services (20 ตัว) ---
+        { symbol: "FJTSY", name: "Fujitsu Ltd.", mcap: 18360000000, pe: 12.20, peg: 0.10, roe: 16.34, growth: 114.39, category: "Technology services" },
+        { symbol: "RDDT", name: "Reddit, Inc.", mcap: 13310000000, pe: 548.83, peg: 0.11, roe: 26.22, growth: 70.63, category: "Technology services" },
+        { symbol: "CRDO", name: "Credo Technology Group", mcap: 8430000000, pe: 795.75, peg: 0.11, roe: 34.40, growth: 205.67, category: "Technology services" },
+        { symbol: "FJTSF", name: "Fujitsu Ltd.", mcap: 18470000000, pe: 12.59, peg: 0.12, roe: 16.09, growth: 8.92, category: "Technology services" },
+        { symbol: "ZM", name: "Zoom Communications", mcap: 27550000000, pe: 13.78, peg: 0.13, roe: 21.94, growth: 4.98, category: "Technology services" },
+        { symbol: "TMSNY", name: "Temenos AG", mcap: 6720000000, pe: 19.93, peg: 0.15, roe: 53.53, growth: 48.72, category: "Technology services" },
+        { symbol: "CYGIY", name: "Cyber Agent Inc.", mcap: 2940000000, pe: 17.81, peg: 0.16, roe: 24.03, growth: 15.37, category: "Technology services" },
+        { symbol: "TMNSF", name: "Temenos AG", mcap: 6510000000, pe: 21.34, peg: 0.19, roe: 50.48, growth: 48.52, category: "Technology services" },
+        { symbol: "TOST", name: "Toast, Inc.", mcap: 14090000000, pe: 37.16, peg: 0.21, roe: 22.49, growth: 23.43, category: "Technology services" },
+        { symbol: "PEGA", name: "Pegasystems Inc.", mcap: 5490000000, pe: 17.71, peg: 0.22, roe: 51.74, growth: 3.49, category: "Technology services" },
+        { symbol: "IBM", name: "IBM Corp", mcap: 171330000000, pe: 24.08, peg: 0.25, roe: 35.86, growth: 9.67, category: "Technology services" },
+        { symbol: "ISMAY", name: "Indra Sistemas SA", mcap: 3270000000, pe: 20.62, peg: 0.27, roe: 29.30, growth: 24.35, category: "Technology services" },
+        { symbol: "DLO", name: "DLocal Limited", mcap: 3370000000, pe: 17.54, peg: 0.27, roe: 37.19, growth: 46.59, category: "Technology services" },
+        { symbol: "GEN", name: "Gen Digital Inc.", mcap: 23090000000, pe: 53.59, peg: 0.29, roe: 39.87, growth: 27.06, category: "Technology services" },
+        { symbol: "ORCL", name: "Oracle Corp", mcap: 340290000000, pe: 34.21, peg: 0.29, roe: 53.81, growth: 17.35, category: "Technology services" },
+        { symbol: "ATEAY", name: "Atea ASA", mcap: 1880000000, pe: 61.42, peg: 0.30, roe: 24.76, growth: 17.48, category: "Technology services" },
+        { symbol: "PRGS", name: "Progress Software", mcap: 2510000000, pe: 51.94, peg: 0.30, roe: 18.26, growth: 22.42, category: "Technology services" },
+        { symbol: "ISMAF", name: "Indra Sistemas SA", mcap: 3180000000, pe: 76.12, peg: 0.31, roe: 28.46, growth: 22.89, category: "Technology services" },
+        { symbol: "ATAZF", name: "Atea ASA", mcap: 1770000000, pe: 60.65, peg: 0.32, roe: 24.45, growth: 17.62, category: "Technology services" },
+        { symbol: "SPOT", name: "Spotify Technology", mcap: 60350000000, pe: 40.07, peg: 0.36, roe: 39.59, growth: 16.69, category: "Technology services" },
+
+        // --- Sector 2: Electronic Technology (20 ตัว) ---
+        { symbol: "MU", name: "Micron Technology", mcap: 100580000000, pe: 42.10, peg: 0.10, roe: 39.82, growth: 85.54, category: "Electronic technology" },
+        { symbol: "HXGBF", name: "Hexagon AB", mcap: 23590000000, pe: 10.32, peg: 0.11, roe: 17.11, growth: 5.10, category: "Electronic technology" },
+        { symbol: "RYCEY", name: "Rolls Royce", mcap: 13780000000, pe: 18.27, peg: 0.13, roe: 100.00, growth: 15.79, category: "Electronic technology" },
+        { symbol: "RYCEF", name: "Rolls Royce", mcap: 14570000000, pe: 17.66, peg: 0.13, roe: 100.00, growth: 20.76, category: "Electronic technology" },
+        { symbol: "WDC", name: "Western Digital", mcap: 16890000000, pe: 29.25, peg: 0.14, roe: 85.87, growth: 18.43, category: "Electronic technology" },
+        { symbol: "SNPTF", name: "Sunny Optical", mcap: 1560000000, pe: 71.56, peg: 0.18, roe: 17.15, growth: 12.81, category: "Electronic technology" },
+        { symbol: "TEL", name: "TE Connectivity plc", mcap: 39620000000, pe: 20.63, peg: 0.18, roe: 22.97, growth: 16.66, category: "Electronic technology" },
+        { symbol: "VICR", name: "Vicor Corporation", mcap: 1250000000, pe: 92.27, peg: 0.19, roe: 20.48, growth: 15.58, category: "Electronic technology" },
+        { symbol: "SOTGY", name: "Sunny Optical", mcap: 8300000000, pe: 71.92, peg: 0.22, roe: 17.10, growth: 13.10, category: "Electronic technology" },
+        { symbol: "MTUAY", name: "MTU Aero Engines AG", mcap: 10220000000, pe: 16.51, peg: 0.25, roe: 26.84, growth: 23.60, category: "Electronic technology" },
+        { symbol: "MTUAF", name: "MTU Aero Engines AG", mcap: 10510000000, pe: 16.44, peg: 0.27, roe: 26.46, growth: 34.15, category: "Electronic technology" },
+        { symbol: "GLW", name: "Corning Inc.", mcap: 34470000000, pe: 80.71, peg: 0.27, roe: 16.06, growth: 20.05, category: "Electronic technology" },
+        { symbol: "NVDA", name: "NVIDIA Corporation", mcap: 2485010000000, pe: 30.69, peg: 0.28, roe: 114.28, growth: 70.68, category: "Electronic technology" },
+        { symbol: "NATL", name: "NCR Atleos Corp", mcap: 3050000000, pe: 18.99, peg: 0.29, roe: 52.45, growth: 4.36, category: "Electronic technology" },
+        { symbol: "ATEYY", name: "Advantest Corp.", mcap: 20960000000, pe: 42.62, peg: 0.34, roe: 59.20, growth: 45.93, category: "Electronic technology" },
+        { symbol: "CLS", name: "Celestica, Inc.", mcap: 4170000000, pe: 44.13, peg: 0.35, roe: 51.27, growth: 40.38, category: "Electronic technology" },
+        { symbol: "RKGRY", name: "RENK GROUP AG", mcap: 1650000000, pe: 43.51, peg: 0.37, roe: 25.14, growth: 26.50, category: "Electronic technology" },
+        { symbol: "ADTTF", name: "Advantest Corp.", mcap: 25170000000, pe: 46.53, peg: 0.38, roe: 57.64, growth: 36.75, category: "Electronic technology" },
+        { symbol: "THLLY", name: "THALES", mcap: 31220000000, pe: 29.18, peg: 0.41, roe: 22.21, growth: 12.56, category: "Electronic technology" },
+        { symbol: "ALAB", name: "Astera Labs, Inc.", mcap: 5670000000, pe: 223.01, peg: 0.43, roe: 21.11, growth: 104.17, category: "Electronic technology" },
+
+        // --- Sector 3: Health Technology (20 ตัว) ---
+        { symbol: "SHC", name: "Sotera Health Co", mcap: 4630000000, pe: 39.65, peg: 0.10, roe: 22.72, growth: 7.44, category: "Health technology" },
+        { symbol: "GSK", name: "GSK plc", mcap: 102950000000, pe: 13.38, peg: 0.13, roe: 37.43, growth: 9.19, category: "Health technology" },
+        { symbol: "YPHDF", name: "Ypsomed Holding AG", mcap: 3640000000, pe: 21.54, peg: 0.14, roe: 31.08, growth: 8.12, category: "Health technology" },
+        { symbol: "GLAXF", name: "GSK plc", mcap: 100690000000, pe: 13.34, peg: 0.14, roe: 36.42, growth: 6.42, category: "Health technology" },
+        { symbol: "ACAD", name: "ACADIA Pharma", mcap: 3630000000, pe: 9.67, peg: 0.16, roe: 37.31, growth: 9.93, category: "Health technology" },
+        { symbol: "WUXAY", name: "Wuxi Apptec", mcap: 2280000000, pe: 15.84, peg: 0.18, roe: 25.50, growth: 19.70, category: "Health technology" },
+        { symbol: "NBIX", name: "Neurocrine Bio", mcap: 16170000000, pe: 24.73, peg: 0.21, roe: 22.50, growth: 28.59, category: "Health technology" },
+        { symbol: "WUXIF", name: "Wuxi Apptec", mcap: 2380000000, pe: 15.46, peg: 0.21, roe: 25.46, growth: 18.99, category: "Health technology" },
+        { symbol: "COLL", name: "Collegium Pharma", mcap: 1280000000, pe: 7.03, peg: 0.24, roe: 27.41, growth: 19.87, category: "Health technology" },
+        { symbol: "GILD", name: "Gilead Sciences", mcap: 90820000000, pe: 16.52, peg: 0.31, roe: 43.18, growth: 3.83, category: "Health technology" },
+        { symbol: "LLY", name: "Eli Lilly & Co", mcap: 750160000000, pe: 40.90, peg: 0.31, roe: 107.63, growth: 47.43, category: "Health technology" },
+        { symbol: "RHHBY", name: "Roche Holding", mcap: 23060000000, pe: 20.98, peg: 0.32, roe: 39.71, growth: 7.88, category: "Health technology" },
+        { symbol: "RHHBF", name: "Roche Holding", mcap: 23520000000, pe: 20.46, peg: 0.36, roe: 39.28, growth: 16.49, category: "Health technology" },
+        { symbol: "RHHVF", name: "Roche Holding", mcap: 21500000000, pe: 19.87, peg: 0.37, roe: 39.28, growth: 16.49, category: "Health technology" },
+        { symbol: "NVO", name: "Novo Nordisk", mcap: 493620000000, pe: 110.04, peg: 0.37, roe: 73.79, growth: 16.78, category: "Health technology" },
+        { symbol: "DXCM", name: "DexCom, Inc.", mcap: 28850000000, pe: 31.97, peg: 0.44, roe: 35.62, growth: 16.14, category: "Health technology" },
+        { symbol: "EKZRF", name: "Eckert & Ziegler", mcap: 1230000000, pe: 19.79, peg: 0.45, roe: 19.80, growth: 14.10, category: "Health technology" },
+        { symbol: "BMY", name: "Bristol-Myers", mcap: 113530000000, pe: 15.60, peg: 0.46, roe: 38.84, growth: 1.77, category: "Health technology" },
+        { symbol: "EXELE", name: "Exelixis, Inc.", mcap: 13210000000, pe: 17.42, peg: 0.47, roe: 40.98, growth: 3.33, category: "Health technology" },
+        { symbol: "KRYS", name: "Krystal Biotech", mcap: 4930000000, pe: 41.75, peg: 0.51, roe: 19.90, growth: 25.14, category: "Health technology" }
+    ];
+
+    let activeCategories = new Set(['All']);
+    let filteredData = [];
+    let currentPage = 1;
+    let itemsPerPage = 12;
+
+    function formatMoney(num) {
+        if (num >= 1e12) return '$' + (num / 1e12).toFixed(2) + 'T';
+        if (num >= 1e9) return '$' + (num / 1e9).toFixed(2) + 'B';
+        if (num >= 1e6) return '$' + (num / 1e6).toFixed(2) + 'M';
+        return '$' + num.toLocaleString();
+    }
+
+    function renderDashboard() {
+        const searchText = document.getElementById('search-input').value.toLowerCase();
+        const sortType = document.getElementById('sort-select').value;
+        
+        // เช็คว่าผู้ใช้กดเลือกหมวดหมู่ Watchlist อยู่หรือเปล่า
+        const isWatchlistMode = activeCategories.has('Watchlist');
+        const isAllCats = activeCategories.has('All');
+
+        filteredData = rawData.filter(p => {
+            const matchSearch = p.name.toLowerCase().includes(searchText) || p.symbol.toLowerCase().includes(searchText);
+            let matchCat = false;
+            
+            // ถัาเปิดโหมดดาว ให้กรองแสดงแค่หุ้นที่มีชื่ออยู่ใน LocalStorage
+            if (isWatchlistMode) {
+                matchCat = watchlist.includes(p.symbol);
+            } else {
+                matchCat = isAllCats || activeCategories.has(p.category);
+            }
+            return matchSearch && matchCat;
+        });
+
+        if (sortType === 'peg') filteredData.sort((a, b) => a.peg - b.peg);
+        else if (sortType === 'growth') filteredData.sort((a, b) => b.growth - a.growth);
+        else if (sortType === 'mcap') filteredData.sort((a, b) => b.mcap - a.mcap);
+
+        let totalPeg = 0;
+        filteredData.forEach(p => { totalPeg += p.peg; });
+        const avgPeg = filteredData.length > 0 ? (totalPeg / filteredData.length) : 0;
+        let cheapest = filteredData.length > 0 ? filteredData.reduce((prev, curr) => prev.peg < curr.peg ? prev : curr) : null;
+
+        const totalItems = filteredData.length;
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        
+        if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
+        if (totalPages === 0) currentPage = 1;
+
+        document.getElementById('sum-tokens').innerText = totalItems;
+        document.getElementById('total-items').innerText = totalItems;
+        document.getElementById('avg-peg').innerText = avgPeg.toFixed(2);
+        document.getElementById('cheapest-token').innerText = cheapest ? cheapest.symbol : '-';
+
+        renderCards();
+        renderPagination(totalPages);
+        updateRandomQuote(); 
+    }
+
+    function renderCards() {
+        const grid = document.getElementById('grid');
+        grid.innerHTML = '';
+
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const pageItems = filteredData.slice(start, end);
+
+        pageItems.forEach((p, index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.style.animationDelay = `${index * 0.03}s`; 
+            
+            const pegColor = p.peg <= 1.2 ? 'var(--success)' : (p.peg > 2 ? '#ef4444' : '#fff');
+            const logoUrl = `https://companiesmarketcap.com/img/company-logos/64/${p.symbol}.webp`;
+            
+            // เช็คว่าหุ้นตัวนี้อยู่ใน Watchlist (LocalStorage) หรือยัง
+            const isStarred = watchlist.includes(p.symbol);
+            const starClass = isStarred ? 'star-btn active' : 'star-btn';
+            const starIcon = isStarred ? 'fa-solid' : 'fa-regular';
+
+            // เพิ่มปุ่มดาวลงไปในการ์ด และผูกฟังก์ชัน toggleWatchlist
+            card.innerHTML = `
+                <button class="${starClass}" onclick="toggleWatchlist('${p.symbol}', event)" title="Add to Watchlist">
+                    <i class="${starIcon} fa-star"></i>
+                </button>
+                <div class="card-header">
+                    <img src="${logoUrl}" class="logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="fallback-logo" style="display:none;">${p.symbol.substring(0,4)}</div>
+                    <div class="title-area">
+                        <span class="coin-name">${p.name}</span>
+                        <span class="coin-ticker">${p.symbol}</span>
+                    </div>
+                </div>
+                <div class="metrics">
+                    <div class="highlight-box">
+                        <span class="metric-label" style="color: var(--success); font-weight: 700; text-transform: uppercase;">PEG Ratio</span>
+                        <span class="metric-val" style="color: ${pegColor}; font-size: 20px; font-weight: 800;">${p.peg.toFixed(2)}</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">EPS Growth</span>
+                        <span class="metric-val" style="color: var(--accent);">+${p.growth.toFixed(2)}%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">ROE</span>
+                        <span class="metric-val">${p.roe.toFixed(2)}%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Market Cap</span>
+                        <span class="metric-val">${formatMoney(p.mcap)}</span>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    function renderPagination(totalPages) {
+        const container = document.getElementById('pagination-controls');
+        container.innerHTML = '';
+        if (totalPages <= 1) return;
+        
+        const prevBtn = document.createElement('button');
+        prevBtn.className = 'page-btn';
+        prevBtn.innerHTML = '&#10094;'; 
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.onclick = () => { if (currentPage > 1) { currentPage--; renderDashboard(); } };
+        container.appendChild(prevBtn);
+        
+        let startPage = Math.max(1, currentPage - 1);
+        let endPage = Math.min(totalPages, currentPage + 1);
+        
+        if (currentPage === 1) endPage = Math.min(3, totalPages);
+        if (currentPage === totalPages) startPage = Math.max(1, totalPages - 2);
+        
+        if (startPage > 1) {
+            container.appendChild(createPageBtn(1));
+            if (startPage > 2) {
+                const dots = document.createElement('span');
+                dots.className = 'page-dots'; dots.innerText = '...';
+                container.appendChild(dots);
+            }
+        }
+        
+        for (let i = startPage; i <= endPage; i++) {
+            container.appendChild(createPageBtn(i));
+        }
+        
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                const dots = document.createElement('span');
+                dots.className = 'page-dots'; dots.innerText = '...';
+                container.appendChild(dots);
+            }
+            container.appendChild(createPageBtn(totalPages));
+        }
+        
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'page-btn';
+        nextBtn.innerHTML = '&#10095;'; 
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.onclick = () => { if (currentPage < totalPages) { currentPage++; renderDashboard(); } };
+        container.appendChild(nextBtn);
+    }
+    
+    function createPageBtn(pageNum) {
+        const btn = document.createElement('button');
+        btn.className = `page-btn ${pageNum === currentPage ? 'active' : ''}`;
+        btn.innerText = pageNum;
+        btn.onclick = () => { currentPage = pageNum; renderDashboard(); };
+        return btn;
+    }
+
+    // Event Listeners
+    document.getElementById('search-input').addEventListener('input', () => { currentPage = 1; renderDashboard(); });
+    document.getElementById('sort-select').addEventListener('change', () => { currentPage = 1; renderDashboard(); });
+    document.getElementById('items-per-page').addEventListener('change', function() {
+        itemsPerPage = parseInt(this.value);
+        currentPage = 1;
+        renderDashboard();
+    });
+
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const targetBtn = e.currentTarget;
+            const cat = targetBtn.dataset.cat;
+            
+            if (cat === 'All') {
+                activeCategories.clear(); activeCategories.add('All');
+            } else if (cat === 'Watchlist') {
+                // หากกดปุ่ม Watchlist เคลียร์อย่างอื่นให้หมดแล้วโชว์แค่ดาว
+                activeCategories.clear(); activeCategories.add('Watchlist');
+            } else {
+                activeCategories.delete('All');
+                activeCategories.delete('Watchlist');
+                
+                if (activeCategories.has(cat)) {
+                    activeCategories.delete(cat);
+                } else {
+                    activeCategories.add(cat);
+                }
+                
+                if (activeCategories.size === 0) {
+                    activeCategories.add('All');
+                }
+            }
+            
+            // อัปเดตสีปุ่ม Filter ด้านบนให้ตรงกับสถานะ
+            filterBtns.forEach(b => b.classList.remove('active'));
+            activeCategories.forEach(c => {
+                const b = document.querySelector(`[data-cat="${c}"]`);
+                if(b) b.classList.add('active');
+            });
+            
+            currentPage = 1; 
+            renderDashboard();
+        });
+    });
+
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light-mode');
+        themeIcon.classList.replace('fa-sun', 'fa-moon');
+    }
+    themeToggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        if (document.body.classList.contains('light-mode')) {
+            localStorage.setItem('theme', 'light'); themeIcon.classList.replace('fa-sun', 'fa-moon');
+        } else {
+            localStorage.setItem('theme', 'dark'); themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+    });
+
+</script>
+</body>
+</html>

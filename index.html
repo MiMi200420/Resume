@@ -55,7 +55,8 @@
                 <div class="flex gap-6">
                     <a href="#expertise" class="text-sm font-mono text-gray-300 hover:text-neon-green transition duration-300">Enhanced Skill Set</a>
                     <a href="#experience" class="text-sm font-mono text-gray-300 hover:text-bk-purple transition duration-300">Experience</a>
-                    <a href="#visuals" class="text-sm font-mono text-gray-300 hover:text-neon-green transition duration-300 hidden md:block">Visuals</a>
+                    <a href="#dashboard" class="text-sm font-mono text-gray-300 hover:text-neon-green transition duration-300 hidden md:block">Dashboard</a>
+                    <a href="#visuals" class="text-sm font-mono text-gray-300 hover:text-bk-purple transition duration-300 hidden md:block">Visuals</a>
                 </div>
             </div>
         </nav>
@@ -226,7 +227,7 @@
                     </div>
 
                     <!-- Tab Contents -->
-                    <div class="w-full md:w-2/3 glass-panel border border-white/10 rounded-2xl p-6 md:p-10 min-h-[400px] shadow-[0_0_40px_rgba(155,81,224,0.05)]">
+                    <div class="w-full md:w-2/3 glass-panel border border-white/10 rounded-2xl p-6 md:p-10 h-[450px] md:h-[550px] overflow-y-auto custom-scrollbar shadow-[0_0_40px_rgba(155,81,224,0.05)]">
                         <!-- Tab 1 Content -->
                         <div id="tab1" class="tab-content block animate-fade-in">
                             <div class="space-y-8">
@@ -309,11 +310,60 @@
             </div>
         </section>
 
+        <!-- Section 3: Dashboard -->
+        <section id="dashboard" class="py-24 px-6 border-t border-white/10 relative overflow-hidden bg-gradient-to-b from-panel-bg to-dark-bg">
+            <div class="max-w-7xl mx-auto relative z-10">
+                <div class="text-center mb-16">
+                    <span class="text-neon-green font-mono text-lg block mb-3 tracking-widest uppercase glow-effect-green">// 03</span>
+                    <h2 class="text-4xl md:text-5xl font-display font-extrabold inline-block relative group">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-green via-white to-bk-purple">
+                            &lt; Dashboard /&gt;
+                        </span>
+                        <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-full h-1 bg-gradient-to-r from-transparent via-neon-green to-transparent opacity-50 group-hover:via-bk-purple transition-all duration-500"></div>
+                        <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-1/3 h-1 bg-neon-green rounded-full shadow-[0_0_15px_rgba(0,255,102,0.8)] group-hover:bg-bk-purple group-hover:shadow-[0_0_15px_rgba(155,81,224,0.8)] transition-all duration-500"></div>
+                    </h2>
+                </div>
+
+                <!-- 2 Column Grid for Dashboards -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Dashboard 1: Cryptocurrency Valuation -->
+                    <div class="glass-panel border border-white/10 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(0,255,102,0.1)] group hover:border-neon-green transition-all duration-500 flex flex-col h-[500px] md:h-[700px] animate-fade-in">
+                        <div class="bg-black/50 p-4 border-b border-white/10 flex items-center justify-between">
+                            <h3 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+                                <i class="ph ph-currency-btc text-neon-green"></i> Cryptocurrency Valuation
+                            </h3>
+                            <a href="Sub_project/Crypto-Valuation-Nexus-LiquidCat.html" target="_blank" class="text-xs font-mono text-gray-400 hover:text-neon-green border border-gray-600 hover:border-neon-green px-3 py-1 rounded transition-colors whitespace-nowrap">
+                                Open Full ↗
+                            </a>
+                        </div>
+                        <div class="flex-1 w-full bg-[#1e1e1e] relative">
+                            <iframe src="Sub_project/Crypto-Valuation-Nexus-LiquidCat.html" class="absolute inset-0 w-full h-full border-none" title="Cryptocurrency Valuation Dashboard"></iframe>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard 2: Stocks Valuation -->
+                    <div class="glass-panel border border-white/10 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(155,81,224,0.1)] group hover:border-bk-purple transition-all duration-500 flex flex-col h-[500px] md:h-[700px] animate-fade-in">
+                        <div class="bg-black/50 p-4 border-b border-white/10 flex items-center justify-between">
+                            <h3 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+                                <i class="ph ph-chart-bar text-bk-purple"></i> Stocks Valuation
+                            </h3>
+                            <a href="Sub_project/Valuation%20stock%203.html" target="_blank" class="text-xs font-mono text-gray-400 hover:text-bk-purple border border-gray-600 hover:border-bk-purple px-3 py-1 rounded transition-colors whitespace-nowrap">
+                                Open Full ↗
+                            </a>
+                        </div>
+                        <div class="flex-1 w-full bg-[#1e1e1e] relative">
+                            <iframe src="Sub_project/Valuation%20stock%203.html" class="absolute inset-0 w-full h-full border-none" title="Stocks Valuation Dashboard"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Section 4: Visuals -->
         <section id="visuals" class="py-24 px-6 border-t border-white/10 relative overflow-hidden bg-dark-bg">
             <div class="max-w-6xl mx-auto relative z-10">
                 <div class="text-center mb-16">
-                    <span class="text-bk-purple font-mono text-lg block mb-3 tracking-widest uppercase glow-effect-purple">// 03</span>
+                    <span class="text-bk-purple font-mono text-lg block mb-3 tracking-widest uppercase glow-effect-purple">// 04</span>
                     <h2 class="text-4xl md:text-5xl font-display font-extrabold inline-block relative group">
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-green via-white to-bk-purple">
                             &lt; Visuals /&gt;

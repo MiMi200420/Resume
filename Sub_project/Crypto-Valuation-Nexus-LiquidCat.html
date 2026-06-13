@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valuation Dashboard - Pro Design</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --bg-color: #0f1015;
+            --panel-bg: #1a1c24;
+            --card-bg: #22242f;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --accent: #8b5cf6;
+            --accent-soft: rgba(139, 92, 246, 0.1);
+            --success: #10b981;
+            --border: #2d303e;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            padding: 12px;
+        }
+        
+        .container { max-width: 1300px; margin: 0 auto; }
+        
+        /* Header */
+        .header { margin-bottom: 24px; }
+        .header h1 { margin-bottom: 8px; font-size: 28px; font-weight: 700; }
+        .header p { color: var(--text-muted); font-size: 14px; }
+        
+        /* Summary */
+        .summary-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-box { display: flex; flex-direction: column; gap: 4px; }
+        .stat-box.highlight { border-left: 3px solid var(--accent); padding-left: 12px; }
+        .stat-box.success { border-left: 3px solid var(--success); padding-left: 12px; }
+        .stat-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .stat-value { font-size: 22px; font-weight: 700; color: #fff; }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--panel-bg);
+            padding: 16px 20px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+        }
+        .filters { display: flex; gap: 10px; flex-wrap: wrap; }
+        .filter-btn {
+            background: var(--card-bg);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+        
+        input[type="text"], select {
+            background: var(--card-bg);
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        /* Cards Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 12px;
+            min-height: 500px;
+        }
+        
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; margin-top: 30px; margin-bottom: -30px; }
+            to { opacity: 1; margin-top: 0; margin-bottom: 0; }
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 20px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            opacity: 0; /* Start hidden for animation */
+            animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            position: relative;
+            z-index: 1;
+            transform-origin: center center;
+        }
+        
+        .card:hover { 
+            transform: scale(1.1) !important; /* ขยายใหญ่ขึ้น 10% ทันทีที่จิ้ม (ลดจาก 15%) */ /* ขยายใหญ่ขึ้น 15% ทันทีที่จิ้ม */
+            border-color: var(--accent);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4) !important; /* แสงเรืองแสง */
+            z-index: 100 !important; /* ลอยทับใบอื่นแน่นอน */
+        }
+        
+        body.light-mode .card:hover {
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.3) !important;
+        }
+
+        
+        .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .logo { width: 40px; height: 40px; border-radius: 50%; background: #fff; padding: 2px; object-fit: contain;}
+        
+        .fallback-logo {
+            width: 40px; height: 40px; border-radius: 50%;
+            background-color: #374151;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 11px; font-weight: 700; text-transform: lowercase;
+            flex-shrink: 0;
+        }
+
+        .title-area { display: flex; flex-direction: column; flex-grow: 1; overflow: hidden; }
+        .coin-name { font-size: 16px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .coin-ticker { font-size: 12px; color: var(--text-muted); text-transform: uppercase; }
+        .category-badge {
+            background: var(--accent-soft); font-size: 10px; padding: 4px 10px; 
+            border-radius: 10px; color: var(--accent); font-weight: 600;
+        }
+        
+        .metrics { background: rgba(0,0,0,0.15); padding: 14px; border-radius: 14px; display: flex; flex-direction: column; gap: 10px; }
+        .metric-row { display: flex; justify-content: space-between; align-items: center; }
+        .metric-label { font-size: 12px; color: var(--text-muted); }
+        .metric-val { font-size: 13px; font-weight: 500; }
+        .metric-val.main { color: var(--success); font-size: 18px; font-weight: 700; }
+
+        /* Pagination Styles */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding: 15px 20px;
+            background: var(--panel-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        .showing-text {
+            color: var(--text-muted);
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .showing-text select {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .page-controls {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+        .page-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .page-btn:hover:not(:disabled) {
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+        }
+        .page-btn.active {
+            background: var(--accent);
+            color: #fff;
+        }
+        .page-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        .page-dots {
+            color: var(--text-muted);
+            padding: 0 4px;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 60px;
+            border-top: 1px solid var(--border);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 13px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .footer-links { display: flex; gap: 20px; }
+        .footer-social { display: flex; gap: 15px; font-size: 18px; }
+        .footer-social i { cursor: pointer; transition: color 0.2s; }
+        .footer-social i:hover { color: #fff; }
+    
+        /* Theme Toggle Button */
+        .theme-btn {
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .theme-btn:hover {
+            transform: translateY(-2px);
+            background: var(--card-bg);
+        }
+
+        /* Light Mode Variables */
+        body.light-mode {
+            --bg-color: #f3f5f9;
+            --panel-bg: #ffffff;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --accent-soft: rgba(139, 92, 246, 0.15);
+        }
+        
+        body.light-mode .fallback-logo {
+            background-color: #cbd5e1;
+            color: #475569;
+        }
+        
+        body.light-mode input[type="text"], body.light-mode select, body.light-mode .showing-text select {
+            background: #f8fafc;
+            color: #1e293b;
+            border-color: #cbd5e1;
+        }
+        
+        
+        /* Fix text colors for Light Mode */
+
+        body.light-mode .metric-row[style*="rgba(16, 185, 129, 0.1)"] span {
+            color: #059669 !important; /* Darker green for light mode */
+        }
+
+        body.light-mode .stat-value {
+            color: var(--text-main);
+        }
+        body.light-mode .coin-name {
+            color: var(--text-main);
+        }
+        body.light-mode .showing-text select {
+            color: var(--text-main);
+        }
+        body.light-mode .metric-val.main {
+            color: #059669; /* Darker green for better contrast in light mode */
+        }
+        body.light-mode .filter-btn.active {
+            color: #ffffff; /* Keep white text for active purple buttons */
+        }
+body.light-mode .metrics {
+            background: #f8fafc;
+        }
+        
+        body.light-mode .page-btn:hover:not(:disabled) {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+        body.light-mode .page-btn {
+            color: #64748b;
+        }
+        body.light-mode .page-btn.active {
+            background: var(--accent);
+            color: #fff;
+        }
+        body.light-mode .footer-social i:hover { 
+            color: #1e293b; 
+        }
+        body.light-mode .card {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        body.light-mode .summary-panel, body.light-mode .controls, body.light-mode .pagination-container {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+    
+        /* --- Login Page Styles --- */
+        .login-wrapper {
+            display: flex;
+            min-height: 100vh;
+            width: 100vw;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            background: var(--bg-color);
+        }
+        
+        .login-left {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+        
+        .login-box {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .login-box h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .login-box > p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 15px;
+        }
+        
+        .space-y-5 > div { margin-bottom: 20px; }
+        
+        .login-box label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+        
+        .glass-input {
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(8px);
+            transition: all 0.3s;
+        }
+        
+        .glass-input:focus-within {
+            border-color: rgba(139, 92, 246, 0.7);
+            background: rgba(139, 92, 246, 0.1);
+        }
+        
+        .glass-input input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: #fff;
+            padding: 16px;
+            font-size: 14px;
+            outline: none;
+            box-shadow: none;
+        }
+        
+        body.light-mode .glass-input input {
+            color: var(--text-main);
+        }
+        
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: var(--text-main) !important;
+            margin-bottom: 0 !important;
+        }
+        
+        .forgot-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .forgot-link:hover { text-decoration: underline; }
+        
+        .sign-in-btn {
+            width: 100%;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+        .sign-in-btn:hover { background: #7c3aed; }
+        
+        .divider {
+            position: relative;
+            text-align: center;
+            margin: 30px 0;
+        }
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--border);
+            z-index: 1;
+        }
+        .divider span {
+            position: relative;
+            z-index: 2;
+            background: var(--bg-color);
+            padding: 0 15px;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+        
+        .google-btn {
+            width: 100%;
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .google-btn:hover { background: var(--card-bg); }
+        
+        .mt-4 { margin-top: 20px; font-size: 14px; }
+        .text-center { text-align: center; color: var(--text-muted); }
+        
+        /* Right Side Image & Testimonials */
+        .login-right {
+            flex: 1;
+            position: relative;
+            padding: 20px;
+            display: none;
+        }
+        @media (min-width: 900px) { .login-right { display: block; } }
+        
+        .hero-bg {
+            position: absolute;
+            top: 20px; bottom: 20px; left: 20px; right: 20px;
+            /* Liquid Fluid Mesh Gradients */
+            background: radial-gradient(circle at 15% 50%, rgba(139, 92, 246, 0.4), transparent 40%),
+                        radial-gradient(circle at 85% 30%, rgba(236, 72, 153, 0.3), transparent 40%),
+                        radial-gradient(circle at 50% 80%, rgba(56, 189, 248, 0.3), transparent 40%),
+                        var(--card-bg);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        /* Glass reflection overlay */
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            z-index: 1;
+        }
+
+        .glass-cat-container {
+            position: relative;
+            z-index: 2;
+            width: 220px;
+            height: 220px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3), inset 0 0 30px rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            animation: floatCat 6s ease-in-out infinite;
+        }
+
+        .glass-cat-container img {
+            width: 55%;
+            height: auto;
+            /* ทำให้เงาแมวดูมีออร่าสีม่วง จะได้ไม่มืดน่ากลัว */
+            filter: drop-shadow(0 0 15px rgba(139, 92, 246, 0.6)); 
+        }
+        
+        @keyframes floatCat {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); box-shadow: 0 35px 60px rgba(0,0,0,0.2), inset 0 0 30px rgba(139, 92, 246, 0.2); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .testimonials {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            width: 90%;
+            justify-content: center;
+        }
+        
+        .testimonial-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 24px;
+            display: flex;
+            gap: 15px;
+            width: 300px;
+            color: #fff;
+        }
+        
+        .testimonial-card img {
+            width: 45px; height: 45px; border-radius: 14px; object-fit: cover;
+        }
+        .testimonial-card h4 { margin: 0; font-size: 14px; font-weight: 600; }
+        .testimonial-card .handle { font-size: 12px; color: #9ca3af; }
+        .testimonial-card p { margin: 8px 0 0 0; font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.4; }
+        
+        /* Login Animations */
+        @keyframes slideRightIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .animate-element {
+            opacity: 0;
+            animation: slideRightIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        
+        /* Hide scrollbar when on login page */
+        body.on-login { overflow: hidden; padding: 0; }
+
+</style>
+<link rel="icon" type="image/png" href="—Pngtree—cat silhouette vector icon eps_3985290.png">
+</head>
+<body>
+
+<!-- LOGIN VIEW -->
+<div id="login-view" class="login-wrapper">
+    <div class="login-left">
+        <div class="login-box">
+            <h1 class="animate-element" style="animation-delay: 0.1s;">Welcome to Nexus</h1>
+            <p class="animate-element" style="animation-delay: 0.2s;">Access your account and explore the crypto valuation terminal.</p>
+            
+            <form id="sign-in-form" class="space-y-5" onsubmit="handleLogin(event)">
+                <div class="animate-element" style="animation-delay: 0.3s;">
+                    <label>Email Address</label>
+                    <div class="glass-input">
+                        <input type="email" required placeholder="Enter your email address" value="admin@nexus.com">
+                    </div>
+                </div>
+                
+                <div class="animate-element" style="animation-delay: 0.4s;">
+                    <label>Password</label>
+                    <div class="glass-input" style="display:flex; align-items:center;">
+                        <input type="password" required placeholder="Enter your password" id="password-input" value="password123" style="flex-grow: 1;">
+                        <i class="fa-solid fa-eye text-muted cursor-pointer" id="toggle-password" onclick="togglePassword()" style="padding-right:15px; color: var(--text-muted);"></i>
+                    </div>
+                </div>
+                
+                <div class="animate-element flex-between" style="animation-delay: 0.5s;">
+                    <label class="checkbox-container">
+                        <input type="checkbox" checked>
+                        <span>Keep me signed in</span>
+                    </label>
+                    <a href="#" class="forgot-link" onclick="alert('Demo: Reset password feature is not connected to a database.')">Reset password</a>
+                </div>
+                
+                <button type="submit" class="animate-element sign-in-btn" style="animation-delay: 0.6s;">Sign In</button>
+            </form>
+            
+            <div class="animate-element divider" style="animation-delay: 0.7s;">
+                <span>Or continue with</span>
+            </div>
+            
+            <button class="animate-element google-btn" onclick="alert(\'This is a frontend demo. Real Google Sign-in requires a backend!\')" style="animation-delay: 0.8s;">
+                <i class="fa-brands fa-google" style="color: #ea4335;"></i> Continue with Google
+            </button>
+            
+            <p class="animate-element text-center mt-4" style="animation-delay: 0.9s;">
+                New to our platform? <a href="#" class="forgot-link" onclick="alert('Demo: Create Account feature is not connected to a database.')">Create Account</a>
+            </p>
+        </div>
+    </div>
+    <div class="login-right">
+        <div class="hero-bg">
+            <div class="glass-cat-container">
+                <img src="—Pngtree—cat silhouette vector icon eps_3985290.png" alt="Cat Logo">
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+<!-- DASHBOARD VIEW -->
+<div id="dashboard-view" style="display: none; opacity: 0; transition: opacity 0.5s ease;">
+
+<div class="container">
+    <div class="header" style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <div>
+            <h1 style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                Crypto Valuation Nexus
+                <span style="font-size: 14px; font-weight: 600; color: var(--accent); background: var(--accent-soft); padding: 4px 14px; border-radius: 20px; letter-spacing: 0.5px; border: 1px solid var(--accent);">
+                    <i class="fa-solid fa-code" style="margin-right: 6px;"></i>by Nattkul Khamyan
+                </span>
+            </h1>
+            <p style="margin-top: 6px; font-size: 14.5px;">Advanced Market Cap & TVL Comparative Analytics (166 Tokens Loaded)</p>
+        </div>
+        <button id="theme-toggle" class="theme-btn" aria-label="Toggle Dark/Light Mode">
+            <i class="fa-solid fa-sun" id="theme-icon"></i>
+        </button>
+    </div>
+
+    <div class="summary-panel" id="summary-panel">
+        <div class="stat-box">
+            <span class="stat-title">Total Tokens</span>
+            <span class="stat-value" id="sum-tokens">0</span>
+        </div>
+        <div class="stat-box highlight">
+            <span class="stat-title">Blended Mcap/TVL</span>
+            <span class="stat-value" id="sum-ratio">0.00</span>
+        </div>
+        <div class="stat-box success">
+            <span class="stat-title">Cheapest Token</span>
+            <span class="stat-value" id="cheapest-token">-</span>
+        </div>
+    </div>
+
+    <div class="controls">
+        <div class="filters" id="category-filters">
+            <button class="filter-btn active" data-cat="All">All Categories</button>
+            <button class="filter-btn" data-cat="Layer-1">Layer-1</button>
+            <button class="filter-btn" data-cat="Layer-2">Layer-2</button>
+            <button class="filter-btn" data-cat="Lending">Lending</button>
+            <button class="filter-btn" data-cat="Dexes">Dexes</button>
+        </div>
+        
+        <div class="search-sort">
+            <input type="text" id="search-input" placeholder="Search token...">
+            <select id="sort-select">
+                <option value="mcap">Sort by: Market Cap</option>
+                <option value="cheapest">Sort by: Cheapest Ratio (Mcap/TVL)</option>
+                <option value="fdm_cheapest">Sort by: Cheapest FDM (FDM/TVL)</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="grid" id="grid"></div>
+
+    <div class="pagination-container">
+        <div class="showing-text">
+            Showing 
+            <select id="items-per-page">
+                <option value="8">8</option>
+                <option value="12" selected>12</option>
+                <option value="24">24</option>
+                <option value="48">48</option>
+            </select>
+            out of <span id="total-items">0</span>
+        </div>
+        <div class="page-controls" id="pagination-controls">
+            <!-- Pagination buttons will be generated by JS -->
+        </div>
+    </div>
+
+    <div class="footer">
+        <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
+            <p>Copyright © 2026 <b>NattakulKhamyan</b></p>
+            <div class="footer-links">
+                <span>Privacy Policy</span>
+                <span>Term and conditions</span>
+                <span>Contact</span>
+            </div>
+        </div>
+        <div class="footer-social">
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-x-twitter"></i>
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-youtube"></i>
+            <i class="fa-brands fa-linkedin"></i>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    // --- LOGIN LOGIC ---
+    document.body.classList.add('on-login');
+    
+    function togglePassword() {
+        const input = document.getElementById('password-input');
+        const icon = document.getElementById('toggle-password');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+    
+    function handleLogin(event) {
+        event.preventDefault();
+        
+        // Add a simple fade out effect
+        const loginView = document.getElementById('login-view');
+        loginView.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        loginView.style.opacity = '0';
+        loginView.style.transform = 'scale(0.95)';
+        
+        setTimeout(() => {
+            loginView.style.display = 'none';
+            document.body.classList.remove('on-login');
+            
+            // Show dashboard
+            const dashView = document.getElementById('dashboard-view');
+            dashView.style.display = 'block';
+            
+            // Trigger reflow to apply opacity transition
+            void dashView.offsetWidth; 
+            dashView.style.opacity = '1';
+            
+        }, 400);
+    }
+
+    const rawData = [{"symbol": "BTC", "name": "Bitcoin", "mcap": 1257454948761.06, "fdm": 1317610980000.0, "tvl": 5120743437.0, "category": "Layer-1", "ratio": 245.56101359722547, "fdm_ratio": 257.30853267898254, "logo": "https://assets.coincap.io/assets/icons/btc@2x.png"}, {"symbol": "ETH", "name": "Ethereum", "mcap": 199814623286.782, "fdm": 199814623286.782, "tvl": 97293155106.0, "category": "Layer-1", "ratio": 2.053737727685836, "fdm_ratio": 2.053737727685836, "logo": "https://assets.coincap.io/assets/icons/eth@2x.png"}, {"symbol": "BNB", "name": "BNB", "mcap": 80646599384.174, "fdm": 80646603494.7698, "tvl": 8008714143.0, "category": "Layer-1", "ratio": 10.069856152209276, "fdm_ratio": 10.069856665474669, "logo": "https://assets.coincap.io/assets/icons/bnb@2x.png"}, {"symbol": "XRP", "name": "XRP", "mcap": 69239742719.0629, "fdm": 111579999999.999, "tvl": 38604904.0, "category": "Layer-1", "ratio": 1793.5478538960465, "fdm_ratio": 2890.3063714392088, "logo": "https://assets.coincap.io/assets/icons/xrp@2x.png"}, {"symbol": "SOL", "name": "Solana", "mcap": 37685609023.9483, "fdm": 40836392481.3395, "tvl": 13080717343.0, "category": "Layer-1", "ratio": 2.881004767228254, "fdm_ratio": 3.1218771425553844, "logo": "https://assets.coincap.io/assets/icons/sol@2x.png"}, {"symbol": "TRX", "name": "TRON", "mcap": 30569983278.2662, "fdm": 30569983000.7341, "tvl": 4540350244.0, "category": "Layer-1", "ratio": 6.732957070583694, "fdm_ratio": 6.732957009457991, "logo": "https://assets.coincap.io/assets/icons/trx@2x.png"}, {"symbol": "HYPE", "name": "Hyperliquid", "mcap": 14108771091.1842, "fdm": 53077603488.3133, "tvl": 3141880431.0, "category": "Layer-1", "ratio": 4.490549975096808, "fdm_ratio": 16.893578433034044, "logo": "https://assets.coincap.io/assets/icons/hype@2x.png"}, {"symbol": "DOGE", "name": "Dogecoin", "mcap": 13105133539.0592, "fdm": 13105133539.0592, "tvl": 8815126.0, "category": "Layer-1", "ratio": 1486.6643470619933, "fdm_ratio": 1486.6643470619933, "logo": "https://assets.coincap.io/assets/icons/doge@2x.png"}, {"symbol": "ZEC", "name": "Zcash", "mcap": 7180209459.83037, "fdm": 9024750000.0, "tvl": 1661683.0, "category": "Layer-1", "ratio": 4321.046469049975, "fdm_ratio": 5431.090045453916, "logo": "https://assets.coincap.io/assets/icons/zec@2x.png"}, {"symbol": "CC", "name": "Canton", "mcap": 6375454910.63686, "fdm": 6375454910.63686, "tvl": 404053.0, "category": "Layer-1", "ratio": 15778.759001014372, "fdm_ratio": 15778.759001014372, "logo": "https://assets.coincap.io/assets/icons/cc@2x.png"}, {"symbol": "XLM", "name": "Stellar", "mcap": 6365032403.95232, "fdm": 9430840782.81132, "tvl": 234936504.0, "category": "Layer-1", "ratio": 27.09256456779624, "fdm_ratio": 40.14208359383487, "logo": "https://assets.coincap.io/assets/icons/xlm@2x.png"}, {"symbol": "ADA", "name": "Cardano", "mcap": 6006342152.94617, "fdm": 7459200000.0, "tvl": 109832641.0, "category": "Layer-1", "ratio": 54.686312723247454, "fdm_ratio": 67.91423689793638, "logo": "https://assets.coincap.io/assets/icons/ada@2x.png"}, {"symbol": "TON", "name": "Toncoin", "mcap": 4403470258.12917, "fdm": 8545131024.0867, "tvl": 2388606446.0, "category": "Layer-1", "ratio": 1.843531095506878, "fdm_ratio": 3.577454560752994, "logo": "https://assets.coincap.io/assets/icons/ton@2x.png"}, {"symbol": "BCH", "name": "Bitcoin Cash", "mcap": 4017275388.75, "fdm": 4208400000.0, "tvl": 7067637.0, "category": "Layer-1", "ratio": 568.4043179849219, "fdm_ratio": 595.4465403359001, "logo": "https://assets.coincap.io/assets/icons/bch@2x.png"}, {"symbol": "HBAR", "name": "Hedera", "mcap": 3411174545.65635, "fdm": 3932349999.99999, "tvl": 91361463.0, "category": "Layer-1", "ratio": 37.33712698598478, "fdm_ratio": 43.04167064399998, "logo": "https://assets.coincap.io/assets/icons/hbar@2x.png"}, {"symbol": "LTC", "name": "Litecoin", "mcap": 3280397368.92702, "fdm": 3566220000.0, "tvl": 1490127.0, "category": "Layer-1", "ratio": 2201.4213345084145, "fdm_ratio": 2393.2322547004383, "logo": "https://assets.coincap.io/assets/icons/ltc@2x.png"}, {"symbol": "SUI", "name": "Sui", "mcap": 3004410925.00114, "fdm": 7456600000.0, "tvl": 845818048.0, "category": "Layer-1", "ratio": 3.552077107015267, "fdm_ratio": 8.815844043091404, "logo": "https://assets.coincap.io/assets/icons/sui@2x.png"}, {"symbol": "AVAX", "name": "Avalanche", "mcap": 2825947485.90485, "fdm": 4684575365.855, "tvl": 1293955096.0, "category": "Layer-1", "ratio": 2.183961015834857, "fdm_ratio": 3.6203538904374772, "logo": "https://assets.coincap.io/assets/icons/avax@2x.png"}, {"symbol": "CRO", "name": "Cronos", "mcap": 2686591802.07563, "fdm": 5991900000.0, "tvl": 391982271.0, "category": "Layer-1", "ratio": 6.853860495327428, "fdm_ratio": 15.286150531027461, "logo": "https://assets.coincap.io/assets/icons/cro@2x.png"}, {"symbol": "NEAR", "name": "NEAR Protocol", "mcap": 2591004733.0944, "fdm": 2591004733.0944, "tvl": 325464471.0, "category": "Layer-1", "ratio": 7.96094493857795, "fdm_ratio": 7.96094493857795, "logo": "https://assets.coincap.io/assets/icons/near@2x.png"}, {"symbol": "MNT", "name": "Mantle", "mcap": 1773166968.70315, "fdm": 3339462153.07525, "tvl": 504945520.0, "category": "Layer-2", "ratio": 3.5116005558444208, "fdm_ratio": 6.613509816019855, "logo": "https://assets.coincap.io/assets/icons/mnt@2x.png"}, {"symbol": "DOT", "name": "Polkadot", "mcap": 1598995399.56283, "fdm": 1989204000.0, "tvl": 2555.0, "category": "Layer-1", "ratio": 625829.9019815382, "fdm_ratio": 778553.4246575342, "logo": "https://assets.coincap.io/assets/icons/dot@2x.png"}, {"symbol": "UNI", "name": "Uniswap", "mcap": 1556070609.95316, "fdm": 2236489396.60838, "tvl": 2734773204.0, "category": "Dexes", "ratio": 0.5689943896178237, "fdm_ratio": 0.8177970273137062, "logo": "https://assets.coincap.io/assets/icons/uni@2x.png"}, {"symbol": "ICP", "name": "Internet Computer", "mcap": 1259548155.18121, "fdm": 1259548155.18121, "tvl": 18139134.0, "category": "Layer-1", "ratio": 69.43816365109878, "fdm_ratio": 69.43816365109878, "logo": "https://assets.coincap.io/assets/icons/icp@2x.png"}, {"symbol": "ETC", "name": "Ethereum Classic", "mcap": 1112177132.74321, "fdm": 1492029910.0, "tvl": 109436.0, "category": "Layer-1", "ratio": 10162.808698629427, "fdm_ratio": 13633.812547973244, "logo": "https://assets.coincap.io/assets/icons/etc@2x.png"}, {"symbol": "AAVE", "name": "Aave", "mcap": 979690909.91207, "fdm": 1017280000.0, "tvl": 21799161644.0, "category": "Lending", "ratio": 0.044941678304482875, "fdm_ratio": 0.04666601480428932, "logo": "https://assets.coincap.io/assets/icons/aave@2x.png"}, {"symbol": "ATOM", "name": "Cosmos", "mcap": 956893388.071149, "fdm": 956893388.071149, "tvl": 5601922.0, "category": "Layer-1", "ratio": 170.815193083936, "fdm_ratio": 170.815193083936, "logo": "https://assets.coincap.io/assets/icons/atom@2x.png"}, {"symbol": "KCS", "name": "KuCoin Token", "mcap": 897771960.915373, "fdm": 1333440000.0, "tvl": 880379.0, "category": "Dexes", "ratio": 1019.7562196683167, "fdm_ratio": 1514.6204078016399, "logo": "https://assets.coincap.io/assets/icons/kcs@2x.png"}, {"symbol": "ALGO", "name": "Algorand", "mcap": 793061769.984854, "fdm": 888630000.0, "tvl": 72326701.0, "category": "Layer-1", "ratio": 10.964992997328247, "fdm_ratio": 12.286333922516388, "logo": "https://assets.coincap.io/assets/icons/algo@2x.png"}, {"symbol": "POL", "name": "Polygon (prev. MATIC)", "mcap": 781786154.516852, "fdm": 781786155.250302, "tvl": 1147446734.0, "category": "Layer-2", "ratio": 0.681326750385654, "fdm_ratio": 0.6813267510248558, "logo": "https://assets.coincap.io/assets/icons/pol@2x.png"}, {"symbol": "GT", "name": "GateToken", "mcap": 689592166.463045, "fdm": 923326027.635213, "tvl": 3921504898.0, "category": "Dexes", "ratio": 0.17584886016966159, "fdm_ratio": 0.23545196337919072, "logo": "https://assets.coincap.io/assets/icons/gt@2x.png"}, {"symbol": "XDC", "name": "XDC Network", "mcap": 634691627.524334, "fdm": 1175608876.05109, "tvl": 10430956.0, "category": "Layer-1", "ratio": 60.84692788698696, "fdm_ratio": 112.70384766756662, "logo": "https://assets.coincap.io/assets/icons/xdc@2x.png"}, {"symbol": "FIL", "name": "Filecoin", "mcap": 590899917.41415, "fdm": 1466345149.06643, "tvl": 36530835.0, "category": "Layer-1", "ratio": 16.175373965970117, "fdm_ratio": 40.13992970777783, "logo": "https://assets.coincap.io/assets/icons/fil@2x.png"}, {"symbol": "APT", "name": "Aptos", "mcap": 516159467.295237, "fdm": 1321320000.0, "tvl": 176666496.0, "category": "Layer-1", "ratio": 2.921660184482501, "fdm_ratio": 7.4791770364880055, "logo": "https://assets.coincap.io/assets/icons/apt@2x.png"}, {"symbol": "NEXO", "name": "Nexo", "mcap": 515986221.65076, "fdm": 798560000.0, "tvl": 304924037.0, "category": "Lending", "ratio": 1.6921795563488489, "fdm_ratio": 2.618881764312992, "logo": "https://assets.coincap.io/assets/icons/nexo@2x.png"}, {"symbol": "ARB", "name": "Arbitrum", "mcap": 500665905.647744, "fdm": 800320000.0, "tvl": 2668992664.0, "category": "Layer-2", "ratio": 0.18758609283601388, "fdm_ratio": 0.2998584487679206, "logo": "https://assets.coincap.io/assets/icons/arb@2x.png"}, {"symbol": "CAKE", "name": "PancakeSwap", "mcap": 424702869.875152, "fdm": 523520000.0, "tvl": 2206446512.0, "category": "Dexes", "ratio": 0.19248273981053204, "fdm_ratio": 0.23726838477741444, "logo": "https://assets.coincap.io/assets/icons/cake@2x.png"}, {"symbol": "VET", "name": "VeChain", "mcap": 410931110.289, "fdm": 414408351.37646, "tvl": 5314499.0, "category": "Layer-1", "ratio": 77.32264326119922, "fdm_ratio": 77.97693656099287, "logo": "https://assets.coincap.io/assets/icons/vet@2x.png"}, {"symbol": "LUNC", "name": "Terra Classic", "mcap": 382508886.269615, "fdm": 447539943.314054, "tvl": 2122527.0, "category": "Layer-1", "ratio": 180.21390835999495, "fdm_ratio": 210.85241474622185, "logo": "https://assets.coincap.io/assets/icons/lunc@2x.png"}, {"symbol": "CRV", "name": "Curve DAO Token", "mcap": 379558735.161613, "fdm": 758818181.817172, "tvl": 1649382714.25996, "category": "Dexes", "ratio": 0.23012168848387152, "fdm_ratio": 0.4600619221098339, "logo": "https://assets.coincap.io/assets/icons/crv@2x.png"}, {"symbol": "SEI", "name": "Sei", "mcap": 341200636.634614, "fdm": 480789999.999999, "tvl": 122539784.0, "category": "Layer-1", "ratio": 2.7844070349806884, "fdm_ratio": 3.9235420881760246, "logo": "https://assets.coincap.io/assets/icons/sei@2x.png"}, {"symbol": "TIA", "name": "Celestia", "mcap": 298168682.865287, "fdm": 378794234.540095, "tvl": 246560.0, "category": "Layer-1", "ratio": 1209.3149045477246, "fdm_ratio": 1536.3166553378285, "logo": "https://assets.coincap.io/assets/icons/tia@2x.png"}, {"symbol": "IMX", "name": "Immutable", "mcap": 280880000.0, "fdm": 280880000.0, "tvl": 420165.0, "category": "Layer-2", "ratio": 668.4992800447443, "fdm_ratio": 668.4992800447443, "logo": "https://assets.coincap.io/assets/icons/imx@2x.png"}, {"symbol": "CHZ", "name": "Chiliz", "mcap": 275118121.060725, "fdm": 275118121.060725, "tvl": 5840418.0, "category": "Layer-1", "ratio": 47.1058956843029, "fdm_ratio": 47.1058956843029, "logo": "https://assets.coincap.io/assets/icons/chz@2x.png"}, {"symbol": "MON", "name": "Monad", "mcap": 257351065.895, "fdm": 2191162496.775, "tvl": 925402677.0, "category": "Layer-1", "ratio": 0.27809630584740574, "fdm_ratio": 2.367793557587688, "logo": "https://assets.coincap.io/assets/icons/mon@2x.png"}, {"symbol": "XTZ", "name": "Tezos", "mcap": 256271786.817459, "fdm": 260981406.422781, "tvl": 30819659.0, "category": "Layer-1", "ratio": 8.315205136353358, "fdm_ratio": 8.468017326952936, "logo": "https://assets.coincap.io/assets/icons/xtz@2x.png"}, {"symbol": "GNO", "name": "Gnosis", "mcap": 254300945.526106, "fdm": 289025713.146666, "tvl": 185096588.0, "category": "Layer-1", "ratio": 1.3738824052559304, "fdm_ratio": 1.5614859045735947, "logo": "https://assets.coincap.io/assets/icons/gno@2x.png"}, {"symbol": "TEL", "name": "Telcoin", "mcap": 233047299.917729, "fdm": 242569999.999999, "tvl": 91460.0, "category": "Layer-1", "ratio": 2548.07894071429, "fdm_ratio": 2652.1976820467853, "logo": "https://assets.coincap.io/assets/icons/tel@2x.png"}, {"symbol": "CFX", "name": "Conflux", "mcap": 229688841.961943, "fdm": 229688841.961943, "tvl": 11534973.0, "category": "Layer-1", "ratio": 19.912386614337372, "fdm_ratio": 19.912386614337372, "logo": "https://assets.coincap.io/assets/icons/cfx@2x.png"}, {"symbol": "STRK", "name": "Starknet", "mcap": 218007428.685507, "fdm": 347142758.4, "tvl": 203335292.0, "category": "Layer-2", "ratio": 1.07215735419657, "fdm_ratio": 1.707243022032791, "logo": "https://assets.coincap.io/assets/icons/strk@2x.png"}, {"symbol": "IOTA", "name": "IOTA", "mcap": 201394191.721495, "fdm": 206471000.0, "tvl": 6168101.0, "category": "Layer-1", "ratio": 32.65092314822585, "fdm_ratio": 33.47399791280979, "logo": "https://assets.coincap.io/assets/icons/iota@2x.png"}, {"symbol": "OP", "name": "Optimism", "mcap": 199910961.262243, "fdm": 398886497.681408, "tvl": 632086183.0, "category": "Layer-2", "ratio": 0.31627168357553387, "fdm_ratio": 0.6310634663586816, "logo": "https://assets.coincap.io/assets/icons/op@2x.png"}, {"symbol": "COMP", "name": "Compound", "mcap": 179048534.114073, "fdm": 179289999.999999, "tvl": 1638186204.0, "category": "Lending", "ratio": 0.10929681478020371, "fdm_ratio": 0.1094442130950817, "logo": "https://assets.coincap.io/assets/icons/comp@2x.png"}, {"symbol": "THETA", "name": "Theta Network", "mcap": 155890000.0, "fdm": 155890000.0, "tvl": 272612.0, "category": "Layer-1", "ratio": 571.8383636817161, "fdm_ratio": 571.8383636817161, "logo": "https://assets.coincap.io/assets/icons/theta@2x.png"}, {"symbol": "RUNE", "name": "THORChain", "mcap": 133562486.74864, "fdm": 139813178.72528, "tvl": 49737939.0, "category": "Layer-1", "ratio": 2.6853241094014773, "fdm_ratio": 2.810996626242997, "logo": "https://assets.coincap.io/assets/icons/rune@2x.png"}, {"symbol": "GALA", "name": "Gala", "mcap": 129654763.755778, "fdm": 133700000.0, "tvl": 11714782.0, "category": "Layer-1", "ratio": 11.067620699708966, "fdm_ratio": 11.412931115576884, "logo": "https://assets.coincap.io/assets/icons/gala@2x.png"}, {"symbol": "WEMIX", "name": "WEMIX", "mcap": 119827039.249999, "fdm": 152933900.0, "tvl": 6921996.0, "category": "Layer-1", "ratio": 17.311052946288758, "fdm_ratio": 22.093901816759214, "logo": "https://assets.coincap.io/assets/icons/wemix@2x.png"}, {"symbol": "ZK", "name": "zkSync", "mcap": 111795852.408379, "fdm": 237069000.0, "tvl": 17201464.0, "category": "Layer-2", "ratio": 6.499205672748494, "fdm_ratio": 13.781908330593257, "logo": "https://assets.coincap.io/assets/icons/zk@2x.png"}, {"symbol": "IP", "name": "Story", "mcap": 102957127.7824, "fdm": 298010572.1776, "tvl": 13494241.0, "category": "Layer-1", "ratio": 7.629708687016928, "fdm_ratio": 22.084278187828424, "logo": "https://assets.coincap.io/assets/icons/ip@2x.png"}, {"symbol": "1INCH", "name": "1inch", "mcap": 100769318.953386, "fdm": 107134500.0, "tvl": 2366911.0, "category": "Dexes", "ratio": 42.574190137857315, "fdm_ratio": 45.263425620988706, "logo": "https://assets.coincap.io/assets/icons/1inch@2x.png"}, {"symbol": "KTA", "name": "Keeta", "mcap": 100376975.386354, "fdm": 182330000.0, "tvl": 145072.0, "category": "Layer-1", "ratio": 691.9114328495781, "fdm_ratio": 1256.8241976397926, "logo": "https://assets.coincap.io/assets/icons/kta@2x.png"}, {"symbol": "DYDX", "name": "dYdX", "mcap": 99247411.8992287, "fdm": 117580000.0, "tvl": 95595353.0, "category": "Layer-1", "ratio": 1.0382033099373429, "fdm_ratio": 1.2299761056376872, "logo": "https://assets.coincap.io/assets/icons/dydx@2x.png"}, {"symbol": "BMX", "name": "BitMart Token", "mcap": 94505391.3403627, "fdm": 256947802.77045, "tvl": 9783414.0, "category": "Dexes", "ratio": 9.659755923684994, "fdm_ratio": 26.263613373659748, "logo": "https://assets.coincap.io/assets/icons/bmx@2x.png"}, {"symbol": "EGLD", "name": "MultiversX", "mcap": 86545045.6799741, "fdm": 86559862.0178, "tvl": 18585276.0, "category": "Layer-1", "ratio": 4.656645705986508, "fdm_ratio": 4.657442914369418, "logo": "https://assets.coincap.io/assets/icons/egld@2x.png"}, {"symbol": "ZIG", "name": "ZIGChain", "mcap": 78459686.0645104, "fdm": 108809101.106852, "tvl": 45530361.0, "category": "Layer-1", "ratio": 1.7232388309969782, "fdm_ratio": 2.3898141529528396, "logo": "https://assets.coincap.io/assets/icons/zig@2x.png"}, {"symbol": "BERA", "name": "Berachain", "mcap": 68638390.2270002, "fdm": 134577931.615889, "tvl": 186020957.0, "category": "Layer-1", "ratio": 0.36898202941188074, "fdm_ratio": 0.7234557535143151, "logo": "https://assets.coincap.io/assets/icons/bera@2x.png"}, {"symbol": "XPR", "name": "XPR Network", "mcap": 64238135.7975594, "fdm": 70918981.7819513, "tvl": 81349921.0, "category": "Dexes", "ratio": 0.7896520980955766, "fdm_ratio": 0.8717768980003225, "logo": "https://assets.coincap.io/assets/icons/xpr@2x.png"}, {"symbol": "ZIL", "name": "Zilliqa", "mcap": 61417167.2543152, "fdm": 64365000.0, "tvl": 519269.0, "category": "Layer-1", "ratio": 118.27620607876688, "fdm_ratio": 123.95309560170162, "logo": "https://assets.coincap.io/assets/icons/zil@2x.png"}, {"symbol": "0G", "name": "0G", "mcap": 60864101.90916, "fdm": 285420000.0, "tvl": 8399265.0, "category": "Layer-1", "ratio": 7.246360474298644, "fdm_ratio": 33.98154481374263, "logo": "https://assets.coincap.io/assets/icons/0g@2x.png"}, {"symbol": "BP", "name": "Backpack", "mcap": 60392463.0669128, "fdm": 241570000.0, "tvl": 317458317.0, "category": "Dexes", "ratio": 0.19023745743260145, "fdm_ratio": 0.760950295090237, "logo": "https://assets.coincap.io/assets/icons/bp@2x.png"}, {"symbol": "VELO", "name": "Velo", "mcap": 59104199.5145865, "fdm": 80762400.0, "tvl": 791877.0, "category": "Lending", "ratio": 74.63810606266694, "fdm_ratio": 101.9885664061464, "logo": "https://assets.coincap.io/assets/icons/velo@2x.png"}, {"symbol": "QUBIC", "name": "QUBIC", "mcap": 58981279.8017164, "fdm": 85100000.0, "tvl": 80747.0, "category": "Layer-1", "ratio": 730.4454630105936, "fdm_ratio": 1053.90912355877, "logo": "https://assets.coincap.io/assets/icons/qubic@2x.png"}, {"symbol": "PLUME", "name": "Plume", "mcap": 58480732.4903129, "fdm": 101570000.0, "tvl": 91620353.0, "category": "Layer-1", "ratio": 0.6382941188876766, "fdm_ratio": 1.10859647091733, "logo": "https://assets.coincap.io/assets/icons/plume@2x.png"}, {"symbol": "WXT", "name": "WEEX Token", "mcap": 58320600.0, "fdm": 89724000.0, "tvl": 189071131.0, "category": "Dexes", "ratio": 0.3084585134258281, "fdm_ratio": 0.4745515591166586, "logo": "https://assets.coincap.io/assets/icons/wxt@2x.png"}, {"symbol": "CCD", "name": "Concordium", "mcap": 57735158.4082083, "fdm": 66445997.6011988, "tvl": 1455.0, "category": "Layer-1", "ratio": 39680.52124275485, "fdm_ratio": 45667.35230322942, "logo": "https://assets.coincap.io/assets/icons/ccd@2x.png"}, {"symbol": "ZETA", "name": "ZetaChain", "mcap": 54737154.706263, "fdm": 78668100.0, "tvl": 547774.0, "category": "Layer-1", "ratio": 99.9265293830357, "fdm_ratio": 143.61415474264933, "logo": "https://assets.coincap.io/assets/icons/zeta@2x.png"}, {"symbol": "ASTR", "name": "Astar", "mcap": 54079055.943329, "fdm": 62105000.0, "tvl": 3750891.0, "category": "Layer-1", "ratio": 14.417655949834053, "fdm_ratio": 16.55739929526078, "logo": "https://assets.coincap.io/assets/icons/astr@2x.png"}, {"symbol": "ELF", "name": "aelf", "mcap": 50511634.6441314, "fdm": 61233572.4089308, "tvl": 4752312.0, "category": "Layer-1", "ratio": 10.62885489086815, "fdm_ratio": 12.885006794362576, "logo": "https://assets.coincap.io/assets/icons/elf@2x.png"}, {"symbol": "SUSHI", "name": "SushiSwap", "mcap": 50227683.1639544, "fdm": 51047148.5555905, "tvl": 88526744.0, "category": "Dexes", "ratio": 0.5673729869016124, "fdm_ratio": 0.5766296855511878, "logo": "https://assets.coincap.io/assets/icons/sushi@2x.png"}, {"symbol": "MOVE", "name": "Movement", "mcap": 50046052.079165, "fdm": 125050000.0, "tvl": 154947870.0, "category": "Layer-1", "ratio": 0.322986382963283, "fdm_ratio": 0.8070456212144123, "logo": "https://assets.coincap.io/assets/icons/move@2x.png"}, {"symbol": "PEAQ", "name": "peaq", "mcap": 48945158.3313568, "fdm": 124313582.094989, "tvl": 745767.0, "category": "Layer-1", "ratio": 65.63063038637644, "fdm_ratio": 166.69225387418456, "logo": "https://assets.coincap.io/assets/icons/peaq@2x.png"}, {"symbol": "ROSE", "name": "Oasis", "mcap": 48272901.8034521, "fdm": 62951000.0, "tvl": 207960.0, "category": "Layer-1", "ratio": 232.12589826626322, "fdm_ratio": 302.70725139449894, "logo": "https://assets.coincap.io/assets/icons/rose@2x.png"}, {"symbol": "FLOW", "name": "Flow", "mcap": 48133289.9838682, "fdm": 48133289.9838682, "tvl": 19820622.0, "category": "Layer-1", "ratio": 2.428444979368871, "fdm_ratio": 2.428444979368871, "logo": "https://assets.coincap.io/assets/icons/flow@2x.png"}, {"symbol": "KAVA", "name": "Kava", "mcap": 46506113.729064, "fdm": 46506113.729064, "tvl": 32936545.0, "category": "Layer-1", "ratio": 1.4119912616537043, "fdm_ratio": 1.4119912616537043, "logo": "https://assets.coincap.io/assets/icons/kava@2x.png"}, {"symbol": "RON", "name": "Ronin", "mcap": 45454294.0313191, "fdm": 58848000.0, "tvl": 10185940.0, "category": "Layer-1", "ratio": 4.462454523717899, "fdm_ratio": 5.777375480318949, "logo": "https://assets.coincap.io/assets/icons/ron@2x.png"}, {"symbol": "PT", "name": "Phemex Token", "mcap": 43595531.3897691, "fdm": 395830000.0, "tvl": 261909462.0, "category": "Dexes", "ratio": 0.16645267817689266, "fdm_ratio": 1.511323787149011, "logo": "https://assets.coincap.io/assets/icons/pt@2x.png"}, {"symbol": "MANTRA", "name": "MANTRA", "mcap": 39832118.7911406, "fdm": 76525000.0, "tvl": 693857.0, "category": "Layer-1", "ratio": 57.40681263018259, "fdm_ratio": 110.28929592120566, "logo": "https://assets.coincap.io/assets/icons/mantra@2x.png"}, {"symbol": "ALEO", "name": "Aleo", "mcap": 36829499.9155684, "fdm": 155755000.0, "tvl": 23145.0, "category": "Layer-1", "ratio": 1591.2508064622336, "fdm_ratio": 6729.531216245409, "logo": "https://assets.coincap.io/assets/icons/aleo@2x.png"}, {"symbol": "CELO", "name": "Celo", "mcap": 35878531.247616, "fdm": 59578000.0, "tvl": 29183006.0, "category": "Layer-1", "ratio": 1.2294323363266964, "fdm_ratio": 2.041530608601458, "logo": "https://assets.coincap.io/assets/icons/celo@2x.png"}, {"symbol": "OSMO", "name": "Osmosis", "mcap": 34890253.2093535, "fdm": 44946000.0, "tvl": 17396940.0, "category": "Dexes", "ratio": 2.005539664409574, "fdm_ratio": 2.5835577980955273, "logo": "https://assets.coincap.io/assets/icons/osmo@2x.png"}, {"symbol": "AVNT", "name": "Avantis", "mcap": 34730732.6205567, "fdm": 107190000.0, "tvl": 36428289.0, "category": "Dexes", "ratio": 0.9534000518266641, "fdm_ratio": 2.9424934012135457, "logo": "https://assets.coincap.io/assets/icons/avnt@2x.png"}, {"symbol": "WAVES", "name": "Waves", "mcap": 33104571.9854, "fdm": 33104571.9854, "tvl": 25941392.0, "category": "Layer-1", "ratio": 1.276129360575562, "fdm_ratio": 1.276129360575562, "logo": "https://assets.coincap.io/assets/icons/waves@2x.png"}, {"symbol": "CORE", "name": "Core", "mcap": 32961416.0483942, "fdm": 55923000.0, "tvl": 7318040.0, "category": "Layer-1", "ratio": 4.504131714010063, "fdm_ratio": 7.641800263458522, "logo": "https://assets.coincap.io/assets/icons/core@2x.png"}, {"symbol": "XCH", "name": "Chia", "mcap": 29235627.3636, "fdm": 67333274.9712, "tvl": 197673.0, "category": "Layer-1", "ratio": 147.89894099649422, "fdm_ratio": 340.62960025496653, "logo": "https://assets.coincap.io/assets/icons/xch@2x.png"}, {"symbol": "HSK", "name": "HashKey Platform Token", "mcap": 29206039.161985, "fdm": 84665000.0, "tvl": 669399.0, "category": "Dexes", "ratio": 43.63024020350344, "fdm_ratio": 126.47912530493771, "logo": "https://assets.coincap.io/assets/icons/hsk@2x.png"}, {"symbol": "G", "name": "Gravity", "mcap": 29191829.97, "fdm": 32312400.0, "tvl": 635375.0, "category": "Layer-1", "ratio": 45.944253346448946, "fdm_ratio": 50.85563643517608, "logo": "https://assets.coincap.io/assets/icons/g@2x.png"}, {"symbol": "BNT", "name": "Bancor", "mcap": 28988715.2687076, "fdm": 28988715.2687076, "tvl": 24342947.0, "category": "Dexes", "ratio": 1.1908465835589914, "fdm_ratio": 1.1908465835589914, "logo": "https://assets.coincap.io/assets/icons/bnt@2x.png"}, {"symbol": "FRAX", "name": "Frax (prev. FXS)", "mcap": 26806262.4346337, "fdm": 27974614.9226957, "tvl": 257746551.12873, "category": "Dexes", "ratio": 0.10400240979847473, "fdm_ratio": 0.10853536080381515, "logo": "https://assets.coincap.io/assets/icons/frax@2x.png"}, {"symbol": "SOMI", "name": "Somnia", "mcap": 25162754.57915, "fdm": 103450000.0, "tvl": 1372517.0, "category": "Layer-1", "ratio": 18.33329174002945, "fdm_ratio": 75.3724726178255, "logo": "https://assets.coincap.io/assets/icons/somi@2x.png"}, {"symbol": "MERL", "name": "Merlin Chain", "mcap": 24638417.79168, "fdm": 40572000.0, "tvl": 68121759.0, "category": "Layer-2", "ratio": 0.3616820550931458, "fdm_ratio": 0.5955806279165516, "logo": "https://assets.coincap.io/assets/icons/merl@2x.png"}, {"symbol": "BB", "name": "BounceBit", "mcap": 23785620.63625, "fdm": 44205000.0, "tvl": 5677930.0, "category": "Layer-1", "ratio": 4.1891359414874785, "fdm_ratio": 7.785407710204247, "logo": "https://assets.coincap.io/assets/icons/bb@2x.png"}, {"symbol": "ONE", "name": "Harmony", "mcap": 22398574.9852386, "fdm": 22398574.9852386, "tvl": 588349.0, "category": "Layer-1", "ratio": 38.070218501669245, "fdm_ratio": 38.070218501669245, "logo": "https://assets.coincap.io/assets/icons/one@2x.png"}, {"symbol": "ONG", "name": "Ontology Gas", "mcap": 21838990.392243, "fdm": 46219000.0, "tvl": 1650.0, "category": "Layer-1", "ratio": 13235.751752874547, "fdm_ratio": 28011.515151515152, "logo": "https://assets.coincap.io/assets/icons/ong@2x.png"}, {"symbol": "WXT", "name": "Wirex Token", "mcap": 21549999.9999999, "fdm": 21549999.9999999, "tvl": 62203.0, "category": "Dexes", "ratio": 346.44631287879844, "fdm_ratio": 346.44631287879844, "logo": "https://assets.coincap.io/assets/icons/wxt@2x.png"}, {"symbol": "MMT", "name": "Momentum", "mcap": 21160613.5603199, "fdm": 103680000.0, "tvl": 5552001.0, "category": "Dexes", "ratio": 3.811349018186398, "fdm_ratio": 18.674348221479068, "logo": "https://assets.coincap.io/assets/icons/mmt@2x.png"}, {"symbol": "WAXP", "name": "WAX", "mcap": 20962784.6119263, "fdm": 20971598.1521178, "tvl": 454228.0, "category": "Layer-1", "ratio": 46.15035755595493, "fdm_ratio": 46.169760895668695, "logo": "https://assets.coincap.io/assets/icons/waxp@2x.png"}, {"symbol": "BLAST", "name": "Blast", "mcap": 20310406.7672074, "fdm": 32144999.9999999, "tvl": 30662486.0, "category": "Layer-2", "ratio": 0.6623861733587877, "fdm_ratio": 1.048349439115925, "logo": "https://assets.coincap.io/assets/icons/blast@2x.png"}, {"symbol": "SCRT", "name": "Secret", "mcap": 20203074.5041615, "fdm": 21047767.0599663, "tvl": 2588939.0, "category": "Layer-1", "ratio": 7.803611635562483, "fdm_ratio": 8.129881414728697, "logo": "https://assets.coincap.io/assets/icons/scrt@2x.png"}, {"symbol": "METIS", "name": "Metis", "mcap": 18602215.9843176, "fdm": 24828000.0, "tvl": 6756633.0, "category": "Layer-2", "ratio": 2.753178392894449, "fdm_ratio": 3.6746113041806474, "logo": "https://assets.coincap.io/assets/icons/metis@2x.png"}, {"symbol": "LRC", "name": "Loopring", "mcap": 17515609.5808076, "fdm": 17585579.4872634, "tvl": 8375728.0, "category": "Layer-2", "ratio": 2.091234288029363, "fdm_ratio": 2.099588177560613, "logo": "https://assets.coincap.io/assets/icons/lrc@2x.png"}, {"symbol": "TAIKO", "name": "Taiko", "mcap": 16777047.0558516, "fdm": 86221000.0, "tvl": 13110347.0, "category": "Layer-2", "ratio": 1.2796798632295239, "fdm_ratio": 6.576561245861761, "logo": "https://assets.coincap.io/assets/icons/taiko@2x.png"}, {"symbol": "CELR", "name": "Celer Network", "mcap": 16596322.3907488, "fdm": 21268000.0, "tvl": 14756798.0, "category": "Layer-2", "ratio": 1.1246560663599787, "fdm_ratio": 1.441234067173651, "logo": "https://assets.coincap.io/assets/icons/celr@2x.png"}, {"symbol": "QIE", "name": "QIE Blockchain", "mcap": 16230082.42041, "fdm": 28855608.68905, "tvl": 24707.0, "category": "Layer-1", "ratio": 656.9021904889303, "fdm_ratio": 1167.912279477476, "logo": "https://assets.coincap.io/assets/icons/qie@2x.png"}, {"symbol": "ETN", "name": "Electroneum", "mcap": 15097832.640725, "fdm": 17633910.0, "tvl": 109434.0, "category": "Layer-1", "ratio": 137.96290586769194, "fdm_ratio": 161.1373978836559, "logo": "https://assets.coincap.io/assets/icons/etn@2x.png"}, {"symbol": "HT", "name": "Huobi Token", "mcap": 15081258.13824, "fdm": 46480000.0, "tvl": 97573.0, "category": "Layer-1", "ratio": 154.56384592295, "fdm_ratio": 476.3612884711959, "logo": "https://assets.coincap.io/assets/icons/ht@2x.png"}, {"symbol": "CHR", "name": "Chromia", "mcap": 15066027.25217, "fdm": 15115991.313995, "tvl": 379141.0, "category": "Layer-1", "ratio": 39.73726727568372, "fdm_ratio": 39.86904954619785, "logo": "https://assets.coincap.io/assets/icons/chr@2x.png"}, {"symbol": "XRD", "name": "Radix", "mcap": 14961255.4268868, "fdm": 26680800.0, "tvl": 1532922.0, "category": "Layer-1", "ratio": 9.759958710806421, "fdm_ratio": 17.405190870768376, "logo": "https://assets.coincap.io/assets/icons/xrd@2x.png"}, {"symbol": "MOVR", "name": "Moonriver", "mcap": 14798620.8621, "fdm": 15228774.0701999, "tvl": 2666795.0, "category": "Layer-1", "ratio": 5.5492157672786995, "fdm_ratio": 5.710515457768557, "logo": "https://assets.coincap.io/assets/icons/movr@2x.png"}, {"symbol": "POND", "name": "Marlin", "mcap": 14427001.2835784, "fdm": 17534000.0, "tvl": 547396.0, "category": "Layer-2", "ratio": 26.355693654280266, "fdm_ratio": 32.03165532813539, "logo": "https://assets.coincap.io/assets/icons/pond@2x.png"}, {"symbol": "GNS", "name": "Gains Network", "mcap": 12336158.6648418, "fdm": 12336158.6648418, "tvl": 15973561.0, "category": "Dexes", "ratio": 0.7722860710170889, "fdm_ratio": 0.7722860710170889, "logo": "https://assets.coincap.io/assets/icons/gns@2x.png"}, {"symbol": "BOBA", "name": "Boba Network", "mcap": 11440218.146556, "fdm": 11589000.0, "tvl": 2151630.0, "category": "Layer-1", "ratio": 5.317000667659402, "fdm_ratio": 5.38614910556183, "logo": "https://assets.coincap.io/assets/icons/boba@2x.png"}, {"symbol": "INIT", "name": "Initia", "mcap": 11277738.1142914, "fdm": 57069000.0, "tvl": 2982341.0, "category": "Layer-1", "ratio": 3.781505238432292, "fdm_ratio": 19.135638748218263, "logo": "https://assets.coincap.io/assets/icons/init@2x.png"}, {"symbol": "GLMR", "name": "Moonbeam", "mcap": 10710071.492769, "fdm": 11229633.2444868, "tvl": 1856079.0, "category": "Layer-1", "ratio": 5.770267048314754, "fdm_ratio": 6.050191422071366, "logo": "https://assets.coincap.io/assets/icons/glmr@2x.png"}, {"symbol": "WAN", "name": "Wanchain", "mcap": 10651917.7187465, "fdm": 11242350.0, "tvl": 2664134.0, "category": "Layer-1", "ratio": 3.998266498136543, "fdm_ratio": 4.2198890896629075, "logo": "https://assets.coincap.io/assets/icons/wan@2x.png"}, {"symbol": "BONE", "name": "Bone ShibaSwap", "mcap": 10252512.1276248, "fdm": 11147750.0, "tvl": 68668.0, "category": "Dexes", "ratio": 149.30552990657657, "fdm_ratio": 162.34272150055338, "logo": "https://assets.coincap.io/assets/icons/bone@2x.png"}, {"symbol": "DOLO", "name": "Dolomite", "mcap": 9896306.658503, "fdm": 22409000.0, "tvl": 395236905.0, "category": "Lending", "ratio": 0.025038923575476837, "fdm_ratio": 0.05669764062138884, "logo": "https://assets.coincap.io/assets/icons/dolo@2x.png"}, {"symbol": "QI", "name": "BENQI", "mcap": 9735840.0, "fdm": 9735840.0, "tvl": 228467877.72852, "category": "Lending", "ratio": 0.042613605452092224, "fdm_ratio": 0.042613605452092224, "logo": "https://assets.coincap.io/assets/icons/qi@2x.png"}, {"symbol": "GFI", "name": "Goldfinch", "mcap": 9071952.50933849, "fdm": 11839999.9704, "tvl": 57807875.0, "category": "Lending", "ratio": 0.1569328142461298, "fdm_ratio": 0.2048163847987839, "logo": "https://assets.coincap.io/assets/icons/gfi@2x.png"}, {"symbol": "THE", "name": "Thena", "mcap": 8896514.14907745, "fdm": 21824622.114302, "tvl": 1379633.0, "category": "Dexes", "ratio": 6.448464301069524, "fdm_ratio": 15.81915053807933, "logo": "https://assets.coincap.io/assets/icons/the@2x.png"}, {"symbol": "EVER", "name": "Everscale", "mcap": 8710292.9631858, "fdm": 9289368.1676334, "tvl": 133785.0, "category": "Layer-1", "ratio": 65.10664845226147, "fdm_ratio": 69.43505002528983, "logo": "https://assets.coincap.io/assets/icons/ever@2x.png"}, {"symbol": "SUPRA", "name": "SUPRA", "mcap": 8531369.24676627, "fdm": 29422000.0, "tvl": 2253874.0, "category": "Layer-1", "ratio": 3.7852023878736207, "fdm_ratio": 13.05396841172133, "logo": "https://assets.coincap.io/assets/icons/supra@2x.png"}, {"symbol": "HFT", "name": "Hashflow", "mcap": 8307472.7623708, "fdm": 10043350.4326188, "tvl": 561877.0, "category": "Dexes", "ratio": 14.78521591446313, "fdm_ratio": 17.874642373008328, "logo": "https://assets.coincap.io/assets/icons/hft@2x.png"}, {"symbol": "SDEX", "name": "SmarDex", "mcap": 8273993.2135602, "fdm": 8442100.0, "tvl": 927750.0, "category": "Dexes", "ratio": 8.918343533883267, "fdm_ratio": 9.099541902452168, "logo": "https://assets.coincap.io/assets/icons/sdex@2x.png"}, {"symbol": "INV", "name": "Inverse Finance", "mcap": 7387071.88919162, "fdm": 7466290.0, "tvl": 24049200.0, "category": "Lending", "ratio": 0.30716497385325164, "fdm_ratio": 0.3104589757663457, "logo": "https://assets.coincap.io/assets/icons/inv@2x.png"}, {"symbol": "BAL", "name": "Balancer", "mcap": 7314576.42163602, "fdm": 10077555.28624, "tvl": 116871480.0, "category": "Dexes", "ratio": 0.06258649605221069, "fdm_ratio": 0.08622766894232879, "logo": "https://assets.coincap.io/assets/icons/bal@2x.png"}, {"symbol": "BADGER", "name": "Badger DAO", "mcap": 6760208.18624861, "fdm": 7269569.99999999, "tvl": 7613877.0, "category": "Dexes", "ratio": 0.887879878575476, "fdm_ratio": 0.9547790173127291, "logo": "https://assets.coincap.io/assets/icons/badger@2x.png"}, {"symbol": "LYX", "name": "LUKSO", "mcap": 5909308.6432968, "fdm": 8150130.0070936, "tvl": 600357.0, "category": "Layer-1", "ratio": 9.842991159088342, "fdm_ratio": 13.575472605622322, "logo": "https://assets.coincap.io/assets/icons/lyx@2x.png"}, {"symbol": "FLIP", "name": "Chainflip", "mcap": 5612433.07264999, "fdm": 29267099.9999999, "tvl": 11214061.0, "category": "Dexes", "ratio": 0.5004817677244657, "fdm_ratio": 2.609857392429014, "logo": "https://assets.coincap.io/assets/icons/flip@2x.png"}, {"symbol": "FUEL", "name": "Fuel Network", "mcap": 5593871.48590403, "fdm": 6976192.63303233, "tvl": 125569.0, "category": "Layer-2", "ratio": 44.54818853302989, "fdm_ratio": 55.55664720617613, "logo": "https://assets.coincap.io/assets/icons/fuel@2x.png"}, {"symbol": "HEMI", "name": "Hemi", "mcap": 5426298.0, "fdm": 55512000.0, "tvl": 51452527.0, "category": "Layer-2", "ratio": 0.10546222540245691, "fdm_ratio": 1.0788974465724492, "logo": "https://assets.coincap.io/assets/icons/hemi@2x.png"}, {"symbol": "TLOS", "name": "Telos", "mcap": 4818294.49005013, "fdm": 5003484.76763681, "tvl": 1975705.0, "category": "Layer-1", "ratio": 2.438772230697462, "fdm_ratio": 2.5325060004589806, "logo": "https://assets.coincap.io/assets/icons/tlos@2x.png"}, {"symbol": "ALPH", "name": "Alephium", "mcap": 4507845.30040965, "fdm": 7466173.43956709, "tvl": 701917.0, "category": "Layer-2", "ratio": 6.422191370788356, "fdm_ratio": 10.636832331411107, "logo": "https://assets.coincap.io/assets/icons/alph@2x.png"}, {"symbol": "FARM", "name": "Harvest Finance", "mcap": 3664004.77149149, "fdm": 3763410.378, "tvl": 11729673.0, "category": "Dexes", "ratio": 0.31237058113141686, "fdm_ratio": 0.32084529364117825, "logo": "https://assets.coincap.io/assets/icons/farm@2x.png"}, {"symbol": "FOX", "name": "Shapeshift FOX Token", "mcap": 3591132.2994, "fdm": 4645765.12874999, "tvl": 615422.0, "category": "Dexes", "ratio": 5.83523549596862, "fdm_ratio": 7.548909737952153, "logo": "https://assets.coincap.io/assets/icons/fox@2x.png"}, {"symbol": "OAS", "name": "Oasys", "mcap": 3428194.07401785, "fdm": 5090200.0, "tvl": 492807.0, "category": "Layer-1", "ratio": 6.956463836791787, "fdm_ratio": 10.32899289174058, "logo": "https://assets.coincap.io/assets/icons/oas@2x.png"}, {"symbol": "REI", "name": "REI Network", "mcap": 2719185.0, "fdm": 2862300.0, "tvl": 78387.0, "category": "Layer-1", "ratio": 34.68923418423974, "fdm_ratio": 36.5149833518313, "logo": "https://assets.coincap.io/assets/icons/rei@2x.png"}, {"symbol": "SRM", "name": "Serum", "mcap": 1626852.05442, "fdm": 6753781.98876, "tvl": 14285149.0, "category": "Dexes", "ratio": 0.11388415020522362, "fdm_ratio": 0.47278344725420784, "logo": "https://assets.coincap.io/assets/icons/srm@2x.png"}, {"symbol": "GOATED", "name": "GOAT Network", "mcap": 1539759.088, "fdm": 14756000.0, "tvl": 930665.0, "category": "Layer-2", "ratio": 1.6544718969768928, "fdm_ratio": 15.855329253813133, "logo": "https://assets.coincap.io/assets/icons/goated@2x.png"}, {"symbol": "MEZO", "name": "Mezo", "mcap": 1298091.49425026, "fdm": 15096000.0, "tvl": 60112749.0, "category": "Lending", "ratio": 0.021594279347468538, "fdm_ratio": 0.2511280926447067, "logo": "https://assets.coincap.io/assets/icons/mezo@2x.png"}, {"symbol": "TRU", "name": "TrueFi", "mcap": 1077870.70426775, "fdm": 1258020.0, "tvl": 7712630.0, "category": "Lending", "ratio": 0.13975397552686308, "fdm_ratio": 0.16311167526511708, "logo": "https://assets.coincap.io/assets/icons/tru@2x.png"}, {"symbol": "MAT", "name": "Matchain", "mcap": 1061286.51960854, "fdm": 6532900.0, "tvl": 1897119.0, "category": "Layer-2", "ratio": 0.5594201099712459, "fdm_ratio": 3.44358999092835, "logo": "https://assets.coincap.io/assets/icons/mat@2x.png"}, {"symbol": "KILO", "name": "KiloEx", "mcap": 966558.69, "fdm": 4565700.0, "tvl": 2172214.0, "category": "Dexes", "ratio": 0.4449647640609995, "fdm_ratio": 2.1018647334010367, "logo": "https://assets.coincap.io/assets/icons/kilo@2x.png"}, {"symbol": "ALEX", "name": "ALEX Lab", "mcap": 877408.905489909, "fdm": 1446700.0, "tvl": 1348184.0, "category": "Lending", "ratio": 0.6508079798379961, "fdm_ratio": 1.0730731116820849, "logo": "https://assets.coincap.io/assets/icons/alex@2x.png"}, {"symbol": "BNC", "name": "Bifrost", "mcap": 818794.336988567, "fdm": 1748720.0, "tvl": 16384220.0, "category": "Layer-1", "ratio": 0.049974569249470954, "fdm_ratio": 0.10673196526902104, "logo": "https://assets.coincap.io/assets/icons/bnc@2x.png"}, {"symbol": "RDNT", "name": "Radiant Capital", "mcap": 687927.306233712, "fdm": 722707.752851945, "tvl": 1372378.0, "category": "Lending", "ratio": 0.5012666380790949, "fdm_ratio": 0.5266098355204943, "logo": "https://assets.coincap.io/assets/icons/rdnt@2x.png"}, {"symbol": "TURBOS", "name": "Turbos Finance", "mcap": 598547.299999999, "fdm": 904149.999999999, "tvl": 3742478.0, "category": "Dexes", "ratio": 0.1599334184462805, "fdm_ratio": 0.24159126653516705, "logo": "https://assets.coincap.io/assets/icons/turbos@2x.png"}, {"symbol": "WAGMI", "name": "Wagmi", "mcap": 594064.48869066, "fdm": 594064.48869066, "tvl": 1009965.0, "category": "Dexes", "ratio": 0.588203045343809, "fdm_ratio": 0.588203045343809, "logo": "https://assets.coincap.io/assets/icons/wagmi@2x.png"}, {"symbol": "MDX", "name": "Mdex", "mcap": 395464.26793551, "fdm": 441140.2, "tvl": 1275262.0, "category": "Dexes", "ratio": 0.31010432988320047, "fdm_ratio": 0.3459212303040473, "logo": "https://assets.coincap.io/assets/icons/mdx@2x.png"}, {"symbol": "BIT", "name": "Biconomy Exchange Token", "mcap": 365758.431447938, "fdm": 1257800.0, "tvl": 124260170.0, "category": "Dexes", "ratio": 0.0029434889027428342, "fdm_ratio": 0.010122310310697305, "logo": "https://assets.coincap.io/assets/icons/bit@2x.png"}, {"symbol": "ROUTE", "name": "Router Protocol (New)", "mcap": 230801.92856984, "fdm": 355770.0, "tvl": 9863.0, "category": "Layer-1", "ratio": 23.4007835921971, "fdm_ratio": 36.071175098854305, "logo": "https://assets.coincap.io/assets/icons/route@2x.png"}, {"symbol": "FER", "name": "Ferro", "mcap": 130274.4886377, "fdm": 698500.0, "tvl": 4924925.0, "category": "Lending", "ratio": 0.026452075643324517, "fdm_ratio": 0.14182957100869556, "logo": "https://assets.coincap.io/assets/icons/fer@2x.png"}, {"symbol": "WING", "name": "Wing Finance", "mcap": 95949.0298171787, "fdm": 140970.0, "tvl": 15606047.0, "category": "Lending", "ratio": 0.006148195620401419, "fdm_ratio": 0.009033037001618668, "logo": "https://assets.coincap.io/assets/icons/wing@2x.png"}, {"symbol": "TUNE", "name": "Bitune", "mcap": 89572.2264584, "fdm": 286160.0, "tvl": 21396.0, "category": "Dexes", "ratio": 4.186400563581977, "fdm_ratio": 13.374462516358198, "logo": "https://assets.coincap.io/assets/icons/tune@2x.png"}, {"symbol": "AKRO", "name": "Kaon", "mcap": 80974.1343749517, "fdm": 273795.0, "tvl": 2852.0, "category": "Lending", "ratio": 28.392052726140147, "fdm_ratio": 96.00105189340813, "logo": "https://assets.coincap.io/assets/icons/akro@2x.png"}, {"symbol": "EYWA", "name": "EYWA", "mcap": 65642.03712964, "fdm": 656980.0, "tvl": 94145.0, "category": "Dexes", "ratio": 0.6972440079626109, "fdm_ratio": 6.978384407031706, "logo": "https://assets.coincap.io/assets/icons/eywa@2x.png"}, {"symbol": "NETT", "name": "Netswap", "mcap": 58169.1593152, "fdm": 980080.0, "tvl": 1192928.0, "category": "Dexes", "ratio": 0.04876166819388932, "fdm_ratio": 0.8215751495480029, "logo": "https://assets.coincap.io/assets/icons/nett@2x.png"}];
+
+    let activeCategories = new Set(['All']);
+    let currentPage = 1;
+    let itemsPerPage = 12;
+    let filteredData = [];
+
+    
+    function animateValue(obj, start, end, duration, isDecimal = false) {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            // ease out quad
+            const easeOut = progress * (2 - progress);
+            const currentVal = start + easeOut * (end - start);
+            
+            if (isDecimal) {
+                obj.innerText = currentVal.toFixed(2);
+            } else {
+                obj.innerText = Math.floor(currentVal);
+            }
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            } else {
+                obj.innerText = isDecimal ? end.toFixed(2) : end;
+            }
+        };
+        window.requestAnimationFrame(step);
+    }
+
+    function formatMoney(num) {
+        if (num >= 1e9) return '$' + (num / 1e9).toFixed(2) + 'B';
+        if (num >= 1e6) return '$' + (num / 1e6).toFixed(2) + 'M';
+        return '$' + num.toLocaleString(undefined, { maximumFractionDigits: 0 });
+    }
+
+    function renderDashboard() {
+        const searchText = document.getElementById('search-input').value.toLowerCase();
+        const sortType = document.getElementById('sort-select').value;
+        const isAllCats = activeCategories.has('All');
+
+        filteredData = rawData.filter(p => {
+            const matchSearch = p.name.toLowerCase().includes(searchText) || p.symbol.toLowerCase().includes(searchText);
+            const matchCat = isAllCats || activeCategories.has(p.category);
+            return matchSearch && matchCat;
+        });
+
+        if (sortType === 'cheapest') {
+            filteredData.sort((a, b) => a.ratio - b.ratio);
+        } else if (sortType === 'fdm_cheapest') {
+            filteredData.sort((a, b) => a.fdm_ratio - b.fdm_ratio);
+        } else if (sortType === 'mcap') {
+            filteredData.sort((a, b) => b.mcap - a.mcap);
+        }
+
+        let totalMcap = 0, totalTvl = 0;
+        filteredData.forEach(p => { totalMcap += p.mcap; totalTvl += p.tvl; });
+        const blendedRatio = totalTvl > 0 ? totalMcap / totalTvl : 0;
+        
+        let cheapest = filteredData.length > 0 ? filteredData.reduce((prev, curr) => prev.ratio < curr.ratio ? prev : curr) : null;
+
+        const tokenElem = document.getElementById('sum-tokens');
+        animateValue(tokenElem, 0, filteredData.length, 1000, false);
+        
+        const ratioElem = document.getElementById('sum-ratio');
+        animateValue(ratioElem, 0, blendedRatio, 1000, true);
+        
+        if (cheapest) {
+            document.getElementById('cheapest-token').innerText = cheapest.name;
+        } else {
+            document.getElementById('cheapest-token').innerText = '-';
+        }
+
+        const totalItems = filteredData.length;
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        
+        if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
+        if (totalPages === 0) currentPage = 1;
+        
+        document.getElementById('total-items').innerText = totalItems;
+
+        renderCards();
+        renderPagination(totalPages);
+    }
+
+    function renderCards() {
+        const grid = document.getElementById('grid');
+        grid.innerHTML = '';
+
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const pageItems = filteredData.slice(start, end);
+
+        pageItems.forEach((p, index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.style.animationDelay = `${index * 0.05}s`; // Stagger effect
+            
+            card.innerHTML = `
+                <div class="card-header">
+                    <img src="${p.logo}" class="logo" 
+                     onerror="
+                        if(!this.dataset.attempt) {
+                            this.dataset.attempt = '1';
+                            this.src = 'https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/${p.symbol.toLowerCase()}.png';
+                        } else if(this.dataset.attempt === '1') {
+                            this.dataset.attempt = '2';
+                            this.src = 'https://s2.coinmarketcap.com/static/img/coins/64x64/${p.symbol.toLowerCase()}.png';
+                        } else {
+                            this.style.display = 'none';
+                            const fb = this.parentNode ? this.parentNode.querySelector('.fallback-logo') : null;
+                            if(fb) fb.style.display = 'flex';
+                        }
+                     ">
+                    <div class="fallback-logo" style="display:none;">coin?</div>
+                    <div class="title-area">
+                        <span class="coin-name">${p.name}</span>
+                        <span class="coin-ticker">${p.symbol}</span>
+                    </div>
+                    <div class="category-badge">${p.category}</div>
+                </div>
+                <div class="metrics">
+                    <div class="metric-row" style="background: rgba(16, 185, 129, 0.1); padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.25); margin-bottom: 6px;">
+                        <span class="metric-label" style="color: var(--success); font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Mcap / TVL <i class="fa-solid fa-star" style="font-size: 10px; margin-left: 4px;"></i></span>
+                        <span class="metric-val" style="color: var(--success); font-size: 24px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">${p.ratio.toFixed(2)}</span>
+                    </div>
+                    <div class="metric-row" style="padding: 0 6px;">
+                        <span class="metric-label" style="color: var(--accent); font-weight: 600;">FDM / TVL <i class="fa-solid fa-bolt" style="font-size: 10px; margin-left: 2px;"></i></span>
+                        <span class="metric-val" style="color: var(--accent); font-weight: 700; font-size: 15px;">${p.fdm_ratio.toFixed(2)}</span>
+                    </div>
+                    <div class="metric-row" style="padding: 0 6px; margin-top: 4px;">
+                        <span class="metric-label">Market Cap</span>
+                        <span class="metric-val">${formatMoney(p.mcap)}</span>
+                    </div>
+                    <div class="metric-row" style="padding: 0 6px;">
+                        <span class="metric-label">TVL</span>
+                        <span class="metric-val">${formatMoney(p.tvl)}</span>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    function renderPagination(totalPages) {
+        const container = document.getElementById('pagination-controls');
+        container.innerHTML = '';
+        
+        if (totalPages <= 1) return;
+        
+        // Prev button
+        const prevBtn = document.createElement('button');
+        prevBtn.className = 'page-btn';
+        prevBtn.innerHTML = '&#10094;'; // Left angle bracket
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.onclick = () => { if (currentPage > 1) { currentPage--; renderDashboard(); } };
+        container.appendChild(prevBtn);
+        
+        // Logic for page numbers
+        let startPage = Math.max(1, currentPage - 1);
+        let endPage = Math.min(totalPages, currentPage + 1);
+        
+        if (currentPage === 1) endPage = Math.min(3, totalPages);
+        if (currentPage === totalPages) startPage = Math.max(1, totalPages - 2);
+        
+        if (startPage > 1) {
+            container.appendChild(createPageBtn(1));
+            if (startPage > 2) {
+                const dots = document.createElement('span');
+                dots.className = 'page-dots';
+                dots.innerText = '...';
+                container.appendChild(dots);
+            }
+        }
+        
+        for (let i = startPage; i <= endPage; i++) {
+            container.appendChild(createPageBtn(i));
+        }
+        
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                const dots = document.createElement('span');
+                dots.className = 'page-dots';
+                dots.innerText = '...';
+                container.appendChild(dots);
+            }
+            container.appendChild(createPageBtn(totalPages));
+        }
+        
+        // Next button
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'page-btn';
+        nextBtn.innerHTML = '&#10095;'; // Right angle bracket
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.onclick = () => { if (currentPage < totalPages) { currentPage++; renderDashboard(); } };
+        container.appendChild(nextBtn);
+    }
+    
+    function createPageBtn(pageNum) {
+        const btn = document.createElement('button');
+        btn.className = `page-btn ${pageNum === currentPage ? 'active' : ''}`;
+        btn.innerText = pageNum;
+        btn.onclick = () => { currentPage = pageNum; renderDashboard(); };
+        return btn;
+    }
+
+    document.getElementById('search-input').addEventListener('input', () => { currentPage = 1; renderDashboard(); });
+    document.getElementById('sort-select').addEventListener('change', () => { currentPage = 1; renderDashboard(); });
+    
+    document.getElementById('items-per-page').addEventListener('change', function() {
+        itemsPerPage = parseInt(this.value);
+        currentPage = 1;
+        renderDashboard();
+    });
+
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const cat = e.target.dataset.cat;
+            
+            if (cat === 'All') {
+                activeCategories.clear();
+                activeCategories.add('All');
+                filterBtns.forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+            } else {
+                activeCategories.delete('All');
+                document.querySelector('[data-cat="All"]').classList.remove('active');
+                
+                if (activeCategories.has(cat)) {
+                    activeCategories.delete(cat);
+                    e.target.classList.remove('active');
+                } else {
+                    activeCategories.add(cat);
+                    e.target.classList.add('active');
+                }
+
+                if (activeCategories.size === 0) {
+                    activeCategories.add('All');
+                    document.querySelector('[data-cat="All"]').classList.add('active');
+                }
+            }
+            currentPage = 1;
+            renderDashboard();
+        });
+    });
+
+    renderDashboard();
+
+    // Theme Toggle Logic
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    
+    // Check local storage for theme preference
+    if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light-mode');
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        
+        if (document.body.classList.contains('light-mode')) {
+            localStorage.setItem('theme', 'light');
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+        } else {
+            localStorage.setItem('theme', 'dark');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+    });
+
+</script>
+
+</div>
+</body>
+</html>
