@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nattakul Khamyan | Digital Asset Analyst</title>
+    <meta name="description" content="Portfolio of Nattakul Khamyan - Digital Asset Analyst Intern">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'neon-green': '#00ff66',
+                        'bk-purple': '#9b51e0',
+                        'dark-bg': '#07050a',
+                        'panel-bg': '#120e18'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                        display: ['Rajdhani', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;600&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Phosphor Icons for tech icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="bg-dark-bg text-white font-sans antialiased overflow-x-hidden">
+    <!-- Dynamic Background Layer -->
+    <div class="matrix-bg"></div>
+    
+    <!-- Metaverse Blobs -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none" style="z-index: 0;">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    
+    <!-- Particles Canvas -->
+    <canvas id="particlesCanvas" class="fixed inset-0 pointer-events-none opacity-40" style="z-index: 1;"></canvas>
+    <div class="content-wrapper relative z-10">
+        
+        <!-- Floating Header Navbar -->
+        <nav class="fixed top-4 w-full z-50 px-4 transition-all duration-300">
+            <div class="max-w-5xl mx-auto glass-panel border border-white/10 rounded-full px-6 py-3 flex justify-between items-center shadow-[0_4_30px_rgba(0,255,102,0.1)]">
+                <div class="flex items-center gap-3">
+                    <img src="assets/Logo/academy-393f18a73eb8e3feadce9132fefc2021.png" alt="Bitkub Academy Logo" class="h-6 md:h-8 object-contain" style="filter: invert(1) hue-rotate(180deg); mix-blend-mode: screen;">
+                    <span class="font-display font-bold text-lg tracking-wide hidden md:inline">Bitkub Academy <span class="text-neon-green font-mono text-sm font-normal ml-2">// Intern Portfolio</span></span>
+                </div>
+                <div class="flex gap-6">
+                    <a href="#expertise" class="text-sm font-mono text-gray-300 hover:text-neon-green transition duration-300">Enhanced Skill Set</a>
+                    <a href="#experience" class="text-sm font-mono text-gray-300 hover:text-bk-purple transition duration-300">Experience</a>
+                    <a href="#visuals" class="text-sm font-mono text-gray-300 hover:text-neon-green transition duration-300 hidden md:block">Visuals</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Section 1: Hero -->
+        <section id="hero" class="min-h-screen flex flex-col justify-center items-center px-6 relative pt-28 pb-12">
+            <div class="max-w-6xl w-full flex flex-col-reverse md:flex-row items-center justify-between gap-12 lg:gap-20 fade-in-up">
+                
+                <!-- Left: Text Content -->
+                <div class="flex-1 text-center md:text-left z-10">
+                    <div class="inline-flex items-center gap-3 px-5 py-2 border border-neon-green/30 bg-black/50 backdrop-blur-md rounded-full text-sm font-mono mb-8 shadow-[0_0_20px_rgba(0,255,102,0.15)] glow-effect-green hover:border-neon-green transition-all cursor-default">
+                        <img src="assets/Logo/academy-393f18a73eb8e3feadce9132fefc2021.png" alt="Logo" class="h-5 object-contain" style="filter: invert(1) hue-rotate(180deg); mix-blend-mode: screen;">
+                        <span class="text-white font-semibold tracking-wide">System Ready <span class="text-neon-green">//</span> Portfolio</span>
+                    </div>
+                    
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-4 glitch-text" data-text="Nattakul Khamyan">
+                        Nattakul Khamyan
+                    </h1>
+                    
+                    <h2 class="text-xl md:text-2xl lg:text-3xl font-mono mb-6 typing-effect font-bold">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-bk-purple to-neon-green">> Digital Asset Analyst_</span>
+                    </h2>
+                    
+                    <p class="text-lg md:text-xl font-display font-semibold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-500 mb-8 max-w-2xl leading-relaxed tracking-wide">
+                        "Bridging data analytics and strategic communication to drive digital asset initiatives, coupled with agile problem-solving for real-world impact."
+                    </p>
+                    
+                    <div class="glass-panel border border-neon-green/20 p-6 rounded-xl mb-10 text-left transition hover:border-bk-purple shadow-[0_0_15px_rgba(155,81,224,0.05)] hud-brackets w-full md:max-w-md mx-auto md:mx-0">
+                        <ul class="text-sm md:text-base space-y-3 font-mono text-gray-300">
+                            <li><span class="text-bk-purple font-semibold">Status:</span> Thai-Nichi Institute of Technology</li>
+                            <li><span class="text-neon-green font-semibold">Major:</span> Business Japanese (BJ) | Finance</li>
+                            <li><span class="text-bk-purple font-semibold">Timeline:</span> Summer Internship 2026</li>
+                        </ul>
+                    </div>
+                    
+                    <a href="#expertise" class="inline-block bg-gradient-to-r from-neon-green to-bk-purple text-black font-bold font-mono px-8 py-3 rounded-full hover:scale-105 transition-transform shadow-[0_0_20px_rgba(0,255,102,0.4)] hover:shadow-[0_0_30px_rgba(155,81,224,0.6)]">
+                        [ Let's start ] ↘
+                    </a>
+                </div>
+
+                <!-- Right: Portrait Image -->
+                <div class="w-64 h-64 md:w-80 md:h-80 lg:w-[450px] lg:h-[450px] relative group mt-10 md:mt-0">
+                    <!-- Glowing Background Blobs behind image -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-neon-green to-bk-purple rounded-full filter blur-3xl opacity-30 group-hover:opacity-60 transition-opacity duration-700 animate-pulse"></div>
+                    
+                    <!-- Sci-Fi Tech Frames -->
+                    <div class="absolute inset-0 border-2 border-white/10 rounded-3xl transform rotate-6 group-hover:rotate-12 transition-transform duration-700 glass-panel"></div>
+                    <div class="absolute inset-0 border-2 border-neon-green/30 rounded-3xl transform -rotate-3 group-hover:-rotate-6 transition-transform duration-700"></div>
+                    
+                    <!-- Image Container -->
+                    <div class="absolute inset-2 rounded-3xl overflow-hidden bg-gradient-to-b from-gray-800 to-black z-10 hud-brackets border border-white/10 shadow-2xl flex items-center justify-center">
+                        <img src="assets/Personal/S__24494096.jpg" alt="Nattakul Portrait 1" class="absolute w-full h-full object-cover scale-[1.20] origin-top opacity-100 group-hover:opacity-0 transition-opacity duration-500">
+                        <img src="assets/Personal/S__24494095.jpg" alt="Nattakul Portrait 2" class="absolute w-full h-full object-cover scale-[1.20] origin-top opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        
+                        <!-- Overlay gradient to blend bottom of image into the dark theme -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-black/40 to-transparent opacity-80 pointer-events-none"></div>
+                        <div class="absolute inset-0 bg-gradient-to-tr from-bk-purple/20 to-transparent opacity-50 mix-blend-overlay pointer-events-none"></div>
+                    </div>
+
+                    <!-- Floating Badges -->
+                    <div class="absolute -right-4 top-10 bg-black/80 backdrop-blur-md border border-neon-green/50 text-neon-green text-xs font-mono px-3 py-1.5 rounded-full z-20 shadow-[0_0_15px_rgba(0,255,102,0.3)] animate-bounce" style="animation-delay: 0.5s;">
+                        <i class="ph ph-chart-line-up"></i> ANALYST
+                    </div>
+                    <div class="absolute -left-6 bottom-16 bg-black/80 backdrop-blur-md border border-bk-purple/50 text-bk-purple text-xs font-mono px-3 py-1.5 rounded-full z-20 shadow-[0_0_15px_rgba(155,81,224,0.3)] animate-bounce" style="animation-duration: 3s;">
+                        <i class="ph ph-strategy"></i> STRATEGIST
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Scrolling Skill Ticker -->
+        <div class="ticker-wrap">
+            <div class="ticker-content">
+                <!-- Duplicate items to create seamless loop -->
+                <div class="ticker-item"><i class="ph ph-chart-polar"></i> Financial Valuation</div>
+                <div class="ticker-item"><i class="ph ph-presentation-chart"></i> Data Visualization</div>
+                <div class="ticker-item"><i class="ph ph-brain"></i> Applied AI & Prompting</div>
+                <div class="ticker-item"><i class="ph ph-users"></i> Event Liaison</div>
+                <div class="ticker-item"><i class="ph ph-video-camera"></i> Media Assistance</div>
+                <div class="ticker-item"><i class="ph ph-microphone-stage"></i> Master of Ceremonies</div>
+                <div class="ticker-item"><i class="ph ph-chart-polar"></i> Financial Valuation</div>
+                <div class="ticker-item"><i class="ph ph-presentation-chart"></i> Data Visualization</div>
+                <div class="ticker-item"><i class="ph ph-brain"></i> Applied AI & Prompting</div>
+                <div class="ticker-item"><i class="ph ph-users"></i> Event Liaison</div>
+                <div class="ticker-item"><i class="ph ph-video-camera"></i> Media Assistance</div>
+                <div class="ticker-item"><i class="ph ph-microphone-stage"></i> Master of Ceremonies</div>
+            </div>
+        </div>
+
+        <!-- Section 2: Core Expertise -->
+        <section id="expertise" class="py-24 px-6 border-t border-white/10 relative">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <span class="text-bk-purple font-mono text-lg block mb-3 tracking-widest uppercase glow-effect-purple">// 01</span>
+                    <h2 class="text-4xl md:text-5xl font-display font-extrabold inline-block relative group">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-green via-white to-bk-purple">
+                            &lt; Enhanced Skill Set /&gt;
+                        </span>
+                        <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-full h-1 bg-gradient-to-r from-transparent via-neon-green to-transparent opacity-50 group-hover:via-bk-purple transition-all duration-500"></div>
+                        <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-1/3 h-1 bg-neon-green rounded-full shadow-[0_0_15px_rgba(0,255,102,0.8)] group-hover:bg-bk-purple group-hover:shadow-[0_0_15px_rgba(155,81,224,0.8)] transition-all duration-500"></div>
+                    </h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Card 1 -->
+                    <div class="glass-panel border border-white/10 p-8 rounded-2xl hover:border-neon-green transition-all duration-300 group hover:-translate-y-2 transform hover:shadow-[0_0_30px_rgba(0,255,102,0.1)] hud-brackets">
+                        <i class="ph ph-chart-line-up text-4xl text-neon-green mb-6 group-hover:animate-pulse"></i>
+                        <h3 class="text-xl font-bold mb-4">Data & Analytical Skills</h3>
+                        <ul class="space-y-4 text-gray-400 text-sm">
+                            <li class="flex items-start gap-2"><i class="ph ph-check-circle text-neon-green mt-1 flex-shrink-0"></i> <span><strong>Financial Valuation</strong><br/>Asset valuation and fundamental analysis</span></li>
+                            <li class="flex items-start gap-2"><i class="ph ph-check-circle text-neon-green mt-1 flex-shrink-0"></i> <span><strong>Data Visualization</strong><br/>Synthesizing and presenting data via interactive dashboards</span></li>
+                            <li class="flex items-start gap-2"><i class="ph ph-check-circle text-neon-green mt-1 flex-shrink-0"></i> <span><strong>Competitor & Market Research</strong><br/>Analyzing market data to identify competitive advantages</span></li>
+                            <li class="flex items-start gap-2"><i class="ph ph-check-circle text-neon-green mt-1 flex-shrink-0"></i> <span><strong>Applied AI & Prompting</strong><br/>Leveraging AI tools to accelerate research, data synthesis, and workflows</span></li>
+                        </ul>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="glass-panel border border-white/10 p-8 rounded-2xl hover:border-bk-purple transition-all duration-300 group hover:-translate-y-2 transform hover:shadow-[0_0_30px_rgba(155,81,224,0.15)] hud-brackets">
+                        <i class="ph ph-kanban text-4xl text-bk-purple mb-6 group-hover:animate-pulse"></i>
+                        <h3 class="text-xl font-bold mb-4">Business & Project Support</h3>
+                        <ul class="space-y-4 text-gray-400 text-sm">
+                            <li class="flex items-start gap-2"><i class="ph ph-check-circle text-bk-purple mt-1 flex-shrink-0"></i> <span><strong>Event Liaison</strong><br/>Coordinating schedules, venues, and participant logistics</span></li>
+                            <li class="flex items-start gap-2"><i class="ph ph-check-circle text-bk-purple mt-1 flex-shrink-0"></i> <span><strong>On-Site Operations</strong><br/>Assisting with guest registration, Autogate systems, and venue setup</span></li>
+                            <li class="flex items-start gap-2"><i class="ph ph-check-circle text-bk-purple mt-1 flex-shrink-0"></i> <span><strong>Media Assistance</strong><br/>Supporting content creation via filming and on-camera participation</span></li>
+                            <li class="flex items-start gap-2"><i class="ph ph-check-circle text-bk-purple mt-1 flex-shrink-0"></i> <span><strong>Executive Summarization</strong><br/>Distilling complex meetings into clear insights and actionable next steps</span></li>
+                        </ul>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="glass-panel border border-white/10 p-8 rounded-2xl hover:border-neon-green transition-all duration-300 group hover:-translate-y-2 transform hover:shadow-[0_0_30px_rgba(0,255,102,0.1)] hud-brackets">
+                        <i class="ph ph-users-three text-4xl text-neon-green mb-6 group-hover:animate-pulse"></i>
+                        <h3 class="text-xl font-bold mb-4">Essential Soft Skills</h3>
+                        <ul class="space-y-4 text-gray-400 text-sm">
+                            <li class="flex items-start gap-2"><i class="ph ph-check-circle text-neon-green mt-1 flex-shrink-0"></i> <span><strong>Public Speaking & Presentation</strong><br/>Public communication and acting as Master of Ceremonies (MC)</span></li>
+                            <li class="flex items-start gap-2"><i class="ph ph-check-circle text-neon-green mt-1 flex-shrink-0"></i> <span><strong>Problem-Solving</strong><br/>On-the-spot problem resolution in real-world scenarios</span></li>
+                            <li class="flex items-start gap-2"><i class="ph ph-check-circle text-neon-green mt-1 flex-shrink-0"></i> <span><strong>Adaptability & Agility</strong><br/>High flexibility and rapid learning curve</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Professional Experience -->
+        <section id="experience" class="py-24 px-6 border-t border-white/10 bg-gradient-to-b from-dark-bg to-panel-bg">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <span class="text-neon-green font-mono text-lg block mb-3 tracking-widest uppercase glow-effect">// 02</span>
+                    <h2 class="text-4xl md:text-5xl font-display font-extrabold inline-block relative group">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-bk-purple via-white to-neon-green">
+                            &lt; Internship Experience /&gt;
+                        </span>
+                        <div class="text-lg md:text-xl text-gray-400 font-mono mt-4">@ Bitkub Academy</div>
+                        <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-full h-1 bg-gradient-to-r from-transparent via-bk-purple to-transparent opacity-50 group-hover:via-neon-green transition-all duration-500"></div>
+                        <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-1/3 h-1 bg-bk-purple rounded-full shadow-[0_0_15px_rgba(155,81,224,0.8)] group-hover:bg-neon-green group-hover:shadow-[0_0_15px_rgba(0,255,102,0.8)] transition-all duration-500"></div>
+                    </h2>
+                </div>
+                
+                <!-- Custom Tabs -->
+                <div class="flex flex-col md:flex-row gap-8">
+                    <!-- Tab Headers -->
+                    <div class="flex md:flex-col gap-2 w-full md:w-1/3 overflow-x-auto pb-4 md:pb-0 hide-scrollbar">
+                        <button class="tab-btn active text-left px-6 py-4 rounded-xl border border-neon-green bg-neon-green/10 text-neon-green font-bold transition-all whitespace-nowrap md:whitespace-normal flex items-center gap-3 hover:bg-neon-green/20" data-tab="tab1">
+                            <i class="ph ph-laptop text-2xl"></i>
+                            Digital Asset
+                        </button>
+                        <button class="tab-btn text-left px-6 py-4 rounded-xl border border-white/10 hover:border-white/30 text-gray-400 font-bold transition-all whitespace-nowrap md:whitespace-normal flex items-center gap-3 hover:bg-white/5" data-tab="tab2">
+                            <i class="ph ph-trend-up text-2xl"></i>
+                            Business Development
+                        </button>
+                    </div>
+
+                    <!-- Tab Contents -->
+                    <div class="w-full md:w-2/3 glass-panel border border-white/10 rounded-2xl p-6 md:p-10 min-h-[400px] shadow-[0_0_40px_rgba(155,81,224,0.05)]">
+                        <!-- Tab 1 Content -->
+                        <div id="tab1" class="tab-content block animate-fade-in">
+                            <div class="space-y-8">
+                                <div>
+                                    <h3 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                                        <i class="ph ph-currency-btc text-neon-green"></i> Cryptocurrency Valuation
+                                    </h3>
+                                    <ul class="list-disc list-inside text-gray-400 space-y-2 mt-4 marker:text-neon-green leading-relaxed">
+                                        <li>Analyzed and valuated 166 digital assets.</li>
+                                        <li>Categorized by sector: Layer-1, Layer-2, Lending, and DEXes.</li>
+                                    </ul>
+                                </div>
+                                <hr class="border-white/10">
+                                <div>
+                                    <h3 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                                        <i class="ph ph-chart-bar text-bk-purple"></i> Stocks Valuation
+                                    </h3>
+                                    <ul class="list-disc list-inside text-gray-400 space-y-2 mt-4 marker:text-bk-purple leading-relaxed">
+                                        <li>Analyzed and screened 1,139 US stocks.</li>
+                                        <li>Applied filters: Max Market Cap, PEG 0.1-1.2, and Trend Analysis.</li>
+                                        <li><span class="text-bk-purple font-semibold">Result:</span> In-depth valuation of 60 stocks across 3 sectors (Tech, Electronics, Health), 20 stocks each.</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-neon-green/5 border-l-4 border-neon-green p-5 rounded-r-lg mt-6 shadow-[inset_0_0_20px_rgba(0,255,102,0.05)]">
+                                    <p class="text-gray-300 font-mono text-sm leading-relaxed">
+                                        <strong class="uppercase text-neon-green block mb-1">Key Takeaway:</strong>
+                                        Leveraging deep data insights to support and drive strategic planning.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab 2 Content -->
+                        <div id="tab2" class="tab-content hidden animate-fade-in">
+                            <div class="space-y-8">
+                                <div>
+                                    <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                                        <i class="ph ph-microphone-stage text-bk-purple text-2xl"></i> Event Management
+                                    </h3>
+                                    <ul class="list-disc list-inside text-gray-400 space-y-3 mt-3 text-sm marker:text-bk-purple leading-relaxed">
+                                        <li><strong>Master of Ceremonies (MC):</strong> Hosted 3 major Bitkub Office Visit programs for university delegations, including TU SIP <span class="text-bk-purple/80 font-mono text-xs ml-1">[Apr 28]</span>, BU ECON (FIP) <span class="text-bk-purple/80 font-mono text-xs ml-1">[Apr 29]</span>, and KKU CKKPU <span class="text-bk-purple/80 font-mono text-xs ml-1">[May 08]</span>.</li>
+                                        <li><strong>Support Office:</strong> Managed Autogate systems, welcomed and guided attendees, and controlled slide presentations for seamless event flow.</li>
+                                        <li><strong>Customer Service:</strong> Provided on-site support for the <em>Bitkub Insight On Stage</em> event, and represented Staygold (Bitkub subsidiary) during a full 2-day exhibition at the <em>SEAW Event</em> <span class="text-bk-purple/80 font-mono text-xs ml-1">[May 20-21]</span>.</li>
+                                    </ul>
+                                </div>
+                                <hr class="border-white/10">
+                                <div>
+                                    <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                                        <i class="ph ph-device-mobile text-neon-green text-2xl"></i> Marketing & Content
+                                    </h3>
+                                    <ul class="list-disc list-inside text-gray-400 space-y-2 mt-3 text-sm marker:text-neon-green leading-relaxed">
+                                        <li>Crafted engaging captions and curated visuals for brand communication across 20+ posts.</li>
+                                        <li>Assisted in end-to-end content production, including on-site filming and video coordination.</li>
+                                    </ul>
+                                </div>
+                                <hr class="border-white/10">
+                                <div>
+                                    <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                                        <i class="ph ph-magnifying-glass text-bk-purple text-2xl"></i> Research Project
+                                    </h3>
+                                    <ul class="list-disc list-inside text-gray-400 space-y-2 mt-3 text-sm marker:text-bk-purple leading-relaxed">
+                                        <li>Conducted in-depth analysis of Hardware Wallet courses to benchmark against competitors and enhance market strategy.</li>
+                                        <li>Evaluated pricing models and capabilities of AI coding assistants to optimize tool selection for basic programming tasks.</li>
+                                    </ul>
+                                </div>
+                                <hr class="border-white/10">
+                                <div>
+                                    <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                                        <i class="ph ph-handshake text-neon-green text-2xl"></i> Contact & Coordination
+                                    </h3>
+                                    <ul class="list-disc list-inside text-gray-400 space-y-2 mt-3 text-sm marker:text-neon-green leading-relaxed">
+                                        <li>Coordinated event at Thai-Nichi Institute of Technology (BJ Faculty, BUS-457 Strategy course) for 120 participants.</li>
+                                        <li>Coordinated event at Satit Prasarnmit Demonstration School (Secondary, Engineering Math branch) for 100 participants.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Visuals -->
+        <section id="visuals" class="py-24 px-6 border-t border-white/10 relative overflow-hidden bg-dark-bg">
+            <div class="max-w-6xl mx-auto relative z-10">
+                <div class="text-center mb-16">
+                    <span class="text-bk-purple font-mono text-lg block mb-3 tracking-widest uppercase glow-effect-purple">// 03</span>
+                    <h2 class="text-4xl md:text-5xl font-display font-extrabold inline-block relative group">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-green via-white to-bk-purple">
+                            &lt; Visuals /&gt;
+                        </span>
+                        <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-full h-1 bg-gradient-to-r from-transparent via-neon-green to-transparent opacity-50 group-hover:via-bk-purple transition-all duration-500"></div>
+                        <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-1/3 h-1 bg-neon-green rounded-full shadow-[0_0_15px_rgba(0,255,102,0.8)] group-hover:bg-bk-purple group-hover:shadow-[0_0_15px_rgba(155,81,224,0.8)] transition-all duration-500"></div>
+                    </h2>
+                </div>
+
+                <!-- Image Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-full">
+                    
+                    <!-- Card 1 -->
+                    <div class="w-full relative h-[350px] md:h-[450px] rounded-2xl overflow-hidden shadow-[0_0_20px_rgba(155,81,224,0.15)] group border border-white/10 glass-panel">
+                        <div class="mini-carousel absolute inset-0 w-full h-full bg-[#0a0a0a]">
+                            <img src="assets/TU SIP-28-04/S__24494107_0.jpg" alt="TU SIP Office Visit" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-100">
+                            <img src="assets/TU SIP-28-04/S__24494108_0.jpg" alt="TU SIP Office Visit" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-0">
+                            <img src="assets/TU SIP-28-04/S__24494109_0.jpg" alt="TU SIP Office Visit" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-0">
+                        </div>
+                        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/90 to-transparent p-6 z-10 pointer-events-none">
+                            <p class="text-bk-purple font-mono text-xs mb-1 opacity-80">EVENT_01</p>
+                            <h4 class="text-lg md:text-xl font-bold text-white tracking-wide leading-snug">TU SIP Office Visit</h4>
+                            <p class="text-neon-green/80 text-xs mt-2 font-mono">[28 April 2026]</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="w-full relative h-[350px] md:h-[450px] rounded-2xl overflow-hidden shadow-[0_0_20px_rgba(155,81,224,0.15)] group border border-white/10 glass-panel">
+                        <div class="mini-carousel absolute inset-0 w-full h-full bg-[#0a0a0a]">
+                            <img src="assets/BU ECON(FIP)-29-04/S__24494083_0.jpg" alt="BU ECON (FIP) Office Visit" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-100">
+                            <img src="assets/BU ECON(FIP)-29-04/S__24494084_0.jpg" alt="BU ECON (FIP) Office Visit" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-0">
+                            <img src="assets/BU ECON(FIP)-29-04/S__24494085_0.jpg" alt="BU ECON (FIP) Office Visit" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-0">
+                            <img src="assets/BU ECON(FIP)-29-04/S__24494086_0.jpg" alt="BU ECON (FIP) Office Visit" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-0">
+                        </div>
+                        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/90 to-transparent p-6 z-10 pointer-events-none">
+                            <p class="text-neon-green font-mono text-xs mb-1 opacity-80">EVENT_02</p>
+                            <h4 class="text-lg md:text-xl font-bold text-white tracking-wide leading-snug">BU ECON (FIP) Office Visit</h4>
+                            <p class="text-bk-purple/80 text-xs mt-2 font-mono">[29 April 2026]</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="w-full relative h-[350px] md:h-[450px] rounded-2xl overflow-hidden shadow-[0_0_20px_rgba(155,81,224,0.15)] group border border-white/10 glass-panel">
+                        <div class="mini-carousel absolute inset-0 w-full h-full bg-[#0a0a0a]">
+                            <img src="assets/KKU CKKPU- 08-05/S__24494089_0.jpg" alt="KKU CKKPU Office Visit" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-100">
+                            <img src="assets/KKU CKKPU- 08-05/S__24494090_0.jpg" alt="KKU CKKPU Office Visit" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-0">
+                            <img src="assets/KKU CKKPU- 08-05/S__24494091_0.jpg" alt="KKU CKKPU Office Visit" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-0">
+                        </div>
+                        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/90 to-transparent p-6 z-10 pointer-events-none">
+                            <p class="text-bk-purple font-mono text-xs mb-1 opacity-80">EVENT_03</p>
+                            <h4 class="text-lg md:text-xl font-bold text-white tracking-wide leading-snug">KKU CKKPU Office Visit</h4>
+                            <p class="text-neon-green/80 text-xs mt-2 font-mono">[08 May 2026]</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="w-full relative h-[350px] md:h-[450px] rounded-2xl overflow-hidden shadow-[0_0_20px_rgba(155,81,224,0.15)] group border border-white/10 bg-panel-bg">
+                        <div class="mini-carousel absolute inset-0 w-full h-full bg-[#0a0a0a]">
+                            <img src="assets/SEAW20-21-05 CS -Booth/S__24494101_0.jpg" alt="SEAW Event & Exhibition" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-100">
+                            <img src="assets/SEAW20-21-05 CS -Booth/S__24494102_0.jpg" alt="SEAW Event & Exhibition" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-0">
+                            <img src="assets/SEAW20-21-05 CS -Booth/S__24494103_0.jpg" alt="SEAW Event & Exhibition" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-0">
+                            <img src="assets/SEAW20-21-05 CS -Booth/S__24494104_0.jpg" alt="SEAW Event & Exhibition" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-0">
+                        </div>
+                        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/90 to-transparent p-6 z-10 pointer-events-none">
+                            <p class="text-neon-green font-mono text-xs mb-1 opacity-80">EVENT_04</p>
+                            <h4 class="text-lg md:text-xl font-bold text-white tracking-wide leading-snug">SEAW Event & Exhibition</h4>
+                            <p class="text-bk-purple/80 text-xs mt-2 font-mono">[20-21 May 2026]</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Let's Connect -->
+        <section id="contact" class="py-32 px-6 border-t border-white/10 relative overflow-hidden bg-gradient-to-b from-dark-bg to-black flex flex-col justify-center items-center text-center">
+            <div class="max-w-3xl relative z-10 w-full">
+                <div class="inline-block px-5 py-2 border border-bk-purple/40 bg-bk-purple/5 text-bk-purple rounded-full text-sm font-mono mb-10 shadow-[0_0_15px_rgba(155,81,224,0.1)]">
+                    Status: <span class="animate-pulse">●</span> Open for opportunities
+                </div>
+                <h2 class="text-5xl md:text-7xl font-black mb-10 leading-tight">
+                    Let's Create <br/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-green via-teal-400 to-bk-purple glitch-text-hover">Something Great Together.</span>
+                </h2>
+                
+                <div class="flex flex-col md:flex-row items-center justify-center gap-8 mb-16 bg-panel-bg/50 p-6 rounded-2xl border border-white/5 backdrop-blur-sm">
+                    <a href="mailto:nattakul234@gmail.com" class="flex items-center gap-3 text-xl md:text-2xl text-gray-300 hover:text-bk-purple transition-colors font-mono group">
+                        <i class="ph ph-envelope-simple text-3xl group-hover:scale-110 transition-transform"></i>
+                        nattakul234@gmail.com
+                    </a>
+                    <span class="hidden md:block text-gray-600">|</span>
+                    <a href="https://www.linkedin.com/in/nattakul-khamyan-8b9407391?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" class="flex items-center gap-3 text-xl md:text-2xl text-gray-300 hover:text-bk-purple transition-colors font-mono group">
+                        <i class="ph ph-linkedin-logo text-3xl group-hover:scale-110 transition-transform"></i>
+                        LinkedIn Profile
+                    </a>
+                </div>
+
+                <a href="#" class="inline-flex items-center gap-3 bg-transparent border-2 border-bk-purple text-bk-purple px-10 py-5 rounded-full font-bold text-lg hover:bg-bk-purple hover:text-black transition-all duration-300 hover:shadow-[0_0_30px_rgba(155,81,224,0.4)] transform hover:-translate-y-1">
+                    <i class="ph ph-download-simple text-2xl"></i>
+                    [ Download Resume PDF ]
+                </a>
+            </div>
+            
+            <!-- Futuristic Footer Decor -->
+            <div class="absolute bottom-0 w-full h-1 bg-gradient-to-r from-transparent via-neon-green to-bk-purple opacity-50"></div>
+            <div class="absolute bottom-0 w-full h-32 bg-bk-purple/5 blur-[50px] pointer-events-none"></div>
+        </section>
+
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="backToTopBtn" class="fixed bottom-8 right-8 z-50 p-3 md:p-4 bg-bk-purple text-white rounded-full shadow-[0_0_20px_rgba(155,81,224,0.5)] hover:bg-neon-green hover:text-black hover:shadow-[0_0_20px_rgba(0,255,102,0.5)] transition-all duration-500 transform translate-y-24 opacity-0 cursor-pointer focus:outline-none flex items-center justify-center group">
+        <i class="ph ph-arrow-up text-xl md:text-2xl group-hover:-translate-y-1 transition-transform"></i>
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html>
