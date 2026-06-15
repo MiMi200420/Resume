@@ -257,6 +257,26 @@
             background: var(--card-bg);
         }
 
+        .theme-action-group { display: flex; align-items: center; gap: 10px; }
+        .back-login-btn {
+            width: 44px; height: 44px; border-radius: 50%; background: var(--panel-bg);
+            border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s ease; overflow: hidden; padding: 0; position: relative;
+        }
+        .back-login-btn:hover {
+            transform: scale(1.15) rotate(-10deg); border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+        }
+        .back-login-btn img { 
+            width: 26px; height: 26px; object-fit: contain; display: block; 
+            filter: brightness(0) invert(1); /* White cat for Dark Mode */
+            transition: filter 0.3s ease; 
+        }
+        
+        body.light-mode .back-login-btn img {
+            filter: brightness(0); /* Black cat for Light Mode */
+        }
+
         /* Light Mode Variables */
         body.light-mode {
             --bg-color: #f3f5f9;
@@ -674,9 +694,14 @@ body.light-mode .metrics {
             </h1>
             <p style="margin-top: 6px; font-size: 14.5px;">Advanced Market Cap & TVL Comparative Analytics (166 Tokens Loaded)</p>
         </div>
-        <button id="theme-toggle" class="theme-btn" aria-label="Toggle Dark/Light Mode">
-            <i class="fa-solid fa-sun" id="theme-icon"></i>
-        </button>
+        <div class="theme-action-group">
+            <button id="theme-toggle" class="theme-btn" aria-label="Toggle Dark/Light Mode">
+                <i class="fa-solid fa-sun" id="theme-icon"></i>
+            </button>
+            <div class="back-login-btn" onclick="handleLogout()" title="Return to Login">
+                <img src="—Pngtree—cat silhouette vector icon eps_3985290.png" alt="Return">
+            </div>
+        </div>
     </div>
 
     <div class="summary-panel" id="summary-panel">
@@ -1067,6 +1092,28 @@ body.light-mode .metrics {
             themeIcon.classList.add('fa-sun');
         }
     });
+
+    // Handle return to login screen
+    window.handleLogout = function() {
+        const dashView = document.getElementById('dashboard-view');
+        dashView.style.opacity = '0';
+        
+        setTimeout(() => {
+            dashView.style.display = 'none';
+            
+            const loginView = document.getElementById('login-view');
+            loginView.style.display = 'flex';
+            document.body.classList.add('on-login');
+            
+            // Trigger reflow
+            void loginView.offsetWidth;
+            loginView.style.opacity = '1';
+            
+            // Reset the sign in button if it exists
+            const signBtn = document.querySelector('.sign-in-btn');
+            if(signBtn) signBtn.innerHTML = 'Sign In';
+        }, 500);
+    };
 
 </script>
 
