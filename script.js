@@ -253,9 +253,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 5. Lightbox / Popup Gallery Logic
     window.captionImages = [
-        'assets/Caption/S__24961030_0.jpg',
-        'assets/Caption/S__24961031_0.jpg',
-        'assets/Caption/S__24961032_0.jpg'
+        './assets/Caption/S__24961030_0.jpg',
+        './assets/Caption/S__24961031_0.jpg',
+        './assets/Caption/S__24961032_0.jpg'
     ];
     window.currentLightboxIndex = 0;
 
