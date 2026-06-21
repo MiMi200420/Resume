@@ -30,7 +30,11 @@
     <!-- Phosphor Icons for tech icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
-<body class="bg-dark-bg text-white font-sans antialiased overflow-x-hidden">
+<body class="bg-dark-bg text-white font-sans antialiased overflow-x-hidden cursor-default">
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-neon-green via-teal-400 to-bk-purple z-[9999] transition-all duration-150 ease-out w-0 shadow-[0_0_10px_rgba(0,255,102,0.8)]"></div>
+
+
     <!-- Dynamic Background Layer -->
     <div class="matrix-bg"></div>
     
@@ -54,9 +58,8 @@
                 </div>
                 <div class="flex gap-6">
                     <a href="#expertise" class="text-sm font-mono text-gray-300 hover:text-neon-green transition duration-300">Enhanced Skill Set</a>
-                    <a href="#experience" class="text-sm font-mono text-gray-300 hover:text-bk-purple transition duration-300">Experience</a>
-                    <a href="#dashboard" class="text-sm font-mono text-gray-300 hover:text-neon-green transition duration-300 hidden md:block">Dashboard</a>
-                    <a href="#visuals" class="text-sm font-mono text-gray-300 hover:text-bk-purple transition duration-300 hidden md:block">Visuals</a>
+                    <a href="#key-projects" class="text-sm font-mono text-gray-300 hover:text-bk-purple transition duration-300">Key Projects</a>
+                    <a href="#ai-workspace" class="text-sm font-mono text-gray-300 hover:text-neon-green transition duration-300 hidden lg:block">AI Workspace</a>
                 </div>
             </div>
         </nav>
@@ -76,12 +79,13 @@
                         Nattakul Khamyan
                     </h1>
                     
-                    <h2 class="text-xl md:text-2xl lg:text-3xl font-mono mb-6 typing-effect font-bold">
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-bk-purple to-neon-green">> Digital Asset Analyst_</span>
+                    <h2 class="text-xl md:text-2xl lg:text-3xl font-mono mb-4 typing-effect font-bold">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-bk-purple to-neon-green">> Digital Asset Analyst Intern |</span><br/>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-bk-purple to-neon-green">Business Development & Operations_</span>
                     </h2>
                     
-                    <p class="text-lg md:text-xl font-display font-semibold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-500 mb-8 max-w-2xl leading-relaxed tracking-wide">
-                        "Bridging data analytics and strategic communication to drive digital asset initiatives, coupled with agile problem-solving for real-world impact."
+                    <p class="text-base md:text-lg font-display font-medium text-transparent bg-clip-text bg-gradient-to-r from-gray-300 to-gray-500 mb-8 max-w-2xl leading-relaxed tracking-wide">
+                        "Transforming data insights into business strategies. Highly adaptable and ready to manage projects professionally in any situation."
                     </p>
                     
                     <div class="glass-panel border border-neon-green/20 p-6 rounded-xl mb-10 text-left transition hover:border-bk-purple shadow-[0_0_15px_rgba(155,81,224,0.05)] hud-brackets w-full md:max-w-md mx-auto md:mx-0">
@@ -126,7 +130,7 @@
             <!-- Centered Let's Start Button -->
             <div class="mt-12 md:absolute md:bottom-12 md:left-[42%] md:-translate-x-1/2 fade-in-up z-20" style="animation-delay: 0.8s;">
                 <a href="#expertise" class="inline-block bg-gradient-to-r from-neon-green to-bk-purple text-black font-bold font-mono px-10 py-4 rounded-full hover:scale-110 transition-transform shadow-[0_0_20px_rgba(0,255,102,0.4)] hover:shadow-[0_0_30px_rgba(155,81,224,0.6)] text-lg">
-                    [ Let's start ] ↘
+                    [ Initialize Protocol ] ↘
                 </a>
             </div>
         </section>
@@ -200,257 +204,286 @@
             </div>
         </section>
 
-        <!-- Section 3: Professional Experience -->
-        <section id="experience" class="py-24 px-6 border-t border-white/10 bg-gradient-to-b from-dark-bg to-panel-bg">
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-16">
-                    <span class="text-neon-green font-mono text-lg block mb-3 tracking-widest uppercase glow-effect">// 02</span>
-                    <h2 class="text-4xl md:text-5xl font-display font-extrabold inline-block relative group">
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-bk-purple via-white to-neon-green">
-                            &lt; Internship Experience /&gt;
-                        </span>
-                        <div class="text-lg md:text-xl text-gray-400 font-mono mt-4">@ Bitkub Academy</div>
-                        <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-full h-1 bg-gradient-to-r from-transparent via-bk-purple to-transparent opacity-50 group-hover:via-neon-green transition-all duration-500"></div>
-                        <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-1/3 h-1 bg-bk-purple rounded-full shadow-[0_0_15px_rgba(155,81,224,0.8)] group-hover:bg-neon-green group-hover:shadow-[0_0_15px_rgba(0,255,102,0.8)] transition-all duration-500"></div>
-                    </h2>
-                </div>
-                
-                <!-- Custom Tabs -->
-                <div class="flex flex-col md:flex-row gap-8">
-                    <!-- Tab Headers -->
-                    <div class="flex md:flex-col gap-2 w-full md:w-1/3 overflow-x-auto pb-4 md:pb-0 hide-scrollbar">
-                        <button class="tab-btn active text-left px-6 py-4 rounded-xl border border-neon-green bg-neon-green/10 text-neon-green font-bold transition-all whitespace-nowrap md:whitespace-normal flex items-center gap-3 hover:bg-neon-green/20" data-tab="tab1">
-                            <i class="ph ph-laptop text-2xl"></i>
-                            Digital Asset
-                        </button>
-                        <button class="tab-btn text-left px-6 py-4 rounded-xl border border-white/10 hover:border-white/30 text-gray-400 font-bold transition-all whitespace-nowrap md:whitespace-normal flex items-center gap-3 hover:bg-white/5" data-tab="tab2">
-                            <i class="ph ph-trend-up text-2xl"></i>
-                            Business Development
-                        </button>
-                    </div>
-
-                    <!-- Tab Contents -->
-                    <div class="w-full md:w-2/3 glass-panel border border-white/10 rounded-2xl p-6 md:p-10 h-[450px] md:h-[550px] overflow-y-auto custom-scrollbar shadow-[0_0_40px_rgba(155,81,224,0.05)]">
-                        <!-- Tab 1 Content -->
-                        <div id="tab1" class="tab-content block animate-fade-in">
-                            <div class="space-y-8">
-                                <div>
-                                    <h3 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
-                                        <i class="ph ph-currency-btc text-neon-green"></i> Cryptocurrency Valuation
-                                    </h3>
-                                    <ul class="list-disc list-inside text-gray-400 space-y-2 mt-4 marker:text-neon-green leading-relaxed">
-                                        <li>Analyzed and valuated 166 digital assets.</li>
-                                        <li>Categorized by sector: Layer-1, Layer-2, Lending, and DEXes.</li>
-                                    </ul>
-                                </div>
-                                <hr class="border-white/10">
-                                <div>
-                                    <h3 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
-                                        <i class="ph ph-chart-bar text-bk-purple"></i> Stocks Valuation
-                                    </h3>
-                                    <ul class="list-disc list-inside text-gray-400 space-y-2 mt-4 marker:text-bk-purple leading-relaxed">
-                                        <li>Analyzed and screened 1,139 US stocks.</li>
-                                        <li>Applied filters: Max Market Cap, PEG 0.1-1.2, and Trend Analysis.</li>
-                                        <li><span class="text-bk-purple font-semibold">Result:</span> In-depth valuation of 60 stocks across 3 sectors (Tech, Electronics, Health), 20 stocks each.</li>
-                                    </ul>
-                                </div>
-                                <div class="bg-neon-green/5 border-l-4 border-neon-green p-5 rounded-r-lg mt-6 shadow-[inset_0_0_20px_rgba(0,255,102,0.05)]">
-                                    <p class="text-gray-300 font-mono text-sm leading-relaxed">
-                                        <strong class="uppercase text-neon-green block mb-1">Key Takeaway:</strong>
-                                        Leveraging deep data insights to support and drive strategic planning.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Tab 2 Content -->
-                        <div id="tab2" class="tab-content hidden animate-fade-in">
-                            <div class="space-y-8">
-                                <div>
-                                    <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
-                                        <i class="ph ph-microphone-stage text-bk-purple text-2xl"></i> Event Management
-                                    </h3>
-                                    <ul class="list-disc list-inside text-gray-400 space-y-3 mt-3 text-sm marker:text-bk-purple leading-relaxed">
-                                        <li><strong>Master of Ceremonies (MC):</strong> Hosted 3 major Bitkub Office Visit programs for university delegations, including TU SIP <span class="text-bk-purple/80 font-mono text-xs ml-1">[Apr 28]</span>, BU ECON (FIP) <span class="text-bk-purple/80 font-mono text-xs ml-1">[Apr 29]</span>, and KKU CKKPU <span class="text-bk-purple/80 font-mono text-xs ml-1">[May 08]</span>.</li>
-                                        <li><strong>Support Office:</strong> Managed Autogate systems, welcomed and guided attendees, and controlled slide presentations for seamless event flow.</li>
-                                        <li><strong>Customer Service:</strong> Provided on-site support for the <em>Bitkub Insight On Stage</em> event, and represented Staygold (Bitkub subsidiary) during a full 2-day exhibition at the <em>SEAW Event</em> <span class="text-bk-purple/80 font-mono text-xs ml-1">[May 20-21]</span>.</li>
-                                    </ul>
-                                </div>
-                                <hr class="border-white/10">
-                                <div>
-                                    <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
-                                        <i class="ph ph-device-mobile text-neon-green text-2xl"></i> Marketing & Content
-                                    </h3>
-                                    <ul class="list-disc list-inside text-gray-400 space-y-2 mt-3 text-sm marker:text-neon-green leading-relaxed">
-                                        <li>Crafted engaging captions and curated visuals for brand communication across 20+ posts.</li>
-                                        <li>Assisted in end-to-end content production, including on-site filming and video coordination.</li>
-                                    </ul>
-                                </div>
-                                <hr class="border-white/10">
-                                <div>
-                                    <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
-                                        <i class="ph ph-magnifying-glass text-bk-purple text-2xl"></i> Research Project
-                                    </h3>
-                                    <ul class="list-disc list-inside text-gray-400 space-y-2 mt-3 text-sm marker:text-bk-purple leading-relaxed">
-                                        <li>Conducted in-depth analysis of Hardware Wallet courses to benchmark against competitors and enhance market strategy.</li>
-                                        <li>Evaluated pricing models and capabilities of AI coding assistants to optimize tool selection for basic programming tasks.</li>
-                                    </ul>
-                                </div>
-                                <hr class="border-white/10">
-                                <div>
-                                    <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
-                                        <i class="ph ph-handshake text-neon-green text-2xl"></i> Contact & Coordination
-                                    </h3>
-                                    <ul class="list-disc list-inside text-gray-400 space-y-2 mt-3 text-sm marker:text-neon-green leading-relaxed">
-                                        <li>Coordinated event at Thai-Nichi Institute of Technology (BJ Faculty, BUS-457 Strategy course) for 120 participants.</li>
-                                        <li>Coordinated event at Satit Prasarnmit Demonstration School (Secondary, Engineering Math branch) for 100 participants.</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 3: Dashboard -->
-        <section id="dashboard" class="py-24 px-6 border-t border-white/10 relative overflow-hidden bg-gradient-to-b from-panel-bg to-dark-bg">
+        <!-- Section 3: Key Projects -->
+        <section id="key-projects" class="py-24 px-6 border-t border-white/10 relative overflow-hidden bg-gradient-to-b from-dark-bg to-panel-bg">
             <div class="max-w-7xl mx-auto relative z-10">
-                <div class="text-center mb-16">
-                    <span class="text-neon-green font-mono text-lg block mb-3 tracking-widest uppercase glow-effect-green">// 03</span>
-                    <h2 class="text-4xl md:text-5xl font-display font-extrabold inline-block relative group">
+                <div class="text-center mb-16 fade-in-up">
+                    <span class="text-neon-green font-mono text-lg block mb-3 tracking-widest uppercase glow-effect-green">// 02</span>
+                    <h2 class="text-4xl md:text-5xl font-display font-extrabold inline-block relative group mb-6">
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-green via-white to-bk-purple">
-                            &lt; Dashboard /&gt;
+                            &lt; Key Projects /&gt;
                         </span>
                         <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-full h-1 bg-gradient-to-r from-transparent via-neon-green to-transparent opacity-50 group-hover:via-bk-purple transition-all duration-500"></div>
                         <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-1/3 h-1 bg-neon-green rounded-full shadow-[0_0_15px_rgba(0,255,102,0.8)] group-hover:bg-bk-purple group-hover:shadow-[0_0_15px_rgba(155,81,224,0.8)] transition-all duration-500"></div>
                     </h2>
+                    <p class="text-gray-400 max-w-2xl mx-auto text-base md:text-lg">
+                        Showcasing key initiatives from Business Development, Data Analysis, to Marketing Strategies.
+                    </p>
                 </div>
 
-                <!-- 2 Column Grid for Dashboards -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <!-- Dashboard 1: Cryptocurrency Valuation -->
-                    <div class="glass-panel border border-white/10 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(0,255,102,0.1)] group hover:border-neon-green transition-all duration-500 flex flex-col h-[500px] md:h-[700px] animate-fade-in">
-                        <div class="bg-black/50 p-4 border-b border-white/10 flex items-center justify-between">
-                            <h3 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
-                                <i class="ph ph-currency-btc text-neon-green"></i> Cryptocurrency Valuation
-                            </h3>
-                            <a href="Sub_project/Crypto-Valuation-Nexus-LiquidCat.html" target="_blank" class="text-xs font-mono text-gray-400 hover:text-neon-green border border-gray-600 hover:border-neon-green px-3 py-1 rounded transition-colors whitespace-nowrap">
-                                Open Full ↗
-                            </a>
-                        </div>
-                        <div class="flex-1 w-full bg-[#1e1e1e] relative">
-                            <iframe src="Sub_project/Crypto-Valuation-Nexus-LiquidCat.html" class="absolute inset-0 w-full h-full border-none" title="Cryptocurrency Valuation Dashboard"></iframe>
+                <!-- Block 1: BD & Event Operations -->
+                <div class="flex flex-col lg:flex-row gap-12 items-center mb-32 fade-in-up" style="animation-delay: 0.1s;">
+                    <!-- Left: Slider -->
+                    <div class="w-full lg:w-1/2 relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_30px_rgba(0,255,102,0.15)] group spotlight-target deep-glow">
+                        <div id="event-slider" class="w-full h-full relative">
+                            <img src="assets/TU SIP-28-04/S__24494107_0.jpg" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 slider-img opacity-100" alt="TU SIP">
+                            <img src="assets/BU ECON(FIP)-29-04/S__24494083_0.jpg" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 slider-img opacity-0" alt="BU ECON">
+                            <img src="assets/KKU CKKPU- 08-05/S__24494089_0.jpg" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 slider-img opacity-0" alt="KKU CKKPU">
+                            <img src="assets/SEAW20-21-05 CS -Booth/S__24494101_0.jpg" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 slider-img opacity-0" alt="SEAW Event">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
+                            <div class="absolute bottom-6 left-0 right-0 flex justify-center gap-3 z-20">
+                                <span class="w-3 h-3 rounded-full bg-neon-green shadow-[0_0_10px_rgba(0,255,102,0.8)] cursor-pointer slider-dot" onclick="setSlide(0)"></span>
+                                <span class="w-3 h-3 rounded-full bg-white/30 hover:bg-white/60 transition-colors cursor-pointer slider-dot" onclick="setSlide(1)"></span>
+                                <span class="w-3 h-3 rounded-full bg-white/30 hover:bg-white/60 transition-colors cursor-pointer slider-dot" onclick="setSlide(2)"></span>
+                                <span class="w-3 h-3 rounded-full bg-white/30 hover:bg-white/60 transition-colors cursor-pointer slider-dot" onclick="setSlide(3)"></span>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- Dashboard 2: Stocks Valuation -->
-                    <div class="glass-panel border border-white/10 rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(155,81,224,0.1)] group hover:border-bk-purple transition-all duration-500 flex flex-col h-[500px] md:h-[700px] animate-fade-in">
-                        <div class="bg-black/50 p-4 border-b border-white/10 flex items-center justify-between">
-                            <h3 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
-                                <i class="ph ph-chart-bar text-bk-purple"></i> Stocks Valuation
-                            </h3>
-                            <a href="Sub_project/Valuation%20stock%203.html" target="_blank" class="text-xs font-mono text-gray-400 hover:text-bk-purple border border-gray-600 hover:border-bk-purple px-3 py-1 rounded transition-colors whitespace-nowrap">
-                                Open Full ↗
-                            </a>
+                    <!-- Right: Text -->
+                    <div class="w-full lg:w-1/2">
+                        <h3 class="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                            <span class="w-10 h-10 rounded-xl bg-neon-green/10 flex items-center justify-center border border-neon-green/30 text-neon-green">
+                                <i class="ph ph-handshake text-xl"></i>
+                            </span>
+                            <span class="hacker-title" data-value="Business Development & Event Operations">Business Development & Event Operations</span>
+                        </h3>
+                        <div class="space-y-6">
+                            <div class="glass-panel p-6 rounded-xl border border-white/5 hover:border-white/10 transition-colors relative overflow-hidden group">
+                                <div class="absolute top-0 left-0 w-1 h-full bg-neon-green group-hover:w-2 transition-all"></div>
+                                <h4 class="text-neon-green font-mono text-sm mb-3 font-bold">> Action</h4>
+                                <ul class="list-disc list-inside text-gray-300 space-y-3 leading-relaxed">
+                                    <li><span class="text-white font-semibold">Planned and expanded B2B network (Campus Tour Pipeline):</span>
+                                        <ul class="list-inside ml-6 mt-2 space-y-2 text-sm text-gray-400" style="list-style-type: circle;">
+                                            <li><span class="text-neon-green">Secured:</span> Successfully closed deals and organized events at TNI (Target: 120 attendees)</li>
+                                            <li><span class="text-yellow-400">Pending Schedule:</span> Coordinating event schedule with SWU Demonstration School (Target: 100 attendees)</li>
+                                        </ul>
+                                    </li>
+                                    <li>Served as the main MC for 3 Office Visit events (BU ECON, KKU, TU)</li>
+                                    <li>Managed Autogate systems across multiple events</li>
+                                    <li>Provided customer service at the Staygold booth (Bitkub affiliate) during the 2-day SEAW event</li>
+                                </ul>
+                            </div>
+                            <div class="glass-panel p-6 rounded-xl border border-white/5 hover:border-white/10 transition-colors relative overflow-hidden group bg-gradient-to-br from-neon-green/5 to-transparent">
+                                <h4 class="text-white font-mono text-sm mb-2 font-bold flex items-center gap-2"><i class="ph ph-lightning text-neon-green"></i> Impact</h4>
+                                <p class="text-gray-300 leading-relaxed">
+                                    Ensured 100% smooth event operations and built proactive networks to expand brand awareness among 220+ students
+                                </p>
+                            </div>
                         </div>
-                        <div class="flex-1 w-full bg-[#1e1e1e] relative">
-                            <iframe src="Sub_project/Valuation%20stock%203.html" class="absolute inset-0 w-full h-full border-none" title="Stocks Valuation Dashboard"></iframe>
+                    </div>
+                </div>
+
+                <!-- Block 2: Data-Driven Valuation -->
+                <div class="flex flex-col lg:flex-row-reverse gap-12 items-center mb-32 fade-in-up" style="animation-delay: 0.2s;">
+                    <!-- Right: Project Cards -->
+                    <div class="w-full lg:w-1/2 relative h-[500px] md:h-[600px] rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_30px_rgba(155,81,224,0.15)] group flex flex-col gap-4 bg-dark-bg p-4">
+                        <!-- Crypto Valuation Nexus -->
+                        <a href="Sub_project/Crypto-Valuation-Nexus-LiquidCat.html" target="_blank" class="flex-1 w-full bg-gradient-to-br from-[#1e1e1e] to-black relative rounded-xl overflow-hidden border border-white/10 hover:border-neon-green transition-all group/card flex flex-col items-center justify-center text-center p-6 shadow-inner">
+                            <div class="w-24 h-24 rounded-full bg-neon-green/10 border border-neon-green/30 flex items-center justify-center mb-6 group-hover/card:scale-110 group-hover/card:bg-neon-green/20 transition-all duration-300">
+                                <i class="ph ph-cat text-5xl text-neon-green drop-shadow-[0_0_15px_rgba(0,255,102,0.5)]"></i>
+                            </div>
+                            <h4 class="text-2xl font-black text-white mb-2 tracking-wide">Crypto Valuation Nexus</h4>
+                            <p class="text-neon-green font-mono text-sm tracking-widest bg-neon-green/10 px-4 py-1 rounded-full border border-neon-green/20">LIQUID CAT</p>
+                            <div class="absolute inset-0 bg-gradient-to-t from-neon-green/5 to-transparent pointer-events-none opacity-0 group-hover/card:opacity-100 transition-opacity"></div>
+                        </a>
+                        <!-- US Stocks Valuation Nexus -->
+                        <a href="Sub_project/Valuation stock 3.html" target="_blank" class="flex-1 w-full bg-gradient-to-br from-[#0a0f1c] to-black relative rounded-xl overflow-hidden border border-white/10 hover:border-bk-purple transition-all group/card flex flex-col items-center justify-center text-center p-6 shadow-inner">
+                            <div class="w-24 h-24 rounded-full bg-bk-purple/10 border border-bk-purple/30 flex items-center justify-center mb-6 group-hover/card:scale-110 group-hover/card:bg-bk-purple/20 transition-all duration-300">
+                                <i class="ph ph-dog text-5xl text-bk-purple drop-shadow-[0_0_15px_rgba(155,81,224,0.5)]"></i>
+                            </div>
+                            <h4 class="text-2xl font-black text-white mb-2 tracking-wide">US Stocks Valuation Nexus</h4>
+                            <p class="text-bk-purple font-mono text-sm tracking-widest bg-bk-purple/10 px-4 py-1 rounded-full border border-bk-purple/20">LIQUID DOG</p>
+                            <div class="absolute inset-0 bg-gradient-to-t from-bk-purple/5 to-transparent pointer-events-none opacity-0 group-hover/card:opacity-100 transition-opacity"></div>
+                        </a>
+                    </div>
+                    <!-- Left: Text -->
+                    <div class="w-full lg:w-1/2">
+                        <h3 class="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                            <span class="w-10 h-10 rounded-xl bg-bk-purple/10 flex items-center justify-center border border-bk-purple/30 text-bk-purple">
+                                <i class="ph ph-chart-polar text-xl"></i>
+                            </span>
+                            <span class="hacker-title" data-value="Data-Driven Valuation">Data-Driven Valuation</span>
+                        </h3>
+                        <div class="space-y-6">
+                            <div class="glass-panel p-6 rounded-xl border border-white/5 hover:border-white/10 transition-colors relative overflow-hidden group">
+                                <div class="absolute top-0 right-0 w-1 h-full bg-bk-purple group-hover:w-2 transition-all"></div>
+                                <h4 class="text-bk-purple font-mono text-sm mb-3 font-bold">> Action</h4>
+                                <ul class="list-disc list-inside text-gray-300 space-y-3 leading-relaxed">
+                                    <li><span class="text-white font-semibold">Cryptocurrency:</span> Analyzed and categorized 166 crypto assets by sector (Layer-1, Layer-2, Lending, DEXes)</li>
+                                    <li><span class="text-white font-semibold">US Stocks:</span> Advanced analysis filtering 1,139 US stocks down to 60 high-potential picks based on PEG, Market Cap, and Trend</li>
+                                </ul>
+                            </div>
+                            <div class="glass-panel p-6 rounded-xl border border-white/5 hover:border-white/10 transition-colors relative overflow-hidden group bg-gradient-to-br from-bk-purple/5 to-transparent">
+                                <h4 class="text-white font-mono text-sm mb-2 font-bold flex items-center gap-2"><i class="ph ph-lightning text-bk-purple"></i> Impact</h4>
+                                <p class="text-gray-300 leading-relaxed">
+                                    Delivered Interactive Dashboards summarizing asset data systematically, providing the team with ready-to-use insights for decision-making
+                                </p>
+                            </div>
+                            <div class="flex flex-wrap gap-4 pt-4">
+                                <a href="Sub_project/Crypto-Valuation-Nexus-LiquidCat.html" target="_blank" class="px-6 py-3 bg-neon-green/10 text-neon-green border border-neon-green rounded-full font-mono font-bold text-sm hover:bg-neon-green hover:text-black transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(0,255,102,0.2)]">
+                                    [ View Dashboard: Crypto Valuation ] ↗
+                                </a>
+                                <a href="Sub_project/Valuation stock 3.html" target="_blank" class="px-6 py-3 bg-bk-purple/10 text-bk-purple border border-bk-purple rounded-full font-mono font-bold text-sm hover:bg-bk-purple hover:text-white transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(155,81,224,0.2)]">
+                                    [ View Dashboard: US Stocks Valuation ] ↗
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Block 3: Marketing & Competitor Strategy -->
+                <div class="flex flex-col lg:flex-row gap-12 items-center fade-in-up" style="animation-delay: 0.3s;">
+                    <!-- Left: Placeholder Canva Image -->
+                    <div class="w-full lg:w-1/2 relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_30px_rgba(0,255,102,0.15)] group bg-gradient-to-br from-neon-green/10 to-bk-purple/10 flex items-center justify-center spotlight-target deep-glow">
+                        <img src="assets/hardware-wallet.png" alt="Hardware Wallet Research" class="absolute w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-black/40 to-transparent pointer-events-none"></div>
+                    </div>
+                    <!-- Right: Text -->
+                    <div class="w-full lg:w-1/2">
+                        <h3 class="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                            <span class="w-10 h-10 rounded-xl bg-neon-green/10 flex items-center justify-center border border-neon-green/30 text-neon-green">
+                                <i class="ph ph-megaphone text-xl"></i>
+                            </span>
+                            <span class="hacker-title" data-value="Marketing & Competitor Strategy">Marketing & Competitor Strategy</span>
+                        </h3>
+                        <div class="space-y-6">
+                            <div class="glass-panel p-6 rounded-xl border border-white/5 hover:border-white/10 transition-colors relative overflow-hidden group">
+                                <div class="absolute top-0 left-0 w-1 h-full bg-neon-green group-hover:w-2 transition-all"></div>
+                                <h4 class="text-neon-green font-mono text-sm mb-3 font-bold">> Action</h4>
+                                <ul class="list-disc list-inside text-gray-300 space-y-3 leading-relaxed">
+                                    <li>In-depth analysis of competitors' Hardware Wallet courses to compare key features and pricing structures</li>
+                                    <li>Compiled data from 7+ events to analyze market opportunities and match target audiences</li>
+                                    <li>Selected images and wrote brand communication captions for over 20 Facebook posts</li>
+                                </ul>
+                            </div>
+                            <div class="glass-panel p-6 rounded-xl border border-white/5 hover:border-white/10 transition-colors relative overflow-hidden group bg-gradient-to-br from-neon-green/5 to-transparent">
+                                <h4 class="text-white font-mono text-sm mb-2 font-bold flex items-center gap-2"><i class="ph ph-lightning text-neon-green"></i> Impact</h4>
+                                <p class="text-gray-300 leading-relaxed">
+                                    Identified unique selling propositions (USPs) for the company's courses and continuously drove brand communication
+                                </p>
+                            </div>
+                            <div class="flex flex-col sm:flex-row flex-wrap gap-4 pt-4">
+                                <a href="https://canva.link/kwqs6uhzzv2akna" target="_blank" class="px-6 py-2 bg-neon-green/10 text-neon-green border border-neon-green rounded-full font-mono font-bold text-xs hover:bg-neon-green hover:text-black transition-all flex items-center gap-2 text-center justify-center">
+                                    [ View Research Slide (Canva) ] ↗
+                                </a>
+                                <a href="assets/Event%20Research.pdf" target="_blank" class="px-6 py-2 bg-white/5 text-gray-300 border border-white/20 rounded-full font-mono font-bold text-xs hover:bg-white/20 hover:text-white transition-all flex items-center gap-2 text-center justify-center">
+                                    [ View Event Mapping (PDF) ] ↗
+                                </a>
+                                <button onclick="openLightbox()" class="px-6 py-2 bg-blue-500/10 text-blue-400 border border-blue-500/50 rounded-full font-mono font-bold text-xs hover:bg-blue-500 hover:text-white transition-all flex items-center gap-2 text-center justify-center">
+                                    [ View Content ] ↗
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
-        <!-- Section 4: Visuals -->
-        <section id="visuals" class="py-24 px-6 border-t border-white/10 relative overflow-hidden bg-dark-bg">
+        <!-- Section 5: My Custom AI Workspace -->
+        <section id="ai-workspace" class="py-24 px-6 border-t border-white/10 relative overflow-hidden bg-gradient-to-b from-dark-bg to-panel-bg">
             <div class="max-w-6xl mx-auto relative z-10">
-                <div class="text-center mb-16">
-                    <span class="text-bk-purple font-mono text-lg block mb-3 tracking-widest uppercase glow-effect-purple">// 04</span>
-                    <h2 class="text-4xl md:text-5xl font-display font-extrabold inline-block relative group">
+                <div class="text-center mb-16 fade-in-up">
+                    <span class="text-bk-purple font-mono text-lg block mb-3 tracking-widest uppercase glow-effect-purple">// 03</span>
+                    <h2 class="text-4xl md:text-5xl font-display font-extrabold inline-block relative group mb-6">
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-green via-white to-bk-purple">
-                            &lt; Visuals /&gt;
+                            &lt; AI Automation Tools /&gt;
                         </span>
                         <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-full h-1 bg-gradient-to-r from-transparent via-neon-green to-transparent opacity-50 group-hover:via-bk-purple transition-all duration-500"></div>
                         <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-1/3 h-1 bg-neon-green rounded-full shadow-[0_0_15px_rgba(0,255,102,0.8)] group-hover:bg-bk-purple group-hover:shadow-[0_0_15px_rgba(155,81,224,0.8)] transition-all duration-500"></div>
                     </h2>
+                    <p class="text-gray-400 max-w-2xl mx-auto text-base md:text-lg">
+                        Custom Gems I built to optimize workflows and drive business results.
+                    </p>
                 </div>
 
-                <!-- Image Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-full">
-                    
+                <div class="flex flex-wrap justify-center gap-6 fade-in-up" style="animation-delay: 0.2s;">
                     <!-- Card 1 -->
-                    <div class="w-full relative h-[350px] md:h-[450px] rounded-2xl overflow-hidden shadow-[0_0_20px_rgba(155,81,224,0.15)] group border border-white/10 glass-panel">
-                        <div class="mini-carousel absolute inset-0 w-full h-full bg-[#0a0a0a]">
-                            <img src="assets/TU SIP-28-04/S__24494107_0.jpg" alt="TU SIP Office Visit" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-100">
-                            <img src="assets/TU SIP-28-04/S__24494108_0.jpg" alt="TU SIP Office Visit" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-0">
-                            <img src="assets/TU SIP-28-04/S__24494109_0.jpg" alt="TU SIP Office Visit" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-0">
+                    <div class="glass-panel border border-white/10 rounded-2xl p-8 w-full md:w-[calc(33.333%-16px)] flex flex-col items-center text-center transition-all hover:-translate-y-2 hover:border-neon-green hover:shadow-[0_0_30px_rgba(0,255,102,0.15)] group">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-neon-green/20 to-bk-purple/20 border border-white/10 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(0,0,0,0.3)]">
+                            🔍
                         </div>
-                        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/90 to-transparent p-6 z-10 pointer-events-none">
-                            <p class="text-bk-purple font-mono text-xs mb-1 opacity-80">EVENT_01</p>
-                            <h4 class="text-lg md:text-xl font-bold text-white tracking-wide leading-snug">TU SIP Office Visit</h4>
-                            <p class="text-neon-green/80 text-xs mt-2 font-mono">[28 April 2026]</p>
-                        </div>
+                        <h3 class="text-lg font-bold text-white mb-3">Quality Assurance</h3>
+                        <p class="text-gray-400 text-sm mb-8 leading-relaxed flex-grow">
+                            AI assistant that proofreads and identifies flaws in your work before submitting it to executives.
+                        </p>
+                        <a href="https://gemini.google.com/gem/1CBkQ0w40IVDedqXNnzSEGjYV01pQWXds?usp=sharing" target="_blank" class="mt-auto px-6 py-2 border border-neon-green text-neon-green text-xs font-mono font-bold rounded-full hover:bg-neon-green hover:text-black transition-colors w-full">
+                            [ Try This Gem ] ↗
+                        </a>
                     </div>
-
+                    
                     <!-- Card 2 -->
-                    <div class="w-full relative h-[350px] md:h-[450px] rounded-2xl overflow-hidden shadow-[0_0_20px_rgba(155,81,224,0.15)] group border border-white/10 glass-panel">
-                        <div class="mini-carousel absolute inset-0 w-full h-full bg-[#0a0a0a]">
-                            <img src="assets/BU ECON(FIP)-29-04/S__24494083_0.jpg" alt="BU ECON (FIP) Office Visit" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-100">
-                            <img src="assets/BU ECON(FIP)-29-04/S__24494084_0.jpg" alt="BU ECON (FIP) Office Visit" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-0">
-                            <img src="assets/BU ECON(FIP)-29-04/S__24494085_0.jpg" alt="BU ECON (FIP) Office Visit" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-0">
-                            <img src="assets/BU ECON(FIP)-29-04/S__24494086_0.jpg" alt="BU ECON (FIP) Office Visit" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-0">
+                    <div class="glass-panel border border-white/10 rounded-2xl p-8 w-full md:w-[calc(33.333%-16px)] flex flex-col items-center text-center transition-all hover:-translate-y-2 hover:border-bk-purple hover:shadow-[0_0_30px_rgba(155,81,224,0.15)] group">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-bk-purple/20 to-neon-green/20 border border-white/10 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(0,0,0,0.3)]">
+                            🎤
                         </div>
-                        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/90 to-transparent p-6 z-10 pointer-events-none">
-                            <p class="text-neon-green font-mono text-xs mb-1 opacity-80">EVENT_02</p>
-                            <h4 class="text-lg md:text-xl font-bold text-white tracking-wide leading-snug">BU ECON (FIP) Office Visit</h4>
-                            <p class="text-bk-purple/80 text-xs mt-2 font-mono">[29 April 2026]</p>
-                        </div>
+                        <h3 class="text-lg font-bold text-white mb-3">Professional MC Scriptwriter</h3>
+                        <p class="text-gray-400 text-sm mb-8 leading-relaxed flex-grow">
+                            AI that helps draft professional MC scripts and event run cues from start to finish.
+                        </p>
+                        <a href="https://gemini.google.com/gem/1hUMgJvOJMTkaHegOtWKEsamP6rbMBhG8?usp=sharing" target="_blank" class="mt-auto px-6 py-2 border border-bk-purple text-bk-purple text-xs font-mono font-bold rounded-full hover:bg-bk-purple hover:text-white transition-colors w-full">
+                            [ Try This Gem ] ↗
+                        </a>
                     </div>
 
                     <!-- Card 3 -->
-                    <div class="w-full relative h-[350px] md:h-[450px] rounded-2xl overflow-hidden shadow-[0_0_20px_rgba(155,81,224,0.15)] group border border-white/10 glass-panel">
-                        <div class="mini-carousel absolute inset-0 w-full h-full bg-[#0a0a0a]">
-                            <img src="assets/KKU CKKPU- 08-05/S__24494089_0.jpg" alt="KKU CKKPU Office Visit" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-100">
-                            <img src="assets/KKU CKKPU- 08-05/S__24494090_0.jpg" alt="KKU CKKPU Office Visit" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-0">
-                            <img src="assets/KKU CKKPU- 08-05/S__24494091_0.jpg" alt="KKU CKKPU Office Visit" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-0">
+                    <div class="glass-panel border border-white/10 rounded-2xl p-8 w-full md:w-[calc(33.333%-16px)] flex flex-col items-center text-center transition-all hover:-translate-y-2 hover:border-neon-green hover:shadow-[0_0_30px_rgba(0,255,102,0.15)] group">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-neon-green/20 to-bk-purple/20 border border-white/10 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(0,0,0,0.3)]">
+                            📄
                         </div>
-                        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/90 to-transparent p-6 z-10 pointer-events-none">
-                            <p class="text-bk-purple font-mono text-xs mb-1 opacity-80">EVENT_03</p>
-                            <h4 class="text-lg md:text-xl font-bold text-white tracking-wide leading-snug">KKU CKKPU Office Visit</h4>
-                            <p class="text-neon-green/80 text-xs mt-2 font-mono">[08 May 2026]</p>
-                        </div>
+                        <h3 class="text-lg font-bold text-white mb-3">Corporate Document Drafter</h3>
+                        <p class="text-gray-400 text-sm mb-8 leading-relaxed flex-grow">
+                            AI for drafting corporate documents (e.g., invitation letters, proposals) with formal and standard language.
+                        </p>
+                        <a href="https://gemini.google.com/gem/1F3el352dHUnArt3tqmpBFIsjDG8YAFoB?usp=sharing" target="_blank" class="mt-auto px-6 py-2 border border-neon-green text-neon-green text-xs font-mono font-bold rounded-full hover:bg-neon-green hover:text-black transition-colors w-full">
+                            [ Try This Gem ] ↗
+                        </a>
                     </div>
 
                     <!-- Card 4 -->
-                    <div class="w-full relative h-[350px] md:h-[450px] rounded-2xl overflow-hidden shadow-[0_0_20px_rgba(155,81,224,0.15)] group border border-white/10 bg-panel-bg">
-                        <div class="mini-carousel absolute inset-0 w-full h-full bg-[#0a0a0a]">
-                            <img src="assets/SEAW20-21-05 CS -Booth/S__24494101_0.jpg" alt="SEAW Event & Exhibition" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-100">
-                            <img src="assets/SEAW20-21-05 CS -Booth/S__24494102_0.jpg" alt="SEAW Event & Exhibition" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-0">
-                            <img src="assets/SEAW20-21-05 CS -Booth/S__24494103_0.jpg" alt="SEAW Event & Exhibition" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-0">
-                            <img src="assets/SEAW20-21-05 CS -Booth/S__24494104_0.jpg" alt="SEAW Event & Exhibition" class="absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 opacity-0">
+                    <div class="glass-panel border border-white/10 rounded-2xl p-8 w-full md:w-[calc(33.333%-16px)] flex flex-col items-center text-center transition-all hover:-translate-y-2 hover:border-bk-purple hover:shadow-[0_0_30px_rgba(155,81,224,0.15)] group">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-bk-purple/20 to-neon-green/20 border border-white/10 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(0,0,0,0.3)]">
+                            📝
                         </div>
-                        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/90 to-transparent p-6 z-10 pointer-events-none">
-                            <p class="text-neon-green font-mono text-xs mb-1 opacity-80">EVENT_04</p>
-                            <h4 class="text-lg md:text-xl font-bold text-white tracking-wide leading-snug">SEAW Event & Exhibition</h4>
-                            <p class="text-bk-purple/80 text-xs mt-2 font-mono">[20-21 May 2026]</p>
-                        </div>
+                        <h3 class="text-lg font-bold text-white mb-3">Minutes Meeting Hero</h3>
+                        <p class="text-gray-400 text-sm mb-8 leading-relaxed flex-grow">
+                            AI that summarizes professional meeting minutes, accurately capturing key points and Action Plans.
+                        </p>
+                        <a href="https://gemini.google.com/gem/1RvodnjbpCiMgh0gF6D26e7ESsmnnSz8t?usp=sharing" target="_blank" class="mt-auto px-6 py-2 border border-bk-purple text-bk-purple text-xs font-mono font-bold rounded-full hover:bg-bk-purple hover:text-white transition-colors w-full">
+                            [ Try This Gem ] ↗
+                        </a>
                     </div>
 
+                    <!-- Card 5 -->
+                    <div class="glass-panel border border-white/10 rounded-2xl p-8 w-full md:w-[calc(33.333%-16px)] flex flex-col items-center text-center transition-all hover:-translate-y-2 hover:border-neon-green hover:shadow-[0_0_30px_rgba(0,255,102,0.15)] group">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-neon-green/20 to-bk-purple/20 border border-white/10 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(0,0,0,0.3)]">
+                            📱
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-3">Social Media Caption Writer</h3>
+                        <p class="text-gray-400 text-sm mb-8 leading-relaxed flex-grow">
+                            AI that writes social media captions matching the brand's Tone of Voice to attract attention and drive engagement.
+                        </p>
+                        <a href="https://gemini.google.com/gem/1e-B9UMp-Huj3mPT5ePR8Ar6xRHCk0g9n?usp=sharing" target="_blank" class="mt-auto px-6 py-2 border border-neon-green text-neon-green text-xs font-mono font-bold rounded-full hover:bg-neon-green hover:text-black transition-colors w-full">
+                            [ Try This Gem ] ↗
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
-
-        <!-- Section 5: Let's Connect -->
+        <!-- Section 6: Let's Connect -->
         <section id="contact" class="py-32 px-6 border-t border-white/10 relative overflow-hidden bg-gradient-to-b from-dark-bg to-black flex flex-col justify-center items-center text-center">
             <div class="max-w-3xl relative z-10 w-full">
-                <div class="inline-block px-5 py-2 border border-bk-purple/40 bg-bk-purple/5 text-bk-purple rounded-full text-sm font-mono mb-10 shadow-[0_0_15px_rgba(155,81,224,0.1)]">
-                    Status: <span class="animate-pulse">●</span> Open for opportunities
+                <div class="text-center mb-16 fade-in-up">
+                    <span class="text-neon-green font-mono text-lg block mb-3 tracking-widest uppercase glow-effect-green">// 04</span>
+                    <h2 class="text-4xl md:text-6xl font-display font-extrabold inline-block relative group mb-6">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-green via-white to-bk-purple">
+                            &lt; Let's Connect /&gt;
+                        </span>
+                        <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-full h-1 bg-gradient-to-r from-transparent via-neon-green to-transparent opacity-50 group-hover:via-bk-purple transition-all duration-500"></div>
+                        <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-1/3 h-1 bg-neon-green rounded-full shadow-[0_0_15px_rgba(0,255,102,0.8)] group-hover:bg-bk-purple group-hover:shadow-[0_0_15px_rgba(155,81,224,0.8)] transition-all duration-500"></div>
+                    </h2>
+                    <p class="text-gray-400 max-w-2xl mx-auto text-lg md:text-xl">
+                        Status: <span class="animate-pulse text-bk-purple">●</span> Open for opportunities. Let's create something great together.
+                    </p>
                 </div>
-                <h2 class="text-5xl md:text-7xl font-black mb-10 leading-tight">
-                    Let's Create <br/>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-green via-teal-400 to-bk-purple glitch-text-hover">Something Great Together.</span>
-                </h2>
                 
                 <div class="flex flex-col md:flex-row items-center justify-center gap-8 mb-16 bg-panel-bg/50 p-6 rounded-2xl border border-white/5 backdrop-blur-sm">
                     <a href="mailto:nattakul234@gmail.com" class="flex items-center gap-3 text-xl md:text-2xl text-gray-300 hover:text-bk-purple transition-colors font-mono group">
@@ -482,6 +515,30 @@
         <i class="ph ph-arrow-up text-xl md:text-2xl group-hover:-translate-y-1 transition-transform"></i>
     </button>
 
+    <!-- Lightbox Modal -->
+    <div id="lightbox-modal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-sm flex-col items-center justify-center p-4">
+        <!-- Close button -->
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white/50 hover:text-white transition-colors text-4xl z-50">
+            <i class="ph ph-x"></i>
+        </button>
+        
+        <!-- Prev button -->
+        <button onclick="prevLightboxImg()" class="absolute left-4 md:left-10 text-white/50 hover:text-white transition-colors text-5xl hover:-translate-x-1 z-50">
+            <i class="ph ph-caret-left"></i>
+        </button>
+        
+        <!-- Main Image Container -->
+        <div class="max-w-4xl max-h-[85vh] w-full relative flex items-center justify-center">
+            <img id="lightbox-img" src="" alt="Caption Content" class="max-w-full max-h-[85vh] object-contain rounded-xl shadow-[0_0_50px_rgba(0,255,102,0.1)] border border-white/10">
+        </div>
+        
+        <!-- Next button -->
+        <button onclick="nextLightboxImg()" class="absolute right-4 md:right-10 text-white/50 hover:text-white transition-colors text-5xl hover:translate-x-1 z-50">
+            <i class="ph ph-caret-right"></i>
+        </button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
